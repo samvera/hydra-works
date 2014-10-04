@@ -6,12 +6,12 @@ require 'hydra/works/version'
 Gem::Specification.new do |spec|
   spec.name          = "hydra-works"
   spec.version       = Hydra::Works::VERSION
-  spec.authors       = ["TODO: Write your name"]
+  spec.authors       = ["Justin Coyne"]
   spec.email         = ["justin@curationexperts.com"]
-  spec.summary       = %q{TODO: Write a short summary. Required.}
-  spec.description   = %q{TODO: Write a longer description. Optional.}
+  spec.summary       = %q{Fundamental repository data model for hydra}
+  spec.description   = %q{Using this data model should enable easy collaboration amongst hydra projects.}
   spec.homepage      = ""
-  spec.license       = "MIT"
+  spec.license       = "APACHE2"
 
   spec.files         = `git ls-files -z`.split("\x0")
   spec.executables   = spec.files.grep(%r{^bin/}) { |f| File.basename(f) }
@@ -20,4 +20,5 @@ Gem::Specification.new do |spec|
 
   spec.add_development_dependency "bundler", "~> 1.7"
   spec.add_development_dependency "rake", "~> 10.0"
+  spec.add_development_dependency "hydra-head", "~> 7.2"
 end
