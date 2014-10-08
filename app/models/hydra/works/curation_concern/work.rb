@@ -5,7 +5,6 @@ module Hydra::Works
       include Curatable
       include WithGenericFiles
       include Hydra::AccessControls::Embargoable
-      include WithEditors
       include WithLinkedResources
 
       included do
