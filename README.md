@@ -1,31 +1,11 @@
-# Hydra::Works
+## What is this?
 
-TODO: Write a gem description
+This is a project to establish a standard base data model for Hydra projects.
 
-## Installation
+It is currently in _MAJOR_ flux and should not be used for code you care about.
 
-Add this line to your application's Gemfile:
+It currently works for ActiveFedora 7, but will be migrated to ActiveFedora 8.
 
-```ruby
-gem 'hydra-works'
-```
-
-And then execute:
-
-    $ bundle
-
-Or install it yourself as:
-
-    $ gem install hydra-works
-
-## Usage
-
-TODO: Write usage instructions here
-
-## Contributing
-
-1. Fork it ( https://github.com/[my-github-username]/hydra-works/fork )
-2. Create your feature branch (`git checkout -b my-new-feature`)
-3. Commit your changes (`git commit -am 'Add some feature'`)
-4. Push to the branch (`git push origin my-new-feature`)
-5. Create a new Pull Request
+## Roadmap
+* Collect use cases
+* Architecture discussion
