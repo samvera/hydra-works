@@ -4,7 +4,7 @@ At present Hydra::Works is soliciting use cases.
 
 A Use Case is comprised of:
 
-* Sponsor - The Github User ID of the person advocating for this use case.
+* Sponsor(s) - The Github User ID (or User IDs) of the person advocating for this use case.
 * Goal & Reason - Of the form "As a `<type of user>`, I want `<some goal>` so that `<some reason>`."
 * Notes - Any supporting information, the basic course of action an actor would take.
 
