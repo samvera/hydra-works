@@ -5,7 +5,6 @@ module Hydra::Works
       include Curatable
       include WithGenericFiles
       include Hydra::AccessControls::Embargoable
-      include WithLinkedResources
 
       included do
         has_metadata "properties", type: Hydra::Works::PropertiesDatastream
