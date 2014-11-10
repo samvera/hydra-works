@@ -8,7 +8,7 @@ unless defined?(Rails) # If we are in a Rails context this is overkill.
 
   unless defined?(require_dependency)
     def require_dependency(*files)
-      require *files
+      require(*files)
     end
   end
 end

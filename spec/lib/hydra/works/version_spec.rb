@@ -1,4 +1,5 @@
 require 'fast_helper'
+require 'hydra/works/version'
 
 describe Hydra::Works::VERSION do
   it 'returns current version' do
