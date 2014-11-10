@@ -16,9 +16,9 @@ module Hydra
 
       subject { TestWork.new }
 
-      describe '#members' do
+      describe '#member_works' do
         it 'should raise a NotImplementedError' do
-          expect { subject.members }.to raise_error
+          expect { subject.member_works }.to raise_error
         end
       end
 
