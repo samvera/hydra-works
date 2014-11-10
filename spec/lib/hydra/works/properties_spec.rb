@@ -15,6 +15,10 @@ module Hydra
       it 'defines HAS_MEMBER' do
         expect(Properties::HAS_MEMBER).to eq('hydra:hasMember')
       end
+
+      it 'defines CONTAINS' do
+        expect(Properties::CONTAINS).to eq('hydra:contains')
+      end
     end
   end
 end
