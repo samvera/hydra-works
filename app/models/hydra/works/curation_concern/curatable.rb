@@ -9,8 +9,6 @@ module Hydra::Works
         include Solrizer::Common
         include HasRepresentative
 
-        has_metadata 'properties', type: Hydra::Works::PropertiesDatastream
-        has_attributes :relative_path, :depositor, :owner, datastream: :properties, multiple: false
         class_attribute :human_readable_short_description
         attr_accessor :files
       end
