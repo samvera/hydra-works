@@ -1,10 +1,8 @@
 require 'rails_helper'
 
 describe Hydra::Works::Work do
-  describe "basic metadata" do
-    it "should have dc properties" do
-      subject.title = ['foo', 'bar']
-      expect(subject.title).to eq ['foo', 'bar']
-    end
+  describe ".properties" do
+    subject { described_class.properties.keys }
+    it { is_expected.to eq ["has_model", "create_date", "modified_date"] }
   end
 end
