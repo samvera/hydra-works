@@ -24,7 +24,6 @@ module Hydra::Works
       def to_solr(solr_doc={}, opts={})
         super.tap do |solr_doc|
           index_collection_pids(solr_doc)
-          solr_doc[Solrizer.solr_name('noid', Sufia::GenericFile.noid_indexer)] = noid
           add_derived_date_created(solr_doc)
         end
       end
