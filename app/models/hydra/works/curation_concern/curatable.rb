@@ -5,8 +5,6 @@ module Hydra::Works
 
       included do
         include HumanReadableType
-        include Sufia::Noid
-        include Sufia::ModelMethods
         include Hydra::Collections::Collectible
         include Solrizer::Common
         include HasRepresentative
