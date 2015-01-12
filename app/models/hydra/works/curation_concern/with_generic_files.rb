@@ -4,7 +4,7 @@ module Hydra::Works
       extend ActiveSupport::Concern
 
       included do
-        has_many :generic_files, property: :is_part_of, class_name: "Worthwhile::GenericFile"
+        has_many :generic_files, class_name: "Hydra::Works::GenericFile"
         before_destroy :before_destroy_cleanup_generic_files
       end
 

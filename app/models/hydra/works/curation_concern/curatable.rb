@@ -5,14 +5,10 @@ module Hydra::Works
 
       included do
         include HumanReadableType
-        include Sufia::Noid
-        include Sufia::ModelMethods
         include Hydra::Collections::Collectible
         include Solrizer::Common
         include HasRepresentative
 
-        has_metadata 'properties', type: Hydra::Works::PropertiesDatastream
-        has_attributes :relative_path, :depositor, :owner, datastream: :properties, multiple: false
         class_attribute :human_readable_short_description
         attr_accessor :files
       end
@@ -28,7 +24,6 @@ module Hydra::Works
       def to_solr(solr_doc={}, opts={})
         super.tap do |solr_doc|
           index_collection_pids(solr_doc)
-          solr_doc[Solrizer.solr_name('noid', Sufia::GenericFile.noid_indexer)] = noid
           add_derived_date_created(solr_doc)
         end
       end
