@@ -7,7 +7,7 @@ module Hydra::Works
         include HumanReadableType
         include Hydra::Collections::Collectible
         include Solrizer::Common
-        include HasRepresentative
+        # include HasRepresentative
 
         class_attribute :human_readable_short_description
         attr_accessor :files
