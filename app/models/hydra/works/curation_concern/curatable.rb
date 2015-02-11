@@ -4,7 +4,6 @@ module Hydra::Works
       extend ActiveSupport::Concern
 
       included do
-        include HumanReadableType
         include Hydra::Collections::Collectible
         include Solrizer::Common
 
