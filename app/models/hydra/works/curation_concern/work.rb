@@ -4,7 +4,6 @@ module Hydra::Works
       extend ActiveSupport::Concern
       include Curatable
       include WithGenericFiles
-      include Hydra::AccessControls::Embargoable
 
       def to_solr(solr_doc={})
         super.tap do |solr_doc|
