@@ -2,7 +2,6 @@ module Hydra::Works
   module CurationConcern
     module Work
       extend ActiveSupport::Concern
-      include Curatable
       include WithGenericFiles
       include Hydra::AccessControls::Embargoable
 
