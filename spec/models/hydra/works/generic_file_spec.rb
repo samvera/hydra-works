@@ -1,11 +1,11 @@
 require 'rails_helper'
 
-describe Hydra::Works::GenericFile do
+describe Hydra::Works::File do
 
   describe "associations" do
     let(:work) { Hydra::Works::GenericWork.new }
     context "base model" do
-      subject { Hydra::Works::GenericFile.new(work: work) }
+      subject { Hydra::Works::File.new(work: work) }
 
       it "should belong to works" do
         expect(subject.work).to eq work
@@ -14,7 +14,7 @@ describe Hydra::Works::GenericFile do
 
     context "sub-class" do
       before do
-        class TestFile < Hydra::Works::GenericFile
+        class TestFile < Hydra::Works::File
         end
       end
       subject { TestFile.new(work: work) }

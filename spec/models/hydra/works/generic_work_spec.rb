@@ -9,7 +9,7 @@ describe Hydra::Works::GenericWork do
   end
 
   describe "associations" do
-    let(:file) { Hydra::Works::GenericFile.new }
+    let(:file) { Hydra::Works::File.new }
     context "base model" do
       subject { Hydra::Works::GenericWork.create(title: ['test'], files: [file]) }
 
@@ -33,12 +33,12 @@ describe Hydra::Works::GenericWork do
   end
 
   describe "#destroy", skip: "Is this behavior we need? Could other works be pointing at the file?" do
-    let(:file1) { Hydra::Works::GenericFile.new }
-    let(:file2) { Hydra::Works::GenericFile.new }
+    let(:file1) { Hydra::Works::File.new }
+    let(:file2) { Hydra::Works::File.new }
     let!(:work) { Hydra::Works::GenericWork.create(files: [file1, file2]) }
 
     it "should destroy the files" do
-      expect { work.destroy }.to change{ Hydra::Works::GenericFile.count }.by(-2)
+      expect { work.destroy }.to change{ Hydra::Works::File.count }.by(-2)
     end
   end
 end
