@@ -31,5 +31,15 @@ describe Hydra::Works::GenericWork do
       end
     end
   end
+
+  describe "#destroy", skip: "Is this behavior we need? Could other works be pointing at the file?" do
+    let(:file1) { Hydra::Works::GenericFile.new }
+    let(:file2) { Hydra::Works::GenericFile.new }
+    let!(:work) { Hydra::Works::GenericWork.create(generic_files: [file1, file2]) }
+
+    it "should destroy the files" do
+      expect { work.destroy }.to change{ Hydra::Works::GenericFile.count }.by(-2)
+    end
+  end
 end
 
