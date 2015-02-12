@@ -1,5 +1,5 @@
 module Hydra::Works
-  class GenericFile < ActiveFedora::Base
+  class File < ActiveFedora::Base
     # TODO this could actually be "has_one", but that's not implemented
     has_many :works, predicate: ActiveFedora::RDF::ProjectHydra.hasFile, class_name: "Hydra::Works::Work"
 

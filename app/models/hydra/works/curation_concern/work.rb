@@ -2,7 +2,7 @@ module Hydra::Works
   module CurationConcern
     module Work
       extend ActiveSupport::Concern
-      include WithGenericFiles
+      include WithFiles
     end
   end
 end
