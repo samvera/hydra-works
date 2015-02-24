@@ -3,6 +3,7 @@ module Hydra::Works
     module Work
       extend ActiveSupport::Concern
       include WithGenericFiles
+      include DestroyGenericFilesToo
     end
   end
 end
