@@ -1,6 +1,5 @@
-# a very simple type of work with DC metadata
+# a very simple type of work
 module Hydra::Works
-  class GenericWork < Work
-    include Hydra::Works::CurationConcern::WithBasicMetadata
+  class GenericWork < ActiveFedora::Base
   end
 end
