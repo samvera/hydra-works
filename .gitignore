@@ -6,6 +6,7 @@
 /doc/
 /pkg/
 /spec/reports/
+spec/internal
 /tmp/
 *.bundle
 *.so
