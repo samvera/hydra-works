@@ -1,29 +1,115 @@
-At present Hydra::Works is soliciting use cases.
+# How to Contribute
 
-## Use Cases
+We want your help to make Project Hydra great.
+There are a few guidelines that we need contributors to follow so that we can have a chance of keeping on top of things.
 
-A Use Case is comprised of:
+## Hydra Project Intellectual Property Licensing and Ownership
 
-* Sponsor(s) - The Github User ID (or User IDs) of the person advocating for this use case.
-* Goal & Reason - Of the form "As a `<type of user>`, I want `<some goal>` so that `<some reason>`."
-* Notes - Any supporting information, the basic course of action an actor would take.
+All code contributors must have an Individual Contributor License Agreement (iCLA) on file with the Hydra Project Steering Group.
+If the contributor works for an institution, the institution must have a Corporate Contributor License Agreement (cCLA) on file.
 
-You can submit a use case by one of the following methods:
+https://wiki.duraspace.org/display/hydra/Hydra+Project+Intellectual+Property+Licensing+and+Ownership
 
-* Creating an issue in Github
-* Submitting a pull request that adds one or more use cases to the `./use-cases` directory
+You should also add yourself to the `CONTRIBUTORS.md` file in the root of the project.
 
-When merging a Use Case, make sure that each use case has a clear: Sponsor, Goal & Reason, and Notes.
-If it meets those criteria, you are free to merge.
+## Contribution Tasks
 
-**NOTE: A merged use case does not mean it has been accepted. Only that the format is accepted. We will be synthesizing the use case at a later stage.**
+* Reporting Issues
+* Making Changes
+* Submitting Changes
+* Merging Changes
 
-### Use Case Timeline
+### Reporting Issues
 
-1. 2014-10-08: Call for Use Cases on [Hydra Tech Call](https://wiki.duraspace.org/display/hydra/Hydra+Tech+Call+2014-10-08)
-1. 2014-10-15: Reiterate Call for Use Cases on [Hydra Tech Call](https://wiki.duraspace.org/display/hydra/Hydra+Tech+Call+2014-10-15)
-  * Ask for additional submissions
-  * Announce that Use Case synthesization will begin next week
-1. 2014-10-22: Close open call for Use Cases on [Hydra Tech Call](https://wiki.duraspace.org/display/hydra/Hydra+Tech+Call+2014-10-22)
-  * Begin synthesis process
+* Make sure you have a [GitHub account](https://github.com/signup/free)
+* Submit a [Github issue](./issues) by:
+  * Clearly describing the issue
+    * Provide a descriptive summary
+    * Explain the expected behavior
+    * Explain the actual behavior
+    * Provide steps to reproduce the actual behavior
 
+### Making Changes
+
+* Fork the repository on GitHub
+* Create a topic branch from where you want to base your work.
+  * This is usually the master branch.
+  * To quickly create a topic branch based on master; `git branch fix/master/my_contribution master`
+  * Then checkout the new branch with `git checkout fix/master/my_contribution`.
+  * Please avoid working directly on the `master` branch.
+  * You may find the [hub suite of commands](https://github.com/defunkt/hub) helpful
+* Make commits of logical units.
+  * Your commit should include a high level description of your work in HISTORY.textile 
+* Check for unnecessary whitespace with `git diff --check` before committing.
+* Make sure your commit messages are [well formed](http://tbaggery.com/2008/04/19/a-note-about-git-commit-messages.html).
+* If you created an issue, you can close it by including "Closes #issue" in your commit message. See [Github's blog post for more details](https://github.com/blog/1386-closing-issues-via-commit-messages)
+
+```
+    Present tense short summary (50 characters or less)
+
+    More detailed description, if necessary. It should be wrapped to 72
+    characters. Try to be as descriptive as you can, even if you think that
+    the commit content is obvious, it may not be obvious to others. You
+    should add such description also if it's already present in bug tracker,
+    it should not be necessary to visit a webpage to check the history.
+
+    Include Closes #<issue-number> when relavent.
+
+    Description can have multiple paragraphs and you can use code examples
+    inside, just indent it with 4 spaces:
+
+        class PostsController
+          def index
+            respond_with Post.limit(10)
+          end
+        end
+
+    You can also add bullet points:
+
+    - you can use dashes or asterisks
+
+    - also, try to indent next line of a point for readability, if it's too
+      long to fit in 72 characters
+```
+
+* Make sure you have added the necessary tests for your changes.
+* Run _all_ the tests to assure nothing else was accidentally broken.
+* When you are ready to submit a pull request
+
+### Submitting Changes
+
+* Read the article ["Using Pull Requests"](https://help.github.com/articles/using-pull-requests) on GitHub.
+* Make sure your branch is up to date with its parent branch (i.e. master)
+  * `git checkout master`
+  * `git pull --rebase`
+  * `git checkout <your-branch>`
+  * `git rebase master`
+  * It is likely a good idea to run your tests again.
+* If you've made more than one commit take a moment to consider whether squashing commits together would help improve their logical grouping.
+  * [Detailed Walkthrough of One Pull Request per Commit](http://ndlib.github.io/practices/one-commit-per-pull-request/)
+  * `git rebase --interactive HEAD~<number-of-commits>` ([See Github help](https://help.github.com/articles/interactive-rebase))
+  * To determine the number of commits on your branch: `git log master..<your-branch> --oneline | wc -l`
+  * Squashing your branch's changes into one commit is "good form" and helps the person merging your request to see everything that is going on.
+* Push your changes to a topic branch in your fork of the repository.
+* Submit a pull request from your fork to the project.
+
+### Merging Changes
+
+* It is considered "poor from" to merge your own request.
+* Please take the time to review the changes and get a sense of what is being changed. Things to consider:
+  * Does the commit message explain what is going on?
+  * Does the code changes have tests? _Not all changes need new tests, some changes are refactorings_
+  * Does the commit contain more than it should? Are two separate concerns being addressed in one commit?
+  * Did the Travis tests complete successfully?
+* If you are uncertain, bring other contributors into the conversation by creating a comment that includes their @username.
+* If you like the pull request, but want others to chime in, create a +1 comment and tag a user.
+
+## New Developers
+A great way to get new developers involved and to learn the process is to have them go through the Hierarchy of Promises and create a pull request to improve it.
+
+# Additional Resources
+
+* [General GitHub documentation](http://help.github.com/)
+* [GitHub pull request documentation](http://help.github.com/send-pull-requests/)
+* [Pro Git](http://git-scm.com/book) is both a free and excellent book about Git.
+* [A Git Config for Contributing](http://ndlib.github.io/practices/my-typical-per-project-git-config/)
