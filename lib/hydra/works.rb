@@ -1,24 +1,34 @@
-require "hydra/head"
-require "hydra-collections"
-require "hydra/works/version"
-require "hydra/works/engine"
+require 'hydra/works/version'
+require 'hydra/works/vocab/hydra_works_terms'
+require 'active_fedora/aggregation'
+
 module Hydra
   module Works
-  end
-end
 
-module ActiveFedora
-  module RDF # TODO move these into ActiveFedora?
-    ProjectHydra.property :hasMember, label: 'Has Member'.freeze,
-      subPropertyOf: 'http://www.openarchives.org/ore/terms/aggregates'.freeze,
-      type: 'rdf:Property'.freeze
+    # vocabularies
+    autoload :HydraWorksTerms,        'hydra/works/vocab/hydra_works_terms'
 
-    ProjectHydra.property :contains, label: 'Contains'.freeze,
-      subPropertyOf: 'http://projecthydra.org/ns/relations#hasMember'.freeze,
-      type: 'rdf:Property'.freeze
+    # models
+    autoload :Collection,             'hydra/works/models/collection'
+    autoload :GenericWork,            'hydra/works/models/generic_work'
+    autoload :GenericFile,            'hydra/works/models/generic_file'
+    autoload :File,                   'hydra/works/models/file'
 
-    ProjectHydra.property :hasFile, label: 'Has File'.freeze,
-      subPropertyOf: 'http://projecthydra.org/ns/relations#contains'.freeze,
-      type: 'rdf:Property'.freeze
+
+    def self.class_from_string(class_name, container_class=Kernel)
+      container_class = container_class.name if container_class.is_a? Module
+      container_parts = container_class.split('::')
+      (container_parts + class_name.split('::')).flatten.inject(Kernel) do |mod, class_name|
+        if mod == Kernel
+          Object.const_get(class_name)
+        elsif mod.const_defined? class_name.to_sym
+          mod.const_get(class_name)
+        else
+          container_parts.pop
+          class_from_string(class_name, container_parts.join('::'))
+        end
+      end
+    end
+
   end
 end
