@@ -1,5 +1,7 @@
 module Hydra::Works
   module CollectionBehavior
+    extend ActiveSupport::Concern
+    include Hydra::PCDM::CollectionBehavior 
 
     # TODO: Is there a separate HydraWorks ontology or are works terms and properties defined in PCDM ontology?
     # TODO: Extend rdf type to include HydraWorks.Collection
@@ -18,62 +20,32 @@ module Hydra::Works
     #   9) Hydra::Works::Collection can have access metadata
     # TODO: add code to enforce behavior rules
 
-    # TODO: Inherit members as a private method so setting objects on aggregations has to go through the following methods.
-    # TODO: FIX: All of the following methods for aggregations are effected by the error "uninitialized constant Member".
-    #       See collection_spec test for more information.
+    # TODO Need allow both generic works and collections to 
+    # def collections= collections
+    #   raise ArgumentError, "each collection must be a Hydra::Works::Collection" unless 
+    #       collections.all? { |c| c.is_a? Hydra::Works::Collection }
+    #   self.members = self.generic_works + collections
+    # end
 
-    def << arg
-      # TODO: Not sure how to handle coll1.collections << new_collection.
-      #       Want to override << on coll1.collections to check that new_collection is_a? Hydra::Works::Collection
+    # def collections
 
-      # TODO: Not sure how to handle coll1.generic_works << new_generic_work.
-      #       Want to override << on coll1.generic_works to check that new_generic_work is_a? Hydra::Works::GenericWork
+    #   # TODO Should this just inherit from PCDM or is it significant to check for Hydra::Works::Collection instead of
+    #   #      the inherited Hydra::PCDM::Collection
 
-      # check that arg is an instance of Hydra::Works::Collection or Hydra::Works::GenericWorks
-      raise ArgumentError, "argument must be either a Hydra::Works::Collection or Hydra::Works::GenericWork" unless
-          arg.is_a?( Hydra::Works::Collection ) || arg.is_a?( Hydra::Works::GenericWork )
-      members << arg
-    end
+    #   # TODO: query fedora for collection id && hasMember && rdf_type == RDFVocabularies::HydraWorksTerms.Collection
+    # end
 
-    def collections= collections
-
-      # TODO Should this just inherit from PCDM or is it significant to check for Hydra::Works::Collection instead of
-      #      the inherited Hydra::PCDM::Collection
-
-      # # check that each collection is an instance of Hydra::Works::Collection
-      # raise ArgumentError, "each collection must be a Hydra::Works::Collection" unless
-      #     collections.all? { |c| c is_a? Hydra::Works::Collection }
-      # members = collections
-    end
-
-    def collections
-
-      # TODO Should this just inherit from PCDM or is it significant to check for Hydra::Works::Collection instead of
-      #      the inherited Hydra::PCDM::Collection
-
-      # TODO: query fedora for collection id && hasMember && rdf_type == RDFVocabularies::HydraWorksTerms.Collection
-    end
-
-    def generic_works works
-
+    def generic_works= works
       # check that object is an instance of Hydra::Works::GenericWork
       raise ArgumentError, "each object must be a Hydra::Works::GenericWork" unless
-          works.all? { |o| o is_a? Hydra::Works::GenericWork }
-      members = works
+          works.all? { |o| o.is_a? Hydra::Works::GenericWork }
+      self.members = works
     end
 
     def generic_works
       # TODO: query fedora for collection id && hasMember && rdf_type == RDFVocabularies::HydraWorksTerms.Object
+      self.members
     end
-
-    # TODO: Not sure how to handle coll1.generic_works << new_work.
-    #       Want to override << on coll1.generic_works to check that new_work is_a? Hydra::Works::GenericWork
-
-
-    # def contains  # TODO Need to remove this.  Inherit this behavior from Hydra::PCDM::Collection.
-    #   # always raise an error because contains is not an allowed behavior
-    #   raise NoMethodError, "undefined method `contains' for :Hydra::Works::Collection"
-    # end
 
     # TODO: RDF metadata can be added using property definitions. -- inherit from Hydra::PCDM::Collection???
     #   * How to distinguish between descriptive and access metadata?
@@ -83,4 +55,3 @@ module Hydra::Works
 
   end
 end
-

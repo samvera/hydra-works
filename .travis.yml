@@ -1,0 +1,14 @@
+language: ruby
+cache: bundler
+sudo: false
+bundler_args: --without debug
+env:
+  global:
+    - NOKOGIRI_USE_SYSTEM_LIBRARIES=true
+rvm:
+  - 2.1
+  - 2.2
+  - jruby-19mode
+matrix:
+  allow_failures:
+      - rvm: jruby-19mode
