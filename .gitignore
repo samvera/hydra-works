@@ -13,3 +13,4 @@ spec/internal
 *.o
 *.a
 mkmf.log
+jetty

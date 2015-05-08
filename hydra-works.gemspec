@@ -26,4 +26,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "rspec-rails", "~> 3.1"
   spec.add_development_dependency "engine_cart", "~> 0"
   spec.add_development_dependency "sqlite3"
+  spec.add_development_dependency 'jettywrapper', '>= 2.0.0'
+  spec.add_development_dependency 'coveralls'
+  spec.add_development_dependency 'rspec'
 end
