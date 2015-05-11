@@ -3,6 +3,19 @@ module Hydra::Works
     extend ActiveSupport::Concern
     include Hydra::PCDM::ObjectBehavior
 
+    # included do
+    #   type RDFVocabularies::WorksTerms.GenericFile
+    # end
+
+    def initialize(*args)
+      super(*args)
+
+      t = get_values(:type)
+      t << RDFVocabularies::WorksTerms.GenericFile
+      set_value(:type,t)
+    end
+
+
     # TODO: Extend rdf type to include RDFVocabularies::HydraWorks.GenericFile
 
     # behavior:

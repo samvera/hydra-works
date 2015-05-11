@@ -3,6 +3,18 @@ module Hydra::Works
     extend ActiveSupport::Concern
     include Hydra::PCDM::CollectionBehavior 
 
+    # included do
+    #   type RDFVocabularies::WorksTerms.Collection
+    # end
+
+    def initialize(*args)
+      super(*args)
+
+      t = get_values(:type)
+      t << RDFVocabularies::WorksTerms.Collection
+      set_value(:type,t)
+    end
+
     # TODO: Is there a separate HydraWorks ontology or are works terms and properties defined in PCDM ontology?
     # TODO: Extend rdf type to include HydraWorks.Collection
 
