@@ -9,11 +9,13 @@ module Hydra
     autoload :Collection,             'hydra/works/models/collection'
     autoload :GenericWork,            'hydra/works/models/generic_work'
     autoload :GenericFile,            'hydra/works/models/generic_file'
+    autoload :File,                   'hydra/works/models/file'
     
     #behaviors
     autoload :CollectionBehavior,     'hydra/works/models/concerns/collection_behavior'
     autoload :WorkBehavior,           'hydra/works/models/concerns/work_behavior'
     autoload :FileBehavior,           'hydra/works/models/concerns/file_behavior'
+    autoload :ContainedFiles,         'hydra/works/models/concerns/contained_files'
   
   end
 end
