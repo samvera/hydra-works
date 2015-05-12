@@ -33,6 +33,17 @@ module Hydra::Works
     # TODO: add code to enforce behavior rules
 
 
+    def collections= collections
+      raise ArgumentError, "each collection must be a Hydra::Works::Collection" unless collections.all? { |c| Hydra::Works.collection? c }
+      raise ArgumentError, "a collection can't be an ancestor of itself" if collection_ancestor?(collections)
+      self.members = self.objects + collections
+    end
+
+    def collections
+      all_members = self.members.container.to_a
+      all_members.select { |m| Hydra::Works.collection? m }
+    end
+
     def generic_works= generic_works
       raise ArgumentError, "each generic_work must be a hydra works generic work" unless generic_works.all? { |w| Hydra::Works.generic_work? w }
       self.members = self.collections + generic_works
