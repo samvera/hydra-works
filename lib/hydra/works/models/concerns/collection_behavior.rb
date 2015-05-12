@@ -3,6 +3,18 @@ module Hydra::Works
     extend ActiveSupport::Concern
     include Hydra::PCDM::CollectionBehavior 
 
+    # included do
+    #   type RDFVocabularies::WorksTerms.Collection
+    # end
+
+    def initialize(*args)
+      super(*args)
+
+      t = get_values(:type)
+      t << RDFVocabularies::WorksTerms.Collection
+      set_value(:type,t)
+    end
+
     # TODO: Is there a separate HydraWorks ontology or are works terms and properties defined in PCDM ontology?
     # TODO: Extend rdf type to include HydraWorks.Collection
 
@@ -20,31 +32,26 @@ module Hydra::Works
     #   9) Hydra::Works::Collection can have access metadata
     # TODO: add code to enforce behavior rules
 
-    # TODO Need allow both generic works and collections to 
-    # def collections= collections
-    #   raise ArgumentError, "each collection must be a Hydra::Works::Collection" unless 
-    #       collections.all? { |c| c.is_a? Hydra::Works::Collection }
-    #   self.members = self.generic_works + collections
-    # end
 
-    # def collections
+    def collections= collections
+      raise ArgumentError, "each collection must be a Hydra::Works::Collection" unless collections.all? { |c| Hydra::Works.collection? c }
+      raise ArgumentError, "a collection can't be an ancestor of itself" if collection_ancestor?(collections)
+      self.members = self.objects + collections
+    end
 
-    #   # TODO Should this just inherit from PCDM or is it significant to check for Hydra::Works::Collection instead of
-    #   #      the inherited Hydra::PCDM::Collection
+    def collections
+      all_members = self.members.container.to_a
+      all_members.select { |m| Hydra::Works.collection? m }
+    end
 
-    #   # TODO: query fedora for collection id && hasMember && rdf_type == RDFVocabularies::HydraWorksTerms.Collection
-    # end
-
-    def generic_works= works
-      # check that object is an instance of Hydra::Works::GenericWork
-      raise ArgumentError, "each object must be a Hydra::Works::GenericWork" unless
-          works.all? { |o| o.is_a? Hydra::Works::GenericWork }
-      self.members = works
+    def generic_works= generic_works
+      raise ArgumentError, "each generic_work must be a hydra works generic work" unless generic_works.all? { |w| Hydra::Works.generic_work? w }
+      self.members = self.collections + generic_works
     end
 
     def generic_works
-      # TODO: query fedora for collection id && hasMember && rdf_type == RDFVocabularies::HydraWorksTerms.Object
-      self.members
+      all_members = self.members.container.to_a
+      all_members.select { |m| Hydra::Works.generic_work? m }
     end
 
     # TODO: RDF metadata can be added using property definitions. -- inherit from Hydra::PCDM::Collection???

@@ -3,6 +3,19 @@ module Hydra::Works
     extend ActiveSupport::Concern
     include Hydra::PCDM::ObjectBehavior
 
+    # included do
+    #   type RDFVocabularies::WorksTerms.GenericFile
+    # end
+
+    def initialize(*args)
+      super(*args)
+
+      t = get_values(:type)
+      t << RDFVocabularies::WorksTerms.GenericFile
+      set_value(:type,t)
+    end
+
+
     # TODO: Extend rdf type to include RDFVocabularies::HydraWorks.GenericFile
 
     # behavior:
@@ -17,22 +30,26 @@ module Hydra::Works
     #   9) Hydra::Works::GenericFile can have access metadata
     # TODO: add code to enforce behavior rules
 
-    # TODO: Make members private so setting objects on aggregations has to go through the following methods.
+    def generic_works= generic_works
+      raise ArgumentError, "each generic_work must be a hydra works generic work" unless generic_works.all? { |w| Hydra::Works.generic_work? w }
+      self.members = self.collections + generic_works
+    end
 
-    # def generic_files( object)
-    #   # check that object is an instance of Hydra::Works::GenericFile
-    #   members << object  if object is_a? Hydra::Works::GenericFile
-    # end
+    def generic_works
+      all_members = self.members.container.to_a
+      all_members.select { |m| Hydra::Works.generic_work? m }
+    end
 
-    # TODO: RDF metadata can be added using property definitions.
-    #   * How to distinguish between descriptive and access metadata?
-    #   * Are there any default properties to set for Object's descriptive metadata?
-    #   * Are there any default properties to set for Object's access metadata?
-    #   * Is there a way to override default properties defined in this class?
+    def generic_files= generic_files
+      raise ArgumentError, "each generic_file must be a hydra files generic file" unless generic_files.all? { |w| Hydra::Works.generic_file? w }
+      self.members = self.collections + generic_files
+    end
 
-    # TODO: Inherit members as a private method so setting objects on aggregations has to go through the following methods.
-    # TODO: FIX: All of the following methods for aggregations are effected by the error "uninitialized constant Member".
-    #       See collection_spec test for more information.
+    def generic_files
+      all_members = self.members.container.to_a
+      all_members.select { |m| Hydra::Works.generic_file? m }
+    end
+
 
     # TODO: RDF metadata can be added using property definitions. -- inherit from Hydra::PCDM::Collection???
     #   * How to distinguish between descriptive and access metadata?
