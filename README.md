@@ -14,7 +14,10 @@ View [a diagram of the domain model](https://docs.google.com/drawings/d/1-NkkRPp
 
 Add these lines to your application's Gemfile:
 
-    gem 'hydra-works'
+    # hydra-pcdm requires an unreleased version of ActiveFedora
+    gem 'active-fedora', github: 'projecthydra/active_fedora'
+    gem 'hydra-pcdm', github: 'projecthydra-labs/hydra-pcdm'
+    gem 'hydra-works', github: 'projecthydra-labs/hydra-works'
 
 And then execute:
 
