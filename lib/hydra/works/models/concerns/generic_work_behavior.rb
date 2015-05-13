@@ -3,10 +3,9 @@ module Hydra::Works
     extend ActiveSupport::Concern
     include Hydra::PCDM::ObjectBehavior
 
-    # TODO: Extend rdf type to include RDFVocabularies::WorksTerms.GenericWork   (see issue #71)
-    # included do
-    #   type RDFVocabularies::WorksTerms.GenericWork
-    # end
+    included do
+      type [RDFVocabularies::PCDMTerms.Object,WorksVocabularies::WorksTerms.GenericWork]
+    end
 
 
     # behavior:
