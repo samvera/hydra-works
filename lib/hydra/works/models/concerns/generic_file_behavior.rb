@@ -3,10 +3,9 @@ module Hydra::Works
     extend ActiveSupport::Concern
     include Hydra::PCDM::ObjectBehavior
 
-    # TODO: Extend rdf type to include RDFVocabularies::HydraWorks.GenericFile   (see issue #71)
-    # included do
-    #   type RDFVocabularies::WorksTerms.GenericFile
-    # end
+    included do
+      type [RDFVocabularies::PCDMTerms.Object,WorksVocabularies::WorksTerms.GenericFile]
+    end
 
     # behavior:
     #   1) Hydra::Works::GenericFile can contain (pcdm:hasFile) Hydra::PCDM::File   (inherits from Hydra::PCDM::Object)

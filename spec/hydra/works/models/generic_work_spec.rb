@@ -231,7 +231,7 @@ describe Hydra::Works::GenericWork do
     end
 
     it 'should return empty array when only generic_works are aggregated' do
-      generic_work1.generic_works = [generic_work1,generic_work2]
+      generic_work1.generic_works = [generic_work2,generic_work3]
       generic_work1.save
       expect(generic_work1.generic_files).to eq []
     end

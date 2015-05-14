@@ -1,5 +1,5 @@
 require 'rdf'
-module RDFVocabularies
+module WorksVocabularies
   class WorksTerms < RDF::Vocabulary("http://hydra.org/works/models#")
 
     # Class definitions

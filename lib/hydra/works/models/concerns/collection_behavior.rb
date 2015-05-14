@@ -3,10 +3,11 @@ module Hydra::Works
     extend ActiveSupport::Concern
     include Hydra::PCDM::CollectionBehavior 
 
+
     # TODO: Extend rdf type to include RDFVocabularies::WorksTerms.Collection  (see issue #71)
-    # included do
-    #   type RDFVocabularies::WorksTerms.Collection
-    # end
+    included do
+      type [RDFVocabularies::PCDMTerms.Collection,WorksVocabularies::WorksTerms.Collection]
+    end
 
     # behavior:
     #   1) Hydra::Works::Collection can aggregate Hydra::Works::Collection
