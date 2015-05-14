@@ -17,7 +17,7 @@ module Hydra
     autoload :CollectionBehavior,     'hydra/works/models/concerns/collection_behavior'
     autoload :GenericWorkBehavior,    'hydra/works/models/concerns/generic_work_behavior'
     autoload :GenericFileBehavior,    'hydra/works/models/concerns/generic_file_behavior'
-
+    autoload :ContainedFiles,         'hydra/works/models/concerns/contained_files'
 
     # model validations
     def self.collection? collection
