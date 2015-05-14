@@ -22,14 +22,6 @@ module Hydra::Works
     #   8) Hydra::Works::Collection can have descriptive metadata
     #   9) Hydra::Works::Collection can have access metadata
 
-
-    # TODO: Not sure how to handle coll1.collections << new_collection.  (see issue #45)
-    #       Want to override << on coll1.collections to check that new_work Hydra::Works.collection?
-    # TODO: Not sure how to handle coll1.generic_works << new_generic_work.  (see issue #45)
-    #       Want to override << on coll1.generic_works to check that new_work Hydra::Works.generic_work?
-
-
-
     def collections= collections
       raise ArgumentError, "each collection must be a hydra works collection" unless collections.all? { |c| Hydra::Works.collection? c }
       raise ArgumentError, "a collection can't be an ancestor of itself" if collection_ancestor?(collections)

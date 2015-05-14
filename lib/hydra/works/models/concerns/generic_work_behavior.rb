@@ -7,7 +7,6 @@ module Hydra::Works
       type [RDFVocabularies::PCDMTerms.Object,WorksVocabularies::WorksTerms.GenericWork]
     end
 
-
     # behavior:
     #   1) Hydra::Works::GenericWork can aggregate Hydra::Works::GenericWork
     #   2) Hydra::Works::GenericWork can aggregate Hydra::Works::GenericFile
@@ -22,13 +21,6 @@ module Hydra::Works
 
     #   9) Hydra::Works::GenericWork can have descriptive metadata
     #   10) Hydra::Works::GenericWork can have access metadata
-
-
-    # TODO: Not sure how to handle work1.generic_works << new_generic_work.  (see issue #45)
-    #       Want to override << on work1.generic_works to check that new_work Hydra::Works.generic_work?
-    # TODO: Not sure how to handle work1.generic_files << new_generic_file.  (see issue #45)
-    #       Want to override << on work1.generic_files to check that new_work Hydra::Works.generic_file?
-
 
     def generic_works= generic_works
       raise ArgumentError, "each generic_work must be a hydra works generic work" unless generic_works.all? { |w| Hydra::Works.generic_work? w }

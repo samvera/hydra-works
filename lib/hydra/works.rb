@@ -31,6 +31,30 @@ module Hydra
     autoload :GetMimeTypeForFile,       'hydra/works/services/file/get_mime_type'
     autoload :UploadFileToGenericFile,  'hydra/works/services/object/upload_file'
 
+    # collection services
+    autoload :AddCollectionToCollection,           'hydra/works/services/collection/add_collection'
+    autoload :AddGenericWorkToCollection,          'hydra/works/services/collection/add_generic_work'
+    autoload :AddRelatedObjectToCollection,        'hydra/works/services/collection/add_related_object'
+    autoload :GetCollectionsFromCollection,        'hydra/works/services/collection/get_collections'
+    autoload :GetGenericWorksFromCollection,       'hydra/works/services/collection/get_generic_works'
+    autoload :GetRelatedObjectsFromCollection,     'hydra/works/services/collection/get_related_objects'
+
+    # generic_work services
+    autoload :AddGenericWorkToGenericWork,         'hydra/works/services/generic_work/add_generic_work'
+    autoload :AddGenericFileToGenericWork,         'hydra/works/services/generic_work/add_generic_file'
+    autoload :AddRelatedObjectToGenericWork,       'hydra/works/services/generic_work/add_related_object'
+    autoload :GetGenericWorksFromGenericWork,      'hydra/works/services/generic_work/get_generic_works'
+    autoload :GetGenericFilesFromGenericWork,      'hydra/works/services/generic_work/get_generic_files'
+    autoload :GetRelatedObjectsFromGenericWork,    'hydra/works/services/generic_work/get_related_objects'
+
+    # generic_file services
+    autoload :AddGenericFileToGenericFile,         'hydra/works/services/generic_file/add_generic_file'
+    autoload :AddFileToGenericFile,                'hydra/works/services/generic_file/add_file'
+    autoload :AddRelatedObjectToGenericFile,       'hydra/works/services/generic_file/add_related_object'
+    autoload :GetGenericWorksFromGenericFile,      'hydra/works/services/generic_file/get_generic_works'
+    autoload :GetGenericFilesFromGenericFile,      'hydra/works/services/generic_file/get_generic_files'
+    autoload :GetRelatedObjectsFromGenericFile,    'hydra/works/services/generic_file/get_related_objects'
+
     # model validations
     def self.collection? collection
       return false unless collection.respond_to? :type
