@@ -1,6 +1,8 @@
 require 'hydra/works/version'
 require 'active_fedora/aggregation'
 require 'hydra/pcdm'
+require 'hydra/derivatives'
+require 'hydra/works/processor'
 
 module Hydra
   module Works
@@ -17,7 +19,17 @@ module Hydra
     autoload :CollectionBehavior,     'hydra/works/models/concerns/collection_behavior'
     autoload :GenericWorkBehavior,    'hydra/works/models/concerns/generic_work_behavior'
     autoload :GenericFileBehavior,    'hydra/works/models/concerns/generic_file_behavior'
+    autoload :ContainedFiles,         'hydra/works/models/concerns/contained_files'
+    autoload :Derivatives,            'hydra/works/models/concerns/derivatives'
+    autoload :MimeTypes,              'hydra/works/models/concerns/mime_types'
 
+    # services
+    autoload :AddOriginalFile,          'hydra/works/services/object/add_original_file'
+    autoload :AddTypeToFile,            'hydra/works/services/file/add_type'
+    autoload :AddVersionedOriginalFile, 'hydra/works/services/object/add_versioned_original_file'
+    autoload :GenerateThumbnail,        'hydra/works/services/object/generate/thumbnail'
+    autoload :GetMimeTypeForFile,       'hydra/works/services/file/get_mime_type'
+    autoload :UploadFileToGenericFile,  'hydra/works/services/object/upload_file'
 
     # model validations
     def self.collection? collection
