@@ -17,12 +17,6 @@ module Hydra::Works
     #   5) Hydra::Works::GenericFile can have descriptive metadata
     #   6) Hydra::Works::GenericFile can have access metadata
 
-
-
-    # TODO: Not sure how to handle work1.generic_files << new_generic_file.  (see issue #45)
-    #       Want to override << on work1.generic_files to check that new_work Hydra::Works.generic_file?
-
-
     def generic_files= generic_files
       raise ArgumentError, "each generic_file must be a hydra works generic file" unless generic_files.all? { |w| Hydra::Works.generic_file? w }
       raise ArgumentError, "a generic file can't be an ancestor of itself" if object_ancestor?(generic_files)
