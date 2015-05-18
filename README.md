@@ -48,11 +48,11 @@ c1 = Collection.create
 bw1 = BookWork.create
 bf1 = BookFiles.create
 
-bf1.save
-bw1.generic_files = [bf1]
-bw1.save
-c1.generic_works = [bw1]
+Hydra::Works::AddGenericWorkToCollection(c1,bw1)
+Hydra::Works::AddGenericFileToGenericWork(bw1,bf1)
 c1.save
+bw1.save
+bf1.save
 
 f1 = bf1.files.build
 f1.content = "The quick brown fox jumped over the lazy dog."
