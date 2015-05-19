@@ -23,14 +23,6 @@ module Hydra
     autoload :Derivatives,            'hydra/works/models/concerns/derivatives'
     autoload :MimeTypes,              'hydra/works/models/concerns/mime_types'
 
-    # services
-    autoload :AddOriginalFile,          'hydra/works/services/object/add_original_file'
-    autoload :AddTypeToFile,            'hydra/works/services/file/add_type'
-    autoload :AddVersionedOriginalFile, 'hydra/works/services/object/add_versioned_original_file'
-    autoload :GenerateThumbnail,        'hydra/works/services/object/generate/thumbnail'
-    autoload :GetMimeTypeForFile,       'hydra/works/services/file/get_mime_type'
-    autoload :UploadFileToGenericFile,  'hydra/works/services/object/upload_file'
-
     # collection services
     autoload :AddCollectionToCollection,           'hydra/works/services/collection/add_collection'
     autoload :AddGenericWorkToCollection,          'hydra/works/services/collection/add_generic_work'
@@ -62,6 +54,16 @@ module Hydra
     autoload :GetRelatedObjectsFromGenericFile,    'hydra/works/services/generic_file/get_related_objects'
     autoload :RemoveGenericFileFromGenericFile,    'hydra/works/services/generic_file/remove_generic_file'
     autoload :RemoveRelatedObjectFromGenericFile,  'hydra/works/services/generic_file/remove_related_object'
+    autoload :UploadFileToGenericFile,             'hydra/works/services/generic_file/upload_file'
+    autoload :AddOriginalFile,                     'hydra/works/services/generic_file/add_original_file'
+    autoload :AddVersionedOriginalFile,            'hydra/works/services/generic_file/add_versioned_original_file'
+
+    autoload :GenerateThumbnail,                   'hydra/works/services/generic_file/generate/thumbnail'
+
+    # file services
+    autoload :AddTypeToFile,                       'hydra/works/services/file/add_type'
+    autoload :GetMimeTypeForFile,                  'hydra/works/services/file/get_mime_type'
+
 
     # model validations
     def self.collection? collection

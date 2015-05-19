@@ -15,12 +15,7 @@ describe Hydra::Works::GetRelatedObjectsFromCollection do
   let(:generic_file1) { Hydra::Works::GenericFile.create }
 
   describe '#call' do
-    it 'should return empty array when no related object' do
-      subject.save
-      expect(Hydra::Works::GetRelatedObjectsFromCollection.call( subject )).to eq []
-    end
-
-    context 'with collections and works' do
+    context 'with collections and generic works' do
       before do
         Hydra::Works::AddCollectionToCollection.call( subject, collection1 )
         Hydra::Works::AddCollectionToCollection.call( subject, collection2 )
@@ -28,7 +23,7 @@ describe Hydra::Works::GetRelatedObjectsFromCollection do
         subject.save
       end
 
-      it 'should return empty array when only collections and object are aggregated' do
+      it 'should return empty array when only collections and generic works are aggregated' do
         expect(Hydra::Works::GetRelatedObjectsFromCollection.call( subject )).to eq []
       end
 

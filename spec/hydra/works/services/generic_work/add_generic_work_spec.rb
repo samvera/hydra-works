@@ -14,24 +14,6 @@ describe Hydra::Works::AddGenericWorkToGenericWork do
       let(:generic_file1)   { Hydra::Works::GenericFile.create }
       let(:generic_file2)   { Hydra::Works::GenericFile.create }
 
-      it 'should add generic_work to empty generic work aggregation' do
-        Hydra::Works::AddGenericWorkToGenericWork.call( subject, generic_work1 )
-        expect( Hydra::Works::GetGenericWorksFromGenericWork.call( subject ) ).to eq [generic_work1]
-      end
-
-      it 'should add generic_work to generic work aggregation with generic_works' do
-        Hydra::Works::AddGenericWorkToGenericWork.call( subject, generic_work1 )
-        Hydra::Works::AddGenericWorkToGenericWork.call( subject, generic_work2 )
-        expect( Hydra::Works::GetGenericWorksFromGenericWork.call( subject ) ).to eq [generic_work1,generic_work2]
-      end
-
-      it 'should allow generic_works to repeat' do
-        Hydra::Works::AddGenericWorkToGenericWork.call( subject, generic_work1 )
-        Hydra::Works::AddGenericWorkToGenericWork.call( subject, generic_work2 )
-        Hydra::Works::AddGenericWorkToGenericWork.call( subject, generic_work1 )
-        expect( Hydra::Works::GetGenericWorksFromGenericWork.call( subject ) ).to eq [generic_work1,generic_work2,generic_work1]
-      end
-
       context 'with generic_files and generic_works' do
         before do
           Hydra::Works::AddGenericFileToGenericWork.call( subject, generic_file1 )
@@ -53,58 +35,6 @@ describe Hydra::Works::AddGenericWorkToGenericWork do
           expect(subject.to_solr['generic_files_ssim']).to include(generic_file1.id,generic_file2.id)
           expect(subject.to_solr['generic_files_ssim']).not_to include(generic_work1.id,generic_work2.id,generic_work3.id)
         end
-        end
-      end
-
-      it 'should aggregate generic_works in a sub-generic_work of a generic_work' do
-        Hydra::Works::AddGenericWorkToGenericWork.call( subject, generic_work1 )
-        subject.save
-        Hydra::Works::AddGenericWorkToGenericWork.call( generic_work1, generic_work2 )
-        generic_work1.save
-        expect( Hydra::Works::GetGenericWorksFromGenericWork.call( subject ) ).to eq [generic_work1]
-        expect( Hydra::Works::GetGenericWorksFromGenericWork.call( generic_work1 ) ).to eq [generic_work2]
-      end
-
-      describe 'adding generic works that are ancestors' do
-        let(:error_message) { "an object can't be an ancestor of itself" }
-
-        context 'when the source generic work is the same' do
-          it 'raises an error' do
-            expect{ Hydra::Works::AddGenericWorkToGenericWork.call( generic_work1, generic_work1 )}.to raise_error(ArgumentError, error_message)
-          end
-        end
-
-        before do
-          Hydra::Works::AddGenericWorkToGenericWork.call( generic_work1, generic_work2 )
-          generic_work1.save
-        end
-
-        it 'raises and error' do
-          expect{ Hydra::Works::AddGenericWorkToGenericWork.call( generic_work2, generic_work1 )}.to raise_error(ArgumentError, error_message)
-        end
-
-        context 'with more ancestors' do
-          before do
-            Hydra::Works::AddGenericWorkToGenericWork.call( generic_work2, generic_work3 )
-            generic_work2.save
-          end
-
-          it 'raises an error' do
-            expect{ Hydra::Works::AddGenericWorkToGenericWork.call( generic_work3, generic_work1 )}.to raise_error(ArgumentError, error_message)
-          end
-
-          context 'with a more complicated example' do
-            before do
-              Hydra::Works::AddGenericWorkToGenericWork.call( generic_work3, generic_work4 )
-              Hydra::Works::AddGenericWorkToGenericWork.call( generic_work3, generic_work5 )
-              generic_work3.save
-            end
-
-            it 'raises errors' do
-              expect{ Hydra::Works::AddGenericWorkToGenericWork.call( generic_work4, generic_work1 )}.to raise_error(ArgumentError, error_message)
-              expect{ Hydra::Works::AddGenericWorkToGenericWork.call( generic_work4, generic_work2 )}.to raise_error(ArgumentError, error_message)
-            end
-          end
         end
       end
 
@@ -139,7 +69,6 @@ describe Hydra::Works::AddGenericWorkToGenericWork do
         end
       end
     end
-
 
     context 'with unacceptable child generic_works' do
       let(:collection1)      { Hydra::Works::Collection.create }

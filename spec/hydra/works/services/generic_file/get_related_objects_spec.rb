@@ -12,11 +12,6 @@ describe Hydra::Works::GetRelatedObjectsFromGenericFile do
   let(:generic_file2) { Hydra::Works::GenericFile.create }
 
   describe '#call' do
-    it 'should return empty array when no related object' do
-      subject.save
-      expect(Hydra::Works::GetRelatedObjectsFromGenericFile.call( subject )).to eq []
-    end
-
     context 'with generic files' do
       before do
         Hydra::Works::AddGenericFileToGenericFile.call( subject, generic_file1 )

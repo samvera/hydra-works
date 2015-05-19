@@ -11,11 +11,6 @@ describe Hydra::Works::GetGenericWorksFromGenericWork do
   let(:generic_work2) { Hydra::Works::GenericWork.create }
 
   describe '#call' do
-    it 'should return empty array when no members' do
-      subject.save
-      expect(Hydra::Works::GetGenericWorksFromGenericWork.call( subject )).to eq []
-    end
-
     it 'should return empty array when only generic_files are aggregated' do
       Hydra::Works::AddGenericFileToGenericWork.call( subject, generic_file1 )
       Hydra::Works::AddGenericFileToGenericWork.call( subject, generic_file2 )

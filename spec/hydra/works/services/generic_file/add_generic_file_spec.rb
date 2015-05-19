@@ -12,17 +12,6 @@ describe Hydra::Works::AddGenericFileToGenericFile do
       let(:generic_file4)   { Hydra::Works::GenericFile.create }
       let(:generic_file5)   { Hydra::Works::GenericFile.create }
 
-      it 'should add generic_file to empty generic file aggregation' do
-        Hydra::Works::AddGenericFileToGenericFile.call( subject, generic_file1 )
-        expect( Hydra::Works::GetGenericFilesFromGenericFile.call( subject ) ).to eq [generic_file1]
-      end
-
-      it 'should add generic_file to generic file aggregation with generic_files' do
-        Hydra::Works::AddGenericFileToGenericFile.call( subject, generic_file1 )
-        Hydra::Works::AddGenericFileToGenericFile.call( subject, generic_file2 )
-        expect( Hydra::Works::GetGenericFilesFromGenericFile.call( subject ) ).to eq [generic_file1,generic_file2]
-      end
-
       it 'should aggregate generic_files in a sub-generic_file of a generic_file' do
         Hydra::Works::AddGenericFileToGenericFile.call( generic_file1, generic_file2 )
         generic_file1.save
@@ -63,49 +52,6 @@ describe Hydra::Works::AddGenericFileToGenericFile do
           expect(subject.to_solr["files_ssim"]).to include(file1.id,file2.id)
           expect(subject.to_solr["files_ssim"]).not_to include(generic_file1.id,generic_file2.id)
         end
-        end
-      end
-
-      describe "adding generic files that are ancestors" do
-        let(:error_message) { "an object can't be an ancestor of itself" }
-
-        context "when the source generic file is the same" do
-          it "raises an error" do
-            expect{ Hydra::Works::AddGenericFileToGenericFile.call( generic_file1, generic_file1 )}.to raise_error(ArgumentError, error_message)
-          end
-        end
-
-        before do
-          Hydra::Works::AddGenericFileToGenericFile.call( generic_file1, generic_file2 )
-          generic_file1.save
-        end
-
-        it "raises and error" do
-          expect{ Hydra::Works::AddGenericFileToGenericFile.call( generic_file2, generic_file1 )}.to raise_error(ArgumentError, error_message)
-        end
-
-        context "with more ancestors" do
-          before do
-            Hydra::Works::AddGenericFileToGenericFile.call( generic_file2, generic_file3 )
-            generic_file2.save
-          end
-
-          it "raises an error" do
-            expect{ Hydra::Works::AddGenericFileToGenericFile.call( generic_file3, generic_file1 )}.to raise_error(ArgumentError, error_message)
-          end
-
-          context "with a more complicated example" do
-            before do
-              Hydra::Works::AddGenericFileToGenericFile.call( generic_file3, generic_file4 )
-              Hydra::Works::AddGenericFileToGenericFile.call( generic_file3, generic_file5 )
-              generic_file3.save
-            end
-
-            it "raises errors" do
-              expect{ Hydra::Works::AddGenericFileToGenericFile.call( generic_file4, generic_file1 )}.to raise_error(ArgumentError, error_message)
-              expect{ Hydra::Works::AddGenericFileToGenericFile.call( generic_file4, generic_file2 )}.to raise_error(ArgumentError, error_message)
-            end
-          end
         end
       end
 

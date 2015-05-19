@@ -12,24 +12,6 @@ describe Hydra::Works::AddGenericFileToGenericWork do
       let(:generic_file2)   { Hydra::Works::GenericFile.create }
       let(:generic_file3)   { Hydra::Works::GenericFile.create }
 
-      it 'should add generic_file to empty generic work aggregation' do
-        Hydra::Works::AddGenericFileToGenericWork.call( subject, generic_file1 )
-        expect( Hydra::Works::GetGenericFilesFromGenericWork.call( subject ) ).to eq [generic_file1]
-      end
-
-      it 'should add generic_file to generic work aggregation with generic_files' do
-        Hydra::Works::AddGenericFileToGenericWork.call( subject, generic_file1 )
-        Hydra::Works::AddGenericFileToGenericWork.call( subject, generic_file2 )
-        expect( Hydra::Works::GetGenericFilesFromGenericWork.call( subject ) ).to eq [generic_file1,generic_file2]
-      end
-
-      it 'should allow generic_files to repeat' do
-        Hydra::Works::AddGenericFileToGenericWork.call( subject, generic_file1 )
-        Hydra::Works::AddGenericFileToGenericWork.call( subject, generic_file2 )
-        Hydra::Works::AddGenericFileToGenericWork.call( subject, generic_file1 )
-        expect( Hydra::Works::GetGenericFilesFromGenericWork.call( subject ) ).to eq [generic_file1,generic_file2,generic_file1]
-      end
-
       context 'with generic_files and generic_works' do
         before do
           Hydra::Works::AddGenericFileToGenericWork.call( subject, generic_file1 )

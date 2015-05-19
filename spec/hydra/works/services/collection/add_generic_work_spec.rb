@@ -12,24 +12,6 @@ describe Hydra::Works::AddGenericWorkToCollection do
       let(:collection1)   { Hydra::Works::Collection.create }
       let(:collection2)   { Hydra::Works::Collection.create }
 
-      it 'should add generic_work to empty collection' do
-        Hydra::Works::AddGenericWorkToCollection.call( subject, generic_work1 )
-        expect( Hydra::Works::GetGenericWorksFromCollection.call( subject ) ).to eq [generic_work1]
-      end
-
-      it 'should add generic_work to collection with generic_works' do
-        Hydra::Works::AddGenericWorkToCollection.call( subject, generic_work1 )
-        Hydra::Works::AddGenericWorkToCollection.call( subject, generic_work2 )
-        expect( Hydra::Works::GetGenericWorksFromCollection.call( subject ) ).to eq [generic_work1,generic_work2]
-      end
-
-      it 'should allow generic_works to repeat' do
-        Hydra::Works::AddGenericWorkToCollection.call( subject, generic_work1 )
-        Hydra::Works::AddGenericWorkToCollection.call( subject, generic_work2 )
-        Hydra::Works::AddGenericWorkToCollection.call( subject, generic_work1 )
-        expect( Hydra::Works::GetGenericWorksFromCollection.call( subject ) ).to eq [generic_work1,generic_work2,generic_work1]
-      end
-
       context 'with collections and generic_works' do
         before do
           Hydra::Works::AddCollectionToCollection.call( subject, collection1 )
