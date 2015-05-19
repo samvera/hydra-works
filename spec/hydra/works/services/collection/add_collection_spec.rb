@@ -153,14 +153,19 @@ describe Hydra::Works::AddCollectionToCollection do
     end
 
     context 'with unacceptable child collections' do
+      let(:generic_work1)    { Hydra::Works::GenericWork.create }
       let(:generic_file1)    { Hydra::Works::GenericFile.create }
-      let(:pcdm_collection1) { Hydra::PCDM::Object.create }
+      let(:pcdm_collection1) { Hydra::PCDM::Collection.create }
       let(:pcdm_object1)     { Hydra::PCDM::Object.create }
       let(:pcdm_file1)       { Hydra::PCDM::File.new }
       let(:non_PCDM_object)  { "I'm not a PCDM object" }
       let(:af_base_object)   { ActiveFedora::Base.create }
 
       let(:error_message) { 'child_collection must be a hydra-works collection' }
+
+      it 'should NOT aggregate Hydra::Works::GenericWork in collections aggregation' do
+        expect{ Hydra::Works::AddCollectionToCollection.call( subject, generic_work1 ) }.to raise_error(ArgumentError,error_message)
+      end
 
       it 'should NOT aggregate Hydra::Works::GenericFile in collections aggregation' do
         expect{ Hydra::Works::AddCollectionToCollection.call( subject, generic_file1 ) }.to raise_error(ArgumentError,error_message)
@@ -191,7 +196,7 @@ describe Hydra::Works::AddCollectionToCollection do
       let(:collection1)      { Hydra::Works::Collection.create }
       let(:generic_work1)    { Hydra::Works::GenericWork.create }
       let(:generic_file1)    { Hydra::Works::GenericFile.create }
-      let(:pcdm_collection1) { Hydra::PCDM::Object.create }
+      let(:pcdm_collection1) { Hydra::PCDM::Collection.create }
       let(:pcdm_object1)     { Hydra::PCDM::Object.create }
       let(:pcdm_file1)       { Hydra::PCDM::File.new }
       let(:non_PCDM_object)  { "I'm not a PCDM object" }

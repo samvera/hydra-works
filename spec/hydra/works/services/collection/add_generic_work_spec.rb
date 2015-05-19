@@ -90,7 +90,7 @@ describe Hydra::Works::AddGenericWorkToCollection do
     context 'with unacceptable child generic_works' do
       let(:collection1)      { Hydra::Works::Collection.create }
       let(:generic_file1)    { Hydra::Works::GenericFile.create }
-      let(:pcdm_collection1) { Hydra::PCDM::Object.create }
+      let(:pcdm_collection1) { Hydra::PCDM::Collection.create }
       let(:pcdm_object1)     { Hydra::PCDM::Object.create }
       let(:pcdm_file1)       { Hydra::PCDM::File.new }
       let(:non_PCDM_object)  { "I'm not a PCDM object" }
@@ -131,7 +131,7 @@ describe Hydra::Works::AddGenericWorkToCollection do
       let(:generic_work1)    { Hydra::Works::GenericWork.create }
       let(:generic_work2)    { Hydra::Works::GenericWork.create }
       let(:generic_file1)    { Hydra::Works::GenericFile.create }
-      let(:pcdm_collection1) { Hydra::PCDM::Object.create }
+      let(:pcdm_collection1) { Hydra::PCDM::Collection.create }
       let(:pcdm_object1)     { Hydra::PCDM::Object.create }
       let(:pcdm_file1)       { Hydra::PCDM::File.new }
       let(:non_PCDM_object)  { "I'm not a PCDM object" }
