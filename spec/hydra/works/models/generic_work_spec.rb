@@ -47,4 +47,11 @@ describe Hydra::Works::GenericWork do
     end
   end
 
+  it "is compatible with ActiveFedora::Base.load_instance_from_solr" do
+    work = ActiveFedora::Base.load_instance_from_solr(generic_work1.id)
+    expect(work.generic_files).to_not raise_error
+    expect(work.generic_files).to eq []
+    expect(work.generic_works).to eq []
+  end
+
 end
