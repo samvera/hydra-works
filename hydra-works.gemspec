@@ -18,8 +18,6 @@ Gem::Specification.new do |spec|
   spec.test_files    = spec.files.grep(%r{^(test|spec|features)/})
   spec.require_paths = ["lib"]
 
-  spec.add_dependency "hydra-head", "~> 9.0"
-  spec.add_dependency "hydra-collections", "~> 5.0", ">= 5.0.2"
   spec.add_dependency "hydra-derivatives", "~> 1.1.0"
 
   spec.add_development_dependency "bundler", "~> 1.7"
