@@ -6,7 +6,7 @@ describe Hydra::Works::AddRelatedObjectToCollection do
 
   describe '#call' do
 
-    context 'with acceptable collections' do
+    context 'with acceptable related objects' do
       let(:object1) { Hydra::PCDM::Object.create }
       let(:object2) { Hydra::PCDM::Object.create }
       let(:collection1) { Hydra::Works::Collection.create }
@@ -15,12 +15,7 @@ describe Hydra::Works::AddRelatedObjectToCollection do
       let(:generic_work2) { Hydra::Works::GenericWork.create }
       let(:generic_file1) { Hydra::Works::GenericFile.create }
 
-      it 'should add a related object to empty collection' do
-        Hydra::Works::AddRelatedObjectToCollection.call( subject, object1 )
-        expect( Hydra::Works::GetRelatedObjectsFromCollection.call( subject ) ).to eq [object1]
-      end
-
-      it 'should add a related object to collection with related objects' do
+      it 'should add various types of related objects to collection' do
         Hydra::Works::AddRelatedObjectToCollection.call( subject, generic_work1 )
         Hydra::Works::AddRelatedObjectToCollection.call( subject, generic_file1 )
         Hydra::Works::AddRelatedObjectToCollection.call( subject, object1 )
@@ -41,7 +36,7 @@ describe Hydra::Works::AddRelatedObjectToCollection do
           subject.save
         end
 
-        it 'should add an object to collection with collections and generic_works' do
+        it 'should add a related object to collection with collections and generic_works' do
           Hydra::Works::AddRelatedObjectToCollection.call( subject, object2 )
           related_objects = Hydra::Works::GetRelatedObjectsFromCollection.call( subject )
           expect( related_objects.include? object1 ).to be true
@@ -62,7 +57,7 @@ describe Hydra::Works::AddRelatedObjectToCollection do
       end
     end
 
-    context 'with unacceptable child objects' do
+    context 'with unacceptable child related objects' do
       let(:collection1)      { Hydra::Works::Collection.create }
       let(:pcdm_collection1) { Hydra::PCDM::Collection.create }
       let(:pcdm_file1)       { Hydra::PCDM::File.new }
@@ -134,7 +129,7 @@ describe Hydra::Works::AddRelatedObjectToCollection do
     end
 
 
-    context 'with invalid bahaviors' do
+    context 'with invalid behaviors' do
       let(:object1) { Hydra::PCDM::Object.create }
       let(:object2) { Hydra::PCDM::Object.create }
 

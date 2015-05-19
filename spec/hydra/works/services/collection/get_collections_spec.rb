@@ -11,11 +11,6 @@ describe Hydra::Works::GetCollectionsFromCollection do
   let(:generic_work2) { Hydra::Works::GenericWork.create }
 
   describe '#call' do
-    it 'should return empty array when no members' do
-      subject.save
-      expect(Hydra::Works::GetCollectionsFromCollection.call( subject )).to eq []
-    end
-
     it 'should return empty array when only generic_works are aggregated' do
       Hydra::Works::AddGenericWorkToCollection.call( subject, generic_work1 )
       Hydra::Works::AddGenericWorkToCollection.call( subject, generic_work2 )

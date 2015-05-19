@@ -6,7 +6,7 @@ describe Hydra::Works::AddRelatedObjectToGenericWork do
 
   describe '#call' do
 
-    context 'with acceptable generic_works' do
+    context 'with acceptable related objects' do
       let(:object1) { Hydra::PCDM::Object.create }
       let(:object2) { Hydra::PCDM::Object.create }
       let(:generic_work1) { Hydra::Works::GenericWork.create }
@@ -14,12 +14,7 @@ describe Hydra::Works::AddRelatedObjectToGenericWork do
       let(:generic_file1) { Hydra::Works::GenericFile.create }
       let(:generic_file2) { Hydra::Works::GenericFile.create }
 
-      it 'should add a related object to empty generic_work' do
-        Hydra::Works::AddRelatedObjectToGenericWork.call( subject, object1 )
-        expect( Hydra::Works::GetRelatedObjectsFromGenericWork.call( subject ) ).to eq [object1]
-      end
-
-      it 'should add a related object to generic_work with related objects' do
+      it 'should add various types of related objects to generic_work' do
         Hydra::Works::AddRelatedObjectToGenericWork.call( subject, generic_work1 )
         Hydra::Works::AddRelatedObjectToGenericWork.call( subject, generic_file1 )
         Hydra::Works::AddRelatedObjectToGenericWork.call( subject, object1 )
@@ -40,7 +35,7 @@ describe Hydra::Works::AddRelatedObjectToGenericWork do
           subject.save
         end
 
-        it 'should add an object to generic_work with generic_works and generic_files' do
+        it 'should add a related object to generic_work with generic_works and generic_files' do
           Hydra::Works::AddRelatedObjectToGenericWork.call( subject, object2 )
           related_objects = Hydra::Works::GetRelatedObjectsFromGenericWork.call( subject )
           expect( related_objects.include? object1 ).to be true
@@ -61,7 +56,7 @@ describe Hydra::Works::AddRelatedObjectToGenericWork do
       end
     end
 
-    context 'with unacceptable child objects' do
+    context 'with unacceptable child related objects' do
       let(:collection1)      { Hydra::Works::Collection.create }
       let(:pcdm_collection1) { Hydra::PCDM::Collection.create }
       let(:pcdm_file1)       { Hydra::PCDM::File.new }

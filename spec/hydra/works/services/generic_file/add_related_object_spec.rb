@@ -6,7 +6,7 @@ describe Hydra::Works::AddRelatedObjectToGenericFile do
 
   describe '#call' do
 
-    context 'with acceptable generic_files' do
+    context 'with acceptable related objects' do
       let(:object1) { Hydra::PCDM::Object.create }
       let(:object2) { Hydra::PCDM::Object.create }
       let(:generic_work1) { Hydra::Works::GenericWork.create }
@@ -14,12 +14,7 @@ describe Hydra::Works::AddRelatedObjectToGenericFile do
       let(:generic_file1) { Hydra::Works::GenericFile.create }
       let(:generic_file2) { Hydra::Works::GenericFile.create }
 
-      it 'should add a related object to empty generic_file' do
-        Hydra::Works::AddRelatedObjectToGenericFile.call( subject, object1 )
-        expect( Hydra::Works::GetRelatedObjectsFromGenericFile.call( subject ) ).to eq [object1]
-      end
-
-      it 'should add a related object to generic_file with related objects' do
+      it 'should add various types of related objects to generic_file' do
         Hydra::Works::AddRelatedObjectToGenericFile.call( subject, generic_work1 )
         Hydra::Works::AddRelatedObjectToGenericFile.call( subject, generic_file1 )
         Hydra::Works::AddRelatedObjectToGenericFile.call( subject, object1 )
@@ -135,7 +130,7 @@ describe Hydra::Works::AddRelatedObjectToGenericFile do
     end
 
 
-    context 'with invalid bahaviors' do
+    context 'with invalid behaviors' do
       let(:object1) { Hydra::PCDM::Object.create }
       let(:object2) { Hydra::PCDM::Object.create }
 

@@ -9,36 +9,8 @@ describe Hydra::Works::AddCollectionToCollection do
       let(:collection1) { Hydra::Works::Collection.create }
       let(:collection2) { Hydra::Works::Collection.create }
       let(:collection3) { Hydra::Works::Collection.create }
-      let(:collection4) { Hydra::Works::Collection.create }
       let(:generic_work1)  { Hydra::Works::GenericWork.create }
       let(:generic_work2)  { Hydra::Works::GenericWork.create }
-
-      it 'should add a collection to empty collection' do
-        Hydra::Works::AddCollectionToCollection.call( subject, collection1 )
-        expect( Hydra::Works::GetCollectionsFromCollection.call( subject ) ).to eq [collection1]
-      end
-
-      it 'should add a collection to collection with collections' do
-        Hydra::Works::AddCollectionToCollection.call( subject, collection1 )
-        Hydra::Works::AddCollectionToCollection.call( subject, collection2 )
-        expect( Hydra::Works::GetCollectionsFromCollection.call( subject ) ).to eq [collection1,collection2]
-      end
-
-      it 'should aggregate collections in a sub-collection of a collection' do
-        Hydra::Works::AddCollectionToCollection.call( subject, collection1 )
-        Hydra::Works::AddCollectionToCollection.call( collection1, collection2 )
-        expect( Hydra::Works::GetCollectionsFromCollection.call( subject ) ).to eq [collection1]
-        expect( Hydra::Works::GetCollectionsFromCollection.call( collection1 ) ).to eq [collection2]
-      end
-
-      it 'should allow collections to repeat' do
-        skip 'skipping this test because issue pcdm#94 needs to be addressed' do
-        Hydra::Works::AddCollectionToCollection.call( subject, collection1 )
-        Hydra::Works::AddCollectionToCollection.call( subject, collection2 )
-        Hydra::Works::AddCollectionToCollection.call( subject, collection1 )
-        expect( Hydra::Works::GetCollectionsFromCollection.call( subject ) ).to eq [collection1,collection2,collection1]
-      end
-      end
 
       context 'with collections and generic_works' do
         before do
@@ -61,50 +33,6 @@ describe Hydra::Works::AddCollectionToCollection do
           expect(subject.to_solr["collections_ssim"]).to include(collection2.id,collection1.id,collection3.id)
           expect(subject.to_solr["collections_ssim"]).not_to include(generic_work1.id,generic_work2.id)
         end
-        end
-      end
-
-      describe "adding collections that are ancestors" do
-        let(:error_message) { "a collection can't be an ancestor of itself" }
-
-        context "when the source collection is the same" do
-          it "raises an error" do
-
-            expect{ Hydra::Works::AddCollectionToCollection.call( subject, subject ) }.to raise_error(ArgumentError, error_message)
-          end
-        end
-
-        before do
-          Hydra::Works::AddCollectionToCollection.call( subject, collection1 )
-          subject.save
-        end
-
-        it "raises and error" do
-          expect{ Hydra::Works::AddCollectionToCollection.call( collection1, subject ) }.to raise_error(ArgumentError, error_message)
-        end
-
-        context "with more ancestors" do
-          before do
-            Hydra::Works::AddCollectionToCollection.call( collection1, collection2 )
-            collection2.save
-          end
-
-          it "raises an error" do
-            expect{ Hydra::Works::AddCollectionToCollection.call( collection2, subject ) }.to raise_error(ArgumentError, error_message)
-          end
-
-          context "with a more complicated example" do
-            before do
-              Hydra::Works::AddCollectionToCollection.call( collection2, collection3 )
-              Hydra::Works::AddCollectionToCollection.call( collection2, collection4 )
-              collection2.save
-            end
-
-            it "raises errors" do
-              expect{ Hydra::Works::AddCollectionToCollection.call( collection3, subject ) }.to raise_error(ArgumentError, error_message)
-              expect{ Hydra::Works::AddCollectionToCollection.call( collection3, collection1 ) }.to raise_error(ArgumentError, error_message)
-            end
-          end
         end
       end
 
