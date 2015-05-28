@@ -10,9 +10,9 @@ describe Hydra::Works::GetRelatedObjectsFromCollection do
   let(:object1) { Hydra::PCDM::Object.create }
   let(:object2) { Hydra::PCDM::Object.create }
 
-  let(:generic_work1) { Hydra::Works::GenericWork.create }
-  let(:generic_work2) { Hydra::Works::GenericWork.create }
-  let(:generic_file1) { Hydra::Works::GenericFile.create }
+  let(:generic_work1) { Hydra::Works::GenericWork::Base.create }
+  let(:generic_work2) { Hydra::Works::GenericWork::Base.create }
+  let(:generic_file1) { Hydra::Works::GenericFile::Base.create }
 
   describe '#call' do
     context 'with collections and generic works' do

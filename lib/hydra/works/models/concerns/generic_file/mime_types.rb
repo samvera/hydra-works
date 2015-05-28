@@ -1,5 +1,5 @@
 # This was taken directly from Sufia's GenericFile::MimeTypes
-module Hydra::Works
+module Hydra::Works::GenericFile
   module MimeTypes
     extend ActiveSupport::Concern
 

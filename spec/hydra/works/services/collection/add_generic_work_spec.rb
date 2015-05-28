@@ -6,9 +6,9 @@ describe Hydra::Works::AddGenericWorkToCollection do
 
   describe '#call' do
     context 'with acceptable generic_works' do
-      let(:generic_work1) { Hydra::Works::GenericWork.create }
-      let(:generic_work2) { Hydra::Works::GenericWork.create }
-      let(:generic_work3) { Hydra::Works::GenericWork.create }
+      let(:generic_work1) { Hydra::Works::GenericWork::Base.create }
+      let(:generic_work2) { Hydra::Works::GenericWork::Base.create }
+      let(:generic_work3) { Hydra::Works::GenericWork::Base.create }
       let(:collection1)   { Hydra::Works::Collection.create }
       let(:collection2)   { Hydra::Works::Collection.create }
 
@@ -55,7 +55,7 @@ describe Hydra::Works::AddGenericWorkToCollection do
 
       describe 'aggregates generic_works that extend Hydra::Works' do
         before do
-          class DummyExtWork < Hydra::Works::GenericWork
+          class DummyExtWork < Hydra::Works::GenericWork::Base
           end
         end
         after { Object.send(:remove_const, :DummyExtWork) }
@@ -71,7 +71,7 @@ describe Hydra::Works::AddGenericWorkToCollection do
 
     context 'with unacceptable child generic_works' do
       let(:collection1)      { Hydra::Works::Collection.create }
-      let(:generic_file1)    { Hydra::Works::GenericFile.create }
+      let(:generic_file1)    { Hydra::Works::GenericFile::Base.create }
       let(:pcdm_collection1) { Hydra::PCDM::Collection.create }
       let(:pcdm_object1)     { Hydra::PCDM::Object.create }
       let(:pcdm_file1)       { Hydra::PCDM::File.new }
@@ -110,9 +110,9 @@ describe Hydra::Works::AddGenericWorkToCollection do
     end
 
     context 'with unacceptable parent collections' do
-      let(:generic_work1)    { Hydra::Works::GenericWork.create }
-      let(:generic_work2)    { Hydra::Works::GenericWork.create }
-      let(:generic_file1)    { Hydra::Works::GenericFile.create }
+      let(:generic_work1)    { Hydra::Works::GenericWork::Base.create }
+      let(:generic_work2)    { Hydra::Works::GenericWork::Base.create }
+      let(:generic_file1)    { Hydra::Works::GenericFile::Base.create }
       let(:pcdm_collection1) { Hydra::PCDM::Collection.create }
       let(:pcdm_object1)     { Hydra::PCDM::Object.create }
       let(:pcdm_file1)       { Hydra::PCDM::File.new }

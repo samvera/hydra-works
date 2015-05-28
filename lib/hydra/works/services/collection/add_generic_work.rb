@@ -5,7 +5,7 @@ module Hydra::Works
     # Add a generic_work to a collection.
     #
     # @param [Hydra::Works::Collection] :parent_collection to which to add generic_work
-    # @param [Hydra::Works::GenericWork] :child_generic_work being added
+    # @param [Hydra::Works::GenericWork::Base] :child_generic_work being added
     #
     # @return [Hydra::Works::Collection] the updated hydra works collection
 

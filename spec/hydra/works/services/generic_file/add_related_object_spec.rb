@@ -2,17 +2,17 @@ require 'spec_helper'
 
 describe Hydra::Works::AddRelatedObjectToGenericFile do
 
-  let(:subject) { Hydra::Works::GenericFile.create }
+  let(:subject) { Hydra::Works::GenericFile::Base.create }
 
   describe '#call' do
 
     context 'with acceptable related objects' do
       let(:object1) { Hydra::PCDM::Object.create }
       let(:object2) { Hydra::PCDM::Object.create }
-      let(:generic_work1) { Hydra::Works::GenericWork.create }
-      let(:generic_work2) { Hydra::Works::GenericWork.create }
-      let(:generic_file1) { Hydra::Works::GenericFile.create }
-      let(:generic_file2) { Hydra::Works::GenericFile.create }
+      let(:generic_work1) { Hydra::Works::GenericWork::Base.create }
+      let(:generic_work2) { Hydra::Works::GenericWork::Base.create }
+      let(:generic_file1) { Hydra::Works::GenericFile::Base.create }
+      let(:generic_file2) { Hydra::Works::GenericFile::Base.create }
 
       it 'should add various types of related objects to generic_file' do
         Hydra::Works::AddRelatedObjectToGenericFile.call( subject, generic_work1 )
@@ -90,7 +90,7 @@ describe Hydra::Works::AddRelatedObjectToGenericFile do
 
     context 'with unacceptable parent generic work' do
       let(:collection1)      { Hydra::Works::Collection.create }
-      let(:generic_work1)    { Hydra::Works::GenericWork.create }
+      let(:generic_work1)    { Hydra::Works::GenericWork::Base.create }
       let(:pcdm_collection1) { Hydra::PCDM::Collection.create }
       let(:pcdm_object1)     { Hydra::PCDM::Object.create }
       let(:pcdm_object2)     { Hydra::PCDM::Object.create }

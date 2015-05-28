@@ -2,15 +2,15 @@ require 'spec_helper'
 
 describe Hydra::Works::AddGenericFileToGenericWork do
 
-  let(:subject) { Hydra::Works::GenericWork.create }
+  let(:subject) { Hydra::Works::GenericWork::Base.create }
 
   describe '#call' do
     context 'with acceptable generic_works' do
-      let(:generic_work1) { Hydra::Works::GenericWork.create }
-      let(:generic_work2) { Hydra::Works::GenericWork.create }
-      let(:generic_file1)   { Hydra::Works::GenericFile.create }
-      let(:generic_file2)   { Hydra::Works::GenericFile.create }
-      let(:generic_file3)   { Hydra::Works::GenericFile.create }
+      let(:generic_work1) { Hydra::Works::GenericWork::Base.create }
+      let(:generic_work2) { Hydra::Works::GenericWork::Base.create }
+      let(:generic_file1)   { Hydra::Works::GenericFile::Base.create }
+      let(:generic_file2)   { Hydra::Works::GenericFile::Base.create }
+      let(:generic_file3)   { Hydra::Works::GenericFile::Base.create }
 
       context 'with generic_files and generic_works' do
         before do
@@ -36,7 +36,7 @@ describe Hydra::Works::AddGenericFileToGenericWork do
         end
       end
 
-      describe 'aggregates generic_files that implement Hydra::Works' do
+      describe 'aggregates generic_files that implement Hydra::Works::GenericFileBehavior' do
         before do
           class DummyIncFile < ActiveFedora::Base
             include Hydra::Works::GenericFileBehavior
@@ -53,9 +53,9 @@ describe Hydra::Works::AddGenericFileToGenericWork do
 
       end
 
-      describe 'aggregates generic_files that extend Hydra::Works' do
+      describe 'aggregates generic_files that extend Hydra::Works::GenericFile::Base' do
         before do
-          class DummyExtFile < Hydra::Works::GenericFile
+          class DummyExtFile < Hydra::Works::GenericFile::Base
           end
         end
         after { Object.send(:remove_const, :DummyExtFile) }
@@ -71,7 +71,7 @@ describe Hydra::Works::AddGenericFileToGenericWork do
 
     context 'with unacceptable child generic_files' do
       let(:collection1)      { Hydra::Works::Collection.create }
-      let(:generic_work1)    { Hydra::Works::GenericWork.create }
+      let(:generic_work1)    { Hydra::Works::GenericWork::Base.create }
       let(:pcdm_collection1) { Hydra::PCDM::Collection.create }
       let(:pcdm_object1)     { Hydra::PCDM::Object.create }
       let(:pcdm_file1)       { Hydra::PCDM::File.new }
@@ -111,9 +111,9 @@ describe Hydra::Works::AddGenericFileToGenericWork do
 
     context 'with unacceptable parent generic works' do
       let(:collection1)      { Hydra::Works::Collection.create }
-      let(:generic_work1)    { Hydra::Works::GenericWork.create }
-      let(:generic_work2)    { Hydra::Works::GenericWork.create }
-      let(:generic_file1)    { Hydra::Works::GenericFile.create }
+      let(:generic_work1)    { Hydra::Works::GenericWork::Base.create }
+      let(:generic_work2)    { Hydra::Works::GenericWork::Base.create }
+      let(:generic_file1)    { Hydra::Works::GenericFile::Base.create }
       let(:pcdm_collection1) { Hydra::PCDM::Collection.create }
       let(:pcdm_object1)     { Hydra::PCDM::Object.create }
       let(:pcdm_file1)       { Hydra::PCDM::File.new }

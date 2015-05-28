@@ -5,7 +5,7 @@ module Hydra::Works
     # Remove a generic_work from a collection.
     #
     # @param [Hydra::Works::Collection] :parent_collection from which to remove generic_work
-    # @param [Hydra::Works::GenericWork] :child_generic_work being removed
+    # @param [Hydra::Works::GenericWork::Base] :child_generic_work being removed
     # @param [Fixnum] :nth_occurrence remove nth occurrence of this generic_work in the list (default=1)
     #
     # @return [Hydra::Works::Collection] the updated hydra works collection

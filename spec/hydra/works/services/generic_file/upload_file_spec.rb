@@ -2,8 +2,8 @@ require 'spec_helper'
 
 describe Hydra::Works::UploadFileToGenericFile do
 
-  let(:generic_work)        { Hydra::Works::GenericWork.create }
-  let(:generic_file)        { Hydra::Works::GenericFile.create }
+  let(:generic_work)        { Hydra::Works::GenericWork::Base.create }
+  let(:generic_file)        { Hydra::Works::GenericFile::Base.create }
   let(:filename)            { "sample-file.pdf" }
   let(:file)                { File.join(fixture_path, filename) }
   let(:updated_filename)    { "updated-file.txt"}

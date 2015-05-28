@@ -2,10 +2,10 @@ require 'spec_helper'
 
 describe Hydra::Works::GetGenericFilesFromGenericFile do
 
-  subject { Hydra::Works::GenericFile.create }
+  subject { Hydra::Works::GenericFile::Base.create }
 
-  let(:generic_file1) { Hydra::Works::GenericFile.create }
-  let(:generic_file2) { Hydra::Works::GenericFile.create }
+  let(:generic_file1) { Hydra::Works::GenericFile::Base.create }
+  let(:generic_file2) { Hydra::Works::GenericFile::Base.create }
 
   describe '#call' do
     it 'should return generic_files when generic_files are aggregated' do

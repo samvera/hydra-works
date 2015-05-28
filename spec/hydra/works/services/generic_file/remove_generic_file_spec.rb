@@ -2,13 +2,13 @@ require 'spec_helper'
 
 describe Hydra::Works::RemoveGenericFileFromGenericFile do
 
-  subject { Hydra::Works::GenericFile.create }
+  subject { Hydra::Works::GenericFile::Base.create }
 
-  let(:generic_file1) { Hydra::Works::GenericFile.create }
-  let(:generic_file2) { Hydra::Works::GenericFile.create }
-  let(:generic_file3) { Hydra::Works::GenericFile.create }
-  let(:generic_file4) { Hydra::Works::GenericFile.create }
-  let(:generic_file5) { Hydra::Works::GenericFile.create }
+  let(:generic_file1) { Hydra::Works::GenericFile::Base.create }
+  let(:generic_file2) { Hydra::Works::GenericFile::Base.create }
+  let(:generic_file3) { Hydra::Works::GenericFile::Base.create }
+  let(:generic_file4) { Hydra::Works::GenericFile::Base.create }
+  let(:generic_file5) { Hydra::Works::GenericFile::Base.create }
 
   describe '#call' do
     context 'when multiple collections' do
@@ -41,7 +41,7 @@ describe Hydra::Works::RemoveGenericFileFromGenericFile do
 
   context 'with unacceptable generic files' do
     let(:collection1)    { Hydra::Works::Collection.create }
-    let(:generic_work1)    { Hydra::Works::GenericWork.create }
+    let(:generic_work1)    { Hydra::Works::GenericWork::Base.create }
     let(:pcdm_collection1) { Hydra::PCDM::Collection.create }
     let(:pcdm_object1)     { Hydra::PCDM::Object.create }
     let(:pcdm_file1)       { Hydra::PCDM::File.new }
@@ -81,9 +81,9 @@ describe Hydra::Works::RemoveGenericFileFromGenericFile do
   end
 
   context 'with unacceptable parent generic file' do
-    let(:generic_file2)    { Hydra::Works::GenericFile.create }
+    let(:generic_file2)    { Hydra::Works::GenericFile::Base.create }
     let(:collection1)      { Hydra::Works::Collection.create }
-    let(:generic_work1)    { Hydra::Works::GenericWork.create }
+    let(:generic_work1)    { Hydra::Works::GenericWork::Base.create }
     let(:pcdm_collection1) { Hydra::PCDM::Collection.create }
     let(:pcdm_object1)     { Hydra::PCDM::Object.create }
     let(:pcdm_file1)       { Hydra::PCDM::File.new }

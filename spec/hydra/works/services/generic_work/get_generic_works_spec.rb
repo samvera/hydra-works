@@ -2,13 +2,13 @@ require 'spec_helper'
 
 describe Hydra::Works::GetGenericWorksFromGenericWork do
 
-  subject { Hydra::Works::GenericWork.create }
+  subject { Hydra::Works::GenericWork::Base.create }
 
-  let(:generic_file1) { Hydra::Works::GenericFile.create }
-  let(:generic_file2) { Hydra::Works::GenericFile.create }
+  let(:generic_file1) { Hydra::Works::GenericFile::Base.create }
+  let(:generic_file2) { Hydra::Works::GenericFile::Base.create }
 
-  let(:generic_work1) { Hydra::Works::GenericWork.create }
-  let(:generic_work2) { Hydra::Works::GenericWork.create }
+  let(:generic_work1) { Hydra::Works::GenericWork::Base.create }
+  let(:generic_work2) { Hydra::Works::GenericWork::Base.create }
 
   describe '#call' do
     it 'should return empty array when only generic_files are aggregated' do

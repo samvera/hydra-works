@@ -4,10 +4,10 @@ module Hydra::Works
     ##
     # Remove an object from a generic file.
     #
-    # @param [Hydra::Works::GenericFile] :parent_generic_file from which to remove the related object
+    # @param [Hydra::Works::GenericFile::Base] :parent_generic_file from which to remove the related object
     # @param [Hydra::PCDM::Object] :child_related_object being removed
     #
-    # @return [Hydra::Works::GenericFile] the updated hydra works generic file
+    # @return [Hydra::Works::GenericFile::Base] the updated hydra works generic file
 
     def self.call( parent_generic_file, child_related_object )
       raise ArgumentError, 'parent_generic_file must be a hydra-works generic file' unless Hydra::Works.generic_file? parent_generic_file

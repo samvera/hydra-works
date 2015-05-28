@@ -11,9 +11,9 @@ describe Hydra::Works::AddRelatedObjectToCollection do
       let(:object2) { Hydra::PCDM::Object.create }
       let(:collection1) { Hydra::Works::Collection.create }
       let(:collection2) { Hydra::Works::Collection.create }
-      let(:generic_work1) { Hydra::Works::GenericWork.create }
-      let(:generic_work2) { Hydra::Works::GenericWork.create }
-      let(:generic_file1) { Hydra::Works::GenericFile.create }
+      let(:generic_work1) { Hydra::Works::GenericWork::Base.create }
+      let(:generic_work2) { Hydra::Works::GenericWork::Base.create }
+      let(:generic_file1) { Hydra::Works::GenericFile::Base.create }
 
       it 'should add various types of related objects to collection' do
         Hydra::Works::AddRelatedObjectToCollection.call( subject, generic_work1 )
@@ -89,8 +89,8 @@ describe Hydra::Works::AddRelatedObjectToCollection do
 
     context 'with unacceptable parent collections' do
       let(:pcdm_object2)     { Hydra::PCDM::Object.create }
-      let(:generic_work1)    { Hydra::Works::GenericWork.create }
-      let(:generic_file1)    { Hydra::Works::GenericFile.create }
+      let(:generic_work1)    { Hydra::Works::GenericWork::Base.create }
+      let(:generic_file1)    { Hydra::Works::GenericFile::Base.create }
       let(:pcdm_collection1) { Hydra::PCDM::Collection.create }
       let(:pcdm_object1)     { Hydra::PCDM::Object.create }
       let(:pcdm_file1)       { Hydra::PCDM::File.new }

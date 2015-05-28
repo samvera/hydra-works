@@ -6,7 +6,7 @@ module Hydra::Works
     #
     # @param [Hydra::Works::Collection] :parent_collection in which the child generic works are members
     #
-    # @return [Array<Hydra::Works::GenericWork>] all member generic works
+    # @return [Array<Hydra::Works::GenericWork::Base>] all member generic works
 
     def self.call( parent_collection )
       raise ArgumentError, 'parent_collection must be a hydra-works collection' unless Hydra::Works.collection? parent_collection
