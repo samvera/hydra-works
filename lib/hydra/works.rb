@@ -41,6 +41,7 @@ module Hydra
     autoload :GetGenericWorksFromGenericWork,      'hydra/works/services/generic_work/get_generic_works'
     autoload :GetGenericFilesFromGenericWork,      'hydra/works/services/generic_work/get_generic_files'
     autoload :GetRelatedObjectsFromGenericWork,    'hydra/works/services/generic_work/get_related_objects'
+    autoload :MoveGenericFileToGenericWork,        'hydra/works/services/generic_work/move_generic_file'
     autoload :RemoveGenericWorkFromGenericWork,    'hydra/works/services/generic_work/remove_generic_work'
     autoload :RemoveGenericFileFromGenericWork,    'hydra/works/services/generic_work/remove_generic_file'
     autoload :RemoveRelatedObjectFromGenericWork,  'hydra/works/services/generic_work/remove_related_object'
@@ -63,7 +64,6 @@ module Hydra
     # file services
     autoload :AddTypeToFile,                       'hydra/works/services/file/add_type'
     autoload :GetMimeTypeForFile,                  'hydra/works/services/file/get_mime_type'
-
 
     # model validations
     def self.collection? collection
