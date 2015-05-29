@@ -9,8 +9,8 @@ describe Hydra::Works::AddCollectionToCollection do
       let(:collection1) { Hydra::Works::Collection.create }
       let(:collection2) { Hydra::Works::Collection.create }
       let(:collection3) { Hydra::Works::Collection.create }
-      let(:generic_work1)  { Hydra::Works::GenericWork.create }
-      let(:generic_work2)  { Hydra::Works::GenericWork.create }
+      let(:generic_work1)  { Hydra::Works::GenericWork::Base.create }
+      let(:generic_work2)  { Hydra::Works::GenericWork::Base.create }
 
       context 'with collections and generic_works' do
         before do
@@ -81,8 +81,8 @@ describe Hydra::Works::AddCollectionToCollection do
     end
 
     context 'with unacceptable child collections' do
-      let(:generic_work1)    { Hydra::Works::GenericWork.create }
-      let(:generic_file1)    { Hydra::Works::GenericFile.create }
+      let(:generic_work1)    { Hydra::Works::GenericWork::Base.create }
+      let(:generic_file1)    { Hydra::Works::GenericFile::Base.create }
       let(:pcdm_collection1) { Hydra::PCDM::Collection.create }
       let(:pcdm_object1)     { Hydra::PCDM::Object.create }
       let(:pcdm_file1)       { Hydra::PCDM::File.new }
@@ -122,8 +122,8 @@ describe Hydra::Works::AddCollectionToCollection do
 
     context 'with unacceptable parent collections' do
       let(:collection1)      { Hydra::Works::Collection.create }
-      let(:generic_work1)    { Hydra::Works::GenericWork.create }
-      let(:generic_file1)    { Hydra::Works::GenericFile.create }
+      let(:generic_work1)    { Hydra::Works::GenericWork::Base.create }
+      let(:generic_file1)    { Hydra::Works::GenericFile::Base.create }
       let(:pcdm_collection1) { Hydra::PCDM::Collection.create }
       let(:pcdm_object1)     { Hydra::PCDM::Object.create }
       let(:pcdm_file1)       { Hydra::PCDM::File.new }

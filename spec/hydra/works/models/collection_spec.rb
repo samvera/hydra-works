@@ -6,8 +6,8 @@ describe Hydra::Works::Collection do
   let(:collection2) { Hydra::Works::Collection.create }
   let(:collection3) { Hydra::Works::Collection.create }
 
-  let(:generic_work1) { Hydra::Works::GenericWork.create }
-  let(:generic_work2) { Hydra::Works::GenericWork.create }
+  let(:generic_work1) { Hydra::Works::GenericWork::Base.create }
+  let(:generic_work2) { Hydra::Works::GenericWork::Base.create }
 
   describe '#collections=' do
     it 'should aggregate collections' do

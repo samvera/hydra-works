@@ -1,10 +1,10 @@
 require 'spec_helper'
 
-describe Hydra::Works::GenericFile do
+describe Hydra::Works::GenericFile::Base do
 
-  let(:generic_file1) { Hydra::Works::GenericFile.create }
-  let(:generic_file2) { Hydra::Works::GenericFile.create }
-  let(:generic_file3) { Hydra::Works::GenericFile.create }
+  let(:generic_file1) { Hydra::Works::GenericFile::Base.create }
+  let(:generic_file2) { Hydra::Works::GenericFile::Base.create }
+  let(:generic_file3) { Hydra::Works::GenericFile::Base.create }
 
   describe '#generic_files=' do
     it 'should aggregate generic_files' do

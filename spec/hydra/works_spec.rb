@@ -3,8 +3,8 @@ require 'spec_helper'
 describe Hydra::Works do
 
   let(:works_coll)   { Hydra::Works::Collection.create }
-  let(:works_gwork)  { Hydra::Works::GenericWork.create }
-  let(:works_gfile)  { Hydra::Works::GenericFile.create }
+  let(:works_gwork)  { Hydra::Works::GenericWork::Base.create }
+  let(:works_gfile)  { Hydra::Works::GenericFile::Base.create }
 
   let(:pcdm_coll)  { Hydra::PCDM::Collection.create }
   let(:pcdm_obj)   { Hydra::PCDM::Object.create }

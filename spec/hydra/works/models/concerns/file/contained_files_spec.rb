@@ -1,9 +1,9 @@
 require 'spec_helper'
 
-describe Hydra::Works::ContainedFiles do
+describe Hydra::Works::GenericFile::ContainedFiles do
 
   let(:generic_file) do
-    Hydra::Works::GenericFile.create
+    Hydra::Works::GenericFile::Base.create
   end
 
   let(:file) { generic_file.files.build }

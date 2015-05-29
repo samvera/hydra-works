@@ -19,9 +19,10 @@ module Hydra
     autoload :CollectionBehavior,     'hydra/works/models/concerns/collection_behavior'
     autoload :GenericWorkBehavior,    'hydra/works/models/concerns/generic_work_behavior'
     autoload :GenericFileBehavior,    'hydra/works/models/concerns/generic_file_behavior'
-    autoload :ContainedFiles,         'hydra/works/models/concerns/contained_files'
-    autoload :Derivatives,            'hydra/works/models/concerns/derivatives'
-    autoload :MimeTypes,              'hydra/works/models/concerns/mime_types'
+    autoload :AggregatesGenericFiles, 'hydra/works/models/concerns/aggregates_generic_files'
+    autoload :AggregatesGenericWorks, 'hydra/works/models/concerns/aggregates_generic_works'
+    autoload :AggregatesCollections,  'hydra/works/models/concerns/aggregates_collections'
+    autoload :GenericFile,            'hydra/works/models/generic_file'
 
     # collection services
     autoload :AddCollectionToCollection,           'hydra/works/services/collection/add_collection'

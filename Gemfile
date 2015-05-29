@@ -5,7 +5,7 @@ gemspec
 
 gem 'activefedora-aggregation', github: 'projecthydra-labs/activefedora-aggregation'
 gem 'active-fedora', github: 'projecthydra/active_fedora', branch: 'master'
-gem 'hydra-pcdm', github: 'projecthydra-labs/hydra-pcdm'
+gem 'hydra-pcdm', github: 'projecthydra-labs/hydra-pcdm', ref:'c8a4654'
 gem 'slop', '~> 3.6' # For byebug
 
 unless ENV['CI']

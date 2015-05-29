@@ -2,12 +2,12 @@ require 'spec_helper'
 
 describe Hydra::Works::GenericWork do
 
-  let(:generic_work1) { Hydra::Works::GenericWork.create }
-  let(:generic_work2) { Hydra::Works::GenericWork.create }
-  let(:generic_work3) { Hydra::Works::GenericWork.create }
+  let(:generic_work1) { Hydra::Works::GenericWork::Base.create }
+  let(:generic_work2) { Hydra::Works::GenericWork::Base.create }
+  let(:generic_work3) { Hydra::Works::GenericWork::Base.create }
 
-  let(:generic_file1) { Hydra::Works::GenericFile.create }
-  let(:generic_file2) { Hydra::Works::GenericFile.create }
+  let(:generic_file1) { Hydra::Works::GenericFile::Base.create }
+  let(:generic_file2) { Hydra::Works::GenericFile::Base.create }
 
   let(:pcdm_file1)       { Hydra::PCDM::File.new }
 
@@ -29,12 +29,12 @@ describe Hydra::Works::GenericWork do
 
   describe '#contains' do
     it 'should present as a missing method' do
-      expect{ generic_work1.contains = [pcdm_file1] }.to raise_error(NoMethodError,"works can not contain files")
+      expect{ generic_work1.contains = [pcdm_file1] }.to raise_error(NoMethodError,"works can not directly contain files.  You must add a GenericFile to the work's members and add files to that GenericFile.")
     end
   end
 
   describe 'Related objects' do
-    let(:generic_work1) { Hydra::Works::GenericWork.create }
+    let(:generic_work1) { Hydra::Works::GenericWork::Base.create }
     let(:object1) { Hydra::PCDM::Object.create }
 
     before do

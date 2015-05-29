@@ -7,8 +7,8 @@ describe Hydra::Works::GetGenericWorksFromCollection do
   let(:collection1) { Hydra::Works::Collection.create }
   let(:collection2) { Hydra::Works::Collection.create }
 
-  let(:generic_work1) { Hydra::Works::GenericWork.create }
-  let(:generic_work2) { Hydra::Works::GenericWork.create }
+  let(:generic_work1) { Hydra::Works::GenericWork::Base.create }
+  let(:generic_work2) { Hydra::Works::GenericWork::Base.create }
 
   describe '#call' do
     it 'should return empty array when only collections are aggregated' do
