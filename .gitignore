@@ -14,3 +14,4 @@ spec/internal
 *.a
 mkmf.log
 jetty
+.DS_Store
