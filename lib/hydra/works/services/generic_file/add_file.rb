@@ -1,25 +1,36 @@
 module Hydra::Works
   class AddFileToGenericFile
 
-    # Adds the original file to the work
-
-    def self.call(object, path, type, replace=false)
+    # Adds the file to the object.  The file will be added as a PCDM::File to the GenericFile object.
+    # @param object [GenericFile] object to which original file is being attached.
+    # @param file [#read] The contents of the original file. An object which responds to read.
+    # @param options [Hash] 
+    # @option options [String] :original_name Name of file.
+    # @option options [String] :mime_type Default will be text/plain if not given.
+    # @option options [Boolean] :replace Replace first file of same type attached to the object.
+    # @option options [::RDF::URI, Symbol, String] :type Type of file, e.g. :original_file, :extracted_text, or :thumbnail
+    #   :type defaults to ::RDF::URI("http://pcdm.org/OriginalFile")
+    def self.call(object, file, options={})
+    # def self.call(object, path, type, replace=false)
       raise ArgumentError, "supplied object must be a generic file" unless Hydra::Works.generic_file?(object)
-      raise ArgumentError, "supplied path must be a string" unless path.is_a?(String)
-      raise ArgumentError, "supplied path to file does not exist" unless ::File.exists?(path)
+      raise ArgumentError, "supplied file must respond to read" unless file.respond_to? :read
 
-      if replace
-        current_file = object.filter_files_by_type(self.type_to_uri(type)).first
+      # get type from options or default to original file
+      type = options[:type] ? self.type_to_uri(options[:type]) : ::RDF::URI("http://pcdm.org/OriginalFile")
+
+      if options[:replace]
+        current_file = object.filter_files_by_type(type).first
       else
         object.files.build
         current_file = object.files.last
       end
 
-      current_file.content = ::File.open(path)
-      current_file.original_name = ::File.basename(path)
-      current_file.mime_type = Hydra::PCDM::GetMimeTypeForFile.call(path)
+      current_file.content = file
+      current_file.original_name = options[:original_name]  
+      current_file.mime_type = options[:mime_type]
+
       Hydra::PCDM::AddTypeToFile.call(current_file, self.type_to_uri(type))
-      current_file.save if replace
+      current_file.save if options[:replace]
       object.save
       object
     end

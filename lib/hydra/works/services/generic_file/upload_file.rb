@@ -6,11 +6,17 @@ module Hydra::Works
       raise ArgumentError, "supplied path must be a string" unless path.is_a?(String)
       raise ArgumentError, "supplied path to file does not exist" unless ::File.exists?(path)
     
+      opts = { 
+        original_name: ::File.basename(path), 
+        mime_type: Hydra::PCDM::GetMimeTypeForFile.call(path),
+        replace: replace
+      }
+
       if object.original_file.nil? || object.original_file.new_record?
-        Hydra::Works::AddOriginalFile.call(object, path)
+        Hydra::Works::AddOriginalFile.call(object, File.open(path), opts)
       else
         if replace
-          Hydra::Works::AddOriginalFile.call(object, path, replace)
+          Hydra::Works::AddOriginalFile.call(object, File.open(path), opts)
         else
           Hydra::Works::AddVersionedOriginalFile.call(object, path)
         end
