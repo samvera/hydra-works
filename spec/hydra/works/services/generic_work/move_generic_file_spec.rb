@@ -1,10 +1,10 @@
 require 'spec_helper'
 
 describe Hydra::Works::MoveGenericFileToGenericWork do
-  let(:source_work) { Hydra::Works::GenericWork.create }
-  let(:target_work) { Hydra::Works::GenericWork.create }
-  let(:file1) { Hydra::Works::GenericFile.create }
-  let(:file2) { Hydra::Works::GenericFile.create }
+  let(:source_work) { Hydra::Works::GenericWork::Base.create }
+  let(:target_work) { Hydra::Works::GenericWork::Base.create }
+  let(:file1) { Hydra::Works::GenericFile::Base.create }
+  let(:file2) { Hydra::Works::GenericFile::Base.create }
   context "move generic file" do 
     before do 
       Hydra::Works::AddGenericFileToGenericWork.call(source_work, file1)
