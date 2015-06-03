@@ -10,7 +10,7 @@ describe Hydra::Works::GenerateThumbnail do
     end
   end
 
-  context "when the object has no content at secified location" do
+  context "when the object has no content at specified location" do
     let(:error_message) { "object has no content at my_location from which to generate a thumbnail" }
     let(:object) { double("object", my_location: nil ) }
     it "raises an error" do
