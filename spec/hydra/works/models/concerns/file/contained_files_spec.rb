@@ -8,7 +8,7 @@ describe Hydra::Works::GenericFile::ContainedFiles do
 
   let(:thumbnail)   do
     file = generic_file.files.build
-    Hydra::Works::AddTypeToFile.call(file, pcdm_thumbnail_uri)
+    Hydra::PCDM::AddTypeToFile.call(file, pcdm_thumbnail_uri)
   end
 
   let(:file)                { generic_file.files.build }
@@ -18,44 +18,6 @@ describe Hydra::Works::GenericFile::ContainedFiles do
     generic_file.files = [file]
     generic_file.save
   end
-
-  describe "filtering files by type" do
-    context "when the generic_file has files with that type" do
-      before do
-        thumbnail
-      end
-      it "allows you to filter the contained files by type URI" do
-        expect( generic_file.files(type: pcdm_thumbnail_uri) ).to eq [thumbnail]
-      end
-      it "only overrides the #files method when you specify :type" do
-        expect( generic_file.files ).to eq [file, thumbnail]
-      end
-    end
-    context "when the generic_file does NOT have any files with that type" do
-      it "returns an empty array" do
-        expect( generic_file.files(type: pcdm_thumbnail_uri) ).to eq []
-      end
-    end
-  end
-  describe "attached_file_of_type" do
-    context "when the generic_file has files with that type" do
-      before do
-        thumbnail
-      end
-      it "returns the first file with the requested type" do
-        expect( generic_file.file_of_type(pcdm_thumbnail_uri) ).to eq thumbnail
-      end
-    end
-    context "when the generic_file does NOT have any files with that type" do
-      it "initializes a contained file with the requested type" do
-        returned_file =  generic_file.file_of_type(pcdm_thumbnail_uri)
-        expect(returned_file).to be_new_record
-        expect(returned_file.metadata_node.get_values(:type)).to include(pcdm_thumbnail_uri)
-        expect(generic_file.files).to include(returned_file)
-      end
-    end
-  end
-
 
   describe "#thumbnail" do
 

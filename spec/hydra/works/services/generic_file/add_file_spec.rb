@@ -10,7 +10,7 @@ describe Hydra::Works::AddFileToGenericFile do
 
   it "adds the given file and applies the specified type to it" do
     Hydra::Works::AddFileToGenericFile.call(generic_file, path, type, replace)
-    expect(generic_file.attached_files_of_type(type).first.content).to start_with("%PDF-1.3")
+    expect(generic_file.filter_files_by_type(type).first.content).to start_with("%PDF-1.3")
   end
 
   context "type_to_uri" do
