@@ -6,90 +6,144 @@ describe Hydra::Works::GenericFile::ContainedFiles do
     Hydra::Works::GenericFile::Base.create
   end
 
-  let(:file) { generic_file.files.build }
+  let(:thumbnail)   do
+    file = generic_file.files.build
+    Hydra::Works::AddTypeToFile.call(file, pcdm_thumbnail_uri)
+  end
+
+  let(:file)                { generic_file.files.build }
+  let(:pcdm_thumbnail_uri)  { ::RDF::URI("http://pcdm.org/ThumbnailImage") }
 
   before do
     generic_file.files = [file]
     generic_file.save
   end
 
+  describe "filtering files by type" do
+    context "when the generic_file has files with that type" do
+      before do
+        thumbnail
+      end
+      it "allows you to filter the contained files by type URI" do
+        expect( generic_file.files(type: pcdm_thumbnail_uri) ).to eq [thumbnail]
+      end
+      it "only overrides the #files method when you specify :type" do
+        expect( generic_file.files ).to eq [file, thumbnail]
+      end
+    end
+    context "when the generic_file does NOT have any files with that type" do
+      it "returns an empty array" do
+        expect( generic_file.files(type: pcdm_thumbnail_uri) ).to eq []
+      end
+    end
+  end
+  describe "attached_file_of_type" do
+    context "when the generic_file has files with that type" do
+      before do
+        thumbnail
+      end
+      it "returns the first file with the requested type" do
+        expect( generic_file.file_of_type(pcdm_thumbnail_uri) ).to eq thumbnail
+      end
+    end
+    context "when the generic_file does NOT have any files with that type" do
+      it "initializes a contained file with the requested type" do
+        returned_file =  generic_file.file_of_type(pcdm_thumbnail_uri)
+        expect(returned_file).to be_new_record
+        expect(returned_file.metadata_node.get_values(:type)).to include(pcdm_thumbnail_uri)
+        expect(generic_file.files).to include(returned_file)
+      end
+    end
+  end
+
+
   describe "#thumbnail" do
 
-    describe "retrieves content of the thumbnail" do
+    context "when a thumbnail is present" do
       before do
-        generic_file.files.last.content = "thumbnail"
-
-        # Workaround for adding multiple RDF types to a file
-        t = generic_file.files.last.metadata_node.get_values(:type)
-        t << ::RDF::URI("http://pcdm.org/ThumbnailImage")
-        generic_file.files.last.metadata_node.set_value(:type,t)
-
-        generic_file.save
+        generic_file.thumbnail.content = "thumbnail"
       end
-      subject { generic_file.thumbnail.content }
-      it { is_expected.to eql "thumbnail" }
+      subject { generic_file.thumbnail }
+      it "can be saved without errors" do
+        expect(subject.save).to be_truthy
+      end
+      it "retrieves content of the thumbnail" do
+        expect(subject.content).to eql "thumbnail"
+      end
       it "retains origin pcdm.File RDF type" do
-        expect(generic_file.thumbnail.metadata_node.type).to include(RDFVocabularies::PCDMTerms.File)
+        expect(subject.metadata_node.type).to include( ::RDF::URI("http://pcdm.org/ThumbnailImage") )
+        expect(subject.metadata_node.type).to include(RDFVocabularies::PCDMTerms.File)
       end
     end
 
     context "when no thumbnail is present" do
       subject { generic_file.thumbnail }
-      it { is_expected.to be_nil }
+      it "initializes an unsaved File object with Thumbnail type" do
+        expect(subject).to be_new_record
+        expect(subject.metadata_node.type).to include(pcdm_thumbnail_uri)
+        expect(subject.metadata_node.type).to include(RDFVocabularies::PCDMTerms.File)
+      end
     end
 
   end
 
   describe "#original_file" do
 
-    describe "retrieves content of the original_file" do
+    context "when an original file is present" do
       before do
-        generic_file.files.last.content = "original_file"
-
-        # Workaround for adding multiple RDF types to a file
-        t = generic_file.files.last.metadata_node.get_values(:type)
-        t << ::RDF::URI("http://pcdm.org/OriginalFile")
-        generic_file.files.last.metadata_node.set_value(:type,t)
-
-        generic_file.save
+        generic_file.original_file.content = "original_file"
       end
-      subject { generic_file.original_file.content }
-      it { is_expected.to eql "original_file" }
+      subject { generic_file.original_file }
+
+      it "can be saved without errors" do
+        expect(subject.save).to be_truthy
+      end
+      it "retrieves content of the original_file" do
+        expect(subject.content).to eql "original_file"
+      end
       it "retains origin pcdm.File RDF type" do
+        expect(subject.metadata_node.type).to include(::RDF::URI("http://pcdm.org/OriginalFile") )
         expect(generic_file.original_file.metadata_node.type).to include(RDFVocabularies::PCDMTerms.File)
       end
     end
 
     context "when no original file is present" do
       subject { generic_file.original_file }
-      it { is_expected.to be_nil }
+      it "initializes an unsaved File object with OrignalFile type" do
+        expect(subject).to be_new_record
+        expect(subject.metadata_node.type).to include(::RDF::URI("http://pcdm.org/OriginalFile") )
+        expect(subject.metadata_node.type).to include(RDFVocabularies::PCDMTerms.File)
+      end
     end
 
   end
 
   describe "#extracted_text" do
 
-    describe "retrieves content of the extracted_text" do
+    context "when extracted text is present" do
       before do
-        generic_file.files.last.content = "extracted_text"
-
-        # Workaround for adding multiple RDF types to a file
-        t = generic_file.files.last.metadata_node.get_values(:type)
-        t << ::RDF::URI("http://pcdm.org/ExtractedText")
-        generic_file.files.last.metadata_node.set_value(:type,t)
-
-        generic_file.save
+        generic_file.extracted_text.content = "extracted_text"
       end
-      subject { generic_file.extracted_text.content }
-      it { is_expected.to eql "extracted_text" }
+      subject { generic_file.extracted_text }
+      it "can be saved without errors" do
+        expect(subject.save).to be_truthy
+      end
+      it "retrieves content of the extracted_text" do
+        expect(subject.content).to eql "extracted_text"
+      end
       it "retains origin pcdm.File RDF type" do
-        expect(generic_file.extracted_text.metadata_node.type).to include(RDFVocabularies::PCDMTerms.File)
+        expect(subject.metadata_node.type).to include(::RDF::URI("http://pcdm.org/ExtractedText") )
+        expect(subject.metadata_node.type).to include(RDFVocabularies::PCDMTerms.File)
       end
     end
 
     context "when no extracted text is present" do
       subject { generic_file.extracted_text }
-      it { is_expected.to be_nil }
+      it "initializes an unsaved File object with ExtractedText type" do
+        expect(subject).to be_new_record
+        expect(subject.metadata_node.type).to include(::RDF::URI("http://pcdm.org/ExtractedText") )
+        expect(subject.metadata_node.type).to include(RDFVocabularies::PCDMTerms.File)
+      end
     end
 
   end

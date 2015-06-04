@@ -8,20 +8,48 @@ module Hydra::Works::GenericFile::ContainedFiles
   # TODO: se PCDM vocab class when projecthydra-labs/hydra-pcdm#80 is merged
   
   def original_file
-    attached_files_of_type(::RDF::URI("http://pcdm.org/OriginalFile")).first
+    file_of_type(::RDF::URI("http://pcdm.org/OriginalFile"))
   end
 
   def thumbnail
-    attached_files_of_type(::RDF::URI("http://pcdm.org/ThumbnailImage")).first
+    file_of_type(::RDF::URI("http://pcdm.org/ThumbnailImage"))
   end
 
   def extracted_text
-    attached_files_of_type(::RDF::URI("http://pcdm.org/ExtractedText")).first
+    file_of_type(::RDF::URI("http://pcdm.org/ExtractedText"))
   end
 
-  def attached_files_of_type uri
+  # Wraps the #files method provided by PCDM::ObjectBehavior to accept a :type argument
+  # If you provide a :type agrument, filters contained files, returning only files that match the requested type.  See #filter_files_by_type
+  def files(args={})
+    if args[:type]
+      filter_files_by_type(args[:type])
+    else
+      super()
+    end
+  end
+
+  # Returns directly contained files that have the requested RDF Type
+  # @param [RDF::URI] uri for the desired Type
+  # @example
+  #   filter_files_by_type(::RDF::URI("http://pcdm.org/ExtractedText"))
+  def filter_files_by_type uri
     self.files.reject do |file|
       file.metadata_node.query(predicate: RDF.type, object: uri).map(&:object).empty?
+    end
+  end
+
+  # Finds or Initializes directly contained file with the requested RDF Type
+  # @param [RDF::URI] uri for the desired Type
+  # @example
+  #   file_of_type(::RDF::URI("http://pcdm.org/ExtractedText"))
+  def file_of_type uri
+    matching_files =  files(type: uri)
+    if  matching_files.empty?
+      file = self.files.build
+      Hydra::Works::AddTypeToFile.call(file, uri)
+    else
+      return matching_files.first
     end
   end
 
