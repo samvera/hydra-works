@@ -8,21 +8,15 @@ module Hydra::Works::GenericFile::ContainedFiles
   # TODO: se PCDM vocab class when projecthydra-labs/hydra-pcdm#80 is merged
   
   def original_file
-    attached_files_of_type(::RDF::URI("http://pcdm.org/OriginalFile")).first
+    file_of_type(::RDF::URI("http://pcdm.org/OriginalFile"))
   end
 
   def thumbnail
-    attached_files_of_type(::RDF::URI("http://pcdm.org/ThumbnailImage")).first
+    file_of_type(::RDF::URI("http://pcdm.org/ThumbnailImage"))
   end
 
   def extracted_text
-    attached_files_of_type(::RDF::URI("http://pcdm.org/ExtractedText")).first
-  end
-
-  def attached_files_of_type uri
-    self.files.reject do |file|
-      file.metadata_node.query(predicate: RDF.type, object: uri).map(&:object).empty?
-    end
+    file_of_type(::RDF::URI("http://pcdm.org/ExtractedText"))
   end
 
 end

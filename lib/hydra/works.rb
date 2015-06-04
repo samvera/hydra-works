@@ -59,12 +59,7 @@ module Hydra
     autoload :UploadFileToGenericFile,             'hydra/works/services/generic_file/upload_file'
     autoload :AddOriginalFile,                     'hydra/works/services/generic_file/add_original_file'
     autoload :AddVersionedOriginalFile,            'hydra/works/services/generic_file/add_versioned_original_file'
-
     autoload :GenerateThumbnail,                   'hydra/works/services/generic_file/generate/thumbnail'
-
-    # file services
-    autoload :AddTypeToFile,                       'hydra/works/services/file/add_type'
-    autoload :GetMimeTypeForFile,                  'hydra/works/services/file/get_mime_type'
 
     # model validations
     def self.collection? collection

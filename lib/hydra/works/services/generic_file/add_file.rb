@@ -9,7 +9,7 @@ module Hydra::Works
       raise ArgumentError, "supplied path to file does not exist" unless ::File.exists?(path)
 
       if replace
-        current_file = object.attached_files_of_type(self.type_to_uri(type)).first
+        current_file = object.filter_files_by_type(self.type_to_uri(type)).first
       else
         object.files.build
         current_file = object.files.last
@@ -17,8 +17,8 @@ module Hydra::Works
 
       current_file.content = ::File.open(path)
       current_file.original_name = ::File.basename(path)
-      current_file.mime_type = Hydra::Works::GetMimeTypeForFile.call(path)
-      Hydra::Works::AddTypeToFile.call(current_file, self.type_to_uri(type))
+      current_file.mime_type = Hydra::PCDM::GetMimeTypeForFile.call(path)
+      Hydra::PCDM::AddTypeToFile.call(current_file, self.type_to_uri(type))
       current_file.save if replace
       object.save
       object

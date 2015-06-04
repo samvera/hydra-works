@@ -6,7 +6,7 @@ module Hydra::Works
       raise ArgumentError, "supplied path must be a string" unless path.is_a?(String)
       raise ArgumentError, "supplied path to file does not exist" unless ::File.exists?(path)
     
-      if object.original_file.nil?
+      if object.original_file.nil? || object.original_file.new_record?
         Hydra::Works::AddOriginalFile.call(object, path)
       else
         if replace
