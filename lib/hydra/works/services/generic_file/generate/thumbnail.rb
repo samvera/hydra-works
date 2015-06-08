@@ -1,7 +1,7 @@
 module Hydra::Works
   class GenerateThumbnail
 
-    def self.call(object, content: :original_file)
+    def self.call(object, {content: :original_file})
       raise ArgumentError, "object has no content at #{content} from which to generate a thumbnail" if object.send(content).nil?
       source = object.send(content)
 
