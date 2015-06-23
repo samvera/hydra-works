@@ -57,10 +57,12 @@ describe Hydra::Works::UploadFileToGenericFile do
     end
   end
 
-  context "when replacing an existing file" do
+  context "when updating an existing file" do
+    let(:additional_services) { [] }
+
     before do
       described_class.call(generic_file, file, additional_services)
-      described_class.call(generic_file, updated_file, additional_services, replace: true)
+      described_class.call(generic_file, updated_file, additional_services, update_existing: true)
       generic_file.reload
     end
 
@@ -74,7 +76,10 @@ describe Hydra::Works::UploadFileToGenericFile do
       end
       it "has a updated mime type" do
         expect(subject.mime_type).to eql updated_mime_type
-      end 
+      end
+      it "has 2 versions in its history" do
+        expect(subject.versions.all.count).to eql 2
+      end
     end
   end
 

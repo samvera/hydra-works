@@ -7,8 +7,7 @@ module Hydra::Works
 
       # Always replace the thumbnail with whatever is from the original file
       if object.thumbnail.nil?
-        object.files.build
-        AddTypeToFile.call(object.files.last, ::RDF::URI("http://pcdm.org/ThumbnailImage"))
+        object.build_thumbnail
       end
       
       object.create_derivatives

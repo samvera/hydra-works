@@ -19,6 +19,7 @@ module Hydra::Works
       include Hydra::Works::GenericFile::ContainedFiles
       include Hydra::Works::GenericFile::Derivatives
       include Hydra::Works::GenericFile::MimeTypes
+      include Hydra::Works::GenericFile::VersionedContent
     end
 
   end
