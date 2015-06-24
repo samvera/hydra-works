@@ -6,17 +6,10 @@ module Hydra::Works::GenericFile::ContainedFiles
   # of images, different derivatives, etc, and use any established vocabulary you choose.
 
   # TODO: se PCDM vocab class when projecthydra-labs/hydra-pcdm#80 is merged
-  
-  def original_file
-    file_of_type(::RDF::URI("http://pcdm.org/OriginalFile"))
-  end
-
-  def thumbnail
-    file_of_type(::RDF::URI("http://pcdm.org/ThumbnailImage"))
-  end
-
-  def extracted_text
-    file_of_type(::RDF::URI("http://pcdm.org/ExtractedText"))
+  included do
+    directly_contains_one :original_file, through: :files, type: ::RDF::URI("http://pcdm.org/use#OriginalFile"), class_name: "Hydra::PCDM::VersionedFile"
+    directly_contains_one :thumbnail, through: :files, type: ::RDF::URI("http://pcdm.org/use#ThumbnailImage"), class_name: "Hydra::PCDM::File"
+    directly_contains_one :extracted_text, through: :files, type: ::RDF::URI("http://pcdm.org/use#ExtractedText"), class_name: "Hydra::PCDM::File"
   end
 
 end

@@ -7,6 +7,8 @@ module Hydra::Works
     autoload :Derivatives,            'hydra/works/models/concerns/generic_file/derivatives'
     autoload :MimeTypes,              'hydra/works/models/concerns/generic_file/mime_types'
     autoload :ContainedFiles,         'hydra/works/models/concerns/generic_file/contained_files'
+    autoload :VersionedContent,       'hydra/works/models/concerns/generic_file/versioned_content'
+
 
     # Base class for creating objects that behave like Hydra::Works::GenericFiles
     class Base < ActiveFedora::Base

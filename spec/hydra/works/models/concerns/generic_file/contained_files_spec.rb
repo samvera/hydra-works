@@ -23,7 +23,10 @@ describe Hydra::Works::GenericFile::ContainedFiles do
 
     context "when a thumbnail is present" do
       before do
-        generic_file.thumbnail.content = "thumbnail"
+        original_file = generic_file.build_thumbnail
+        original_file.content = "thumbnail"
+        generic_file.save
+        generic_file.reload
       end
       subject { generic_file.thumbnail }
       it "can be saved without errors" do
@@ -38,8 +41,8 @@ describe Hydra::Works::GenericFile::ContainedFiles do
       end
     end
 
-    context "when no thumbnail is present" do
-      subject { generic_file.thumbnail }
+    context "when building new thumbnail" do
+      subject { generic_file.build_thumbnail }
       it "initializes an unsaved File object with Thumbnail type" do
         expect(subject).to be_new_record
         expect(subject.metadata_node.type).to include(pcdm_thumbnail_uri)
@@ -53,15 +56,19 @@ describe Hydra::Works::GenericFile::ContainedFiles do
 
     context "when an original file is present" do
       before do
-        generic_file.original_file.content = "original_file"
+        original_file = generic_file.build_original_file
+        original_file.content = "original_file"
+        generic_file.save
+        generic_file.reload
       end
       subject { generic_file.original_file }
 
       it "can be saved without errors" do
         expect(subject.save).to be_truthy
       end
-      it "retrieves content of the original_file" do
+      it "retrieves content of the original_file as a VersionedFile" do
         expect(subject.content).to eql "original_file"
+        expect(subject).to be_instance_of Hydra::PCDM::VersionedFile
       end
       it "retains origin pcdm.File RDF type" do
         expect(subject.metadata_node.type).to include(::RDF::URI("http://pcdm.org/OriginalFile") )
@@ -69,8 +76,8 @@ describe Hydra::Works::GenericFile::ContainedFiles do
       end
     end
 
-    context "when no original file is present" do
-      subject { generic_file.original_file }
+    context "when building original file" do
+      subject { generic_file.build_original_file }
       it "initializes an unsaved File object with OrignalFile type" do
         expect(subject).to be_new_record
         expect(subject.metadata_node.type).to include(::RDF::URI("http://pcdm.org/OriginalFile") )
@@ -84,7 +91,10 @@ describe Hydra::Works::GenericFile::ContainedFiles do
 
     context "when extracted text is present" do
       before do
-        generic_file.extracted_text.content = "extracted_text"
+        extracted_text = generic_file.build_extracted_text
+        extracted_text.content = "extracted_text"
+        generic_file.save
+        generic_file.reload
       end
       subject { generic_file.extracted_text }
       it "can be saved without errors" do
@@ -99,8 +109,8 @@ describe Hydra::Works::GenericFile::ContainedFiles do
       end
     end
 
-    context "when no extracted text is present" do
-      subject { generic_file.extracted_text }
+    context "when building new extracted text object" do
+      subject { generic_file.build_extracted_text }
       it "initializes an unsaved File object with ExtractedText type" do
         expect(subject).to be_new_record
         expect(subject.metadata_node.type).to include(::RDF::URI("http://pcdm.org/ExtractedText") )

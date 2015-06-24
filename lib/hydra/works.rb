@@ -57,8 +57,6 @@ module Hydra
     autoload :RemoveGenericFileFromGenericFile,    'hydra/works/services/generic_file/remove_generic_file'
     autoload :RemoveRelatedObjectFromGenericFile,  'hydra/works/services/generic_file/remove_related_object'
     autoload :UploadFileToGenericFile,             'hydra/works/services/generic_file/upload_file'
-    autoload :AddOriginalFile,                     'hydra/works/services/generic_file/add_original_file'
-    autoload :AddVersionedOriginalFile,            'hydra/works/services/generic_file/add_versioned_original_file'
     autoload :GenerateThumbnail,                   'hydra/works/services/generic_file/generate/thumbnail'
 
     # model validations
