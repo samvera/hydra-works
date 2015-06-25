@@ -2,6 +2,8 @@
 [![Build Status](https://travis-ci.org/projecthydra-labs/hydra-works.svg?branch=master)](https://travis-ci.org/projecthydra-labs/hydra-works)
 [![Coverage Status](https://coveralls.io/repos/projecthydra-labs/hydra-works/badge.svg?branch=master)](https://coveralls.io/r/projecthydra-labs/hydra-works?branch=master)
 
+ SUMMONING TRAVIS!
+
 The Hydra::Works gem provides a set of [Portland Common Data Model](https://wiki.duraspace.org/display/FF/Portland+Common+Data+Model)-compliant models and associated behaviors around the broad concept of multi-file "works", the need for which was expressed by a variety of [community use cases](https://github.com/projecthydra-labs/hydra-works/tree/master/use-cases). The Hydra::Works domain model includes:
 
  * **GenericFile**: a *pcdm:Object* that encapsulates one or more directly related *pcdm:File*s, such as a PDF document, its derivatives, and extracted full-text
