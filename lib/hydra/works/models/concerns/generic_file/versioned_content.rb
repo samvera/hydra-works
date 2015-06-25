@@ -7,7 +7,7 @@ module Hydra::Works::GenericFile
     end
 
     def latest_content_version
-      self.original_file
+      self.original_file.versions.last
     end
 
     def current_content_version_uri

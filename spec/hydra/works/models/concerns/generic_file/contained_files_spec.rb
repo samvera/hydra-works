@@ -12,7 +12,7 @@ describe Hydra::Works::GenericFile::ContainedFiles do
   end
 
   let(:file)                { generic_file.files.build }
-  let(:pcdm_thumbnail_uri)  { ::RDF::URI("http://pcdm.org/ThumbnailImage") }
+  let(:pcdm_thumbnail_uri)  { ::RDF::URI("http://pcdm.org/use#ThumbnailImage") }
 
   before do
     generic_file.files = [file]
@@ -36,7 +36,7 @@ describe Hydra::Works::GenericFile::ContainedFiles do
         expect(subject.content).to eql "thumbnail"
       end
       it "retains origin pcdm.File RDF type" do
-        expect(subject.metadata_node.type).to include( ::RDF::URI("http://pcdm.org/ThumbnailImage") )
+        expect(subject.metadata_node.type).to include( ::RDF::URI("http://pcdm.org/use#ThumbnailImage") )
         expect(subject.metadata_node.type).to include(RDFVocabularies::PCDMTerms.File)
       end
     end
@@ -71,7 +71,7 @@ describe Hydra::Works::GenericFile::ContainedFiles do
         expect(subject).to be_instance_of Hydra::PCDM::VersionedFile
       end
       it "retains origin pcdm.File RDF type" do
-        expect(subject.metadata_node.type).to include(::RDF::URI("http://pcdm.org/OriginalFile") )
+        expect(subject.metadata_node.type).to include(::RDF::URI("http://pcdm.org/use#OriginalFile") )
         expect(generic_file.original_file.metadata_node.type).to include(RDFVocabularies::PCDMTerms.File)
       end
     end
@@ -80,7 +80,7 @@ describe Hydra::Works::GenericFile::ContainedFiles do
       subject { generic_file.build_original_file }
       it "initializes an unsaved File object with OrignalFile type" do
         expect(subject).to be_new_record
-        expect(subject.metadata_node.type).to include(::RDF::URI("http://pcdm.org/OriginalFile") )
+        expect(subject.metadata_node.type).to include(::RDF::URI("http://pcdm.org/use#OriginalFile") )
         expect(subject.metadata_node.type).to include(RDFVocabularies::PCDMTerms.File)
       end
     end
@@ -104,7 +104,7 @@ describe Hydra::Works::GenericFile::ContainedFiles do
         expect(subject.content).to eql "extracted_text"
       end
       it "retains origin pcdm.File RDF type" do
-        expect(subject.metadata_node.type).to include(::RDF::URI("http://pcdm.org/ExtractedText") )
+        expect(subject.metadata_node.type).to include(::RDF::URI("http://pcdm.org/use#ExtractedText") )
         expect(subject.metadata_node.type).to include(RDFVocabularies::PCDMTerms.File)
       end
     end
@@ -113,7 +113,7 @@ describe Hydra::Works::GenericFile::ContainedFiles do
       subject { generic_file.build_extracted_text }
       it "initializes an unsaved File object with ExtractedText type" do
         expect(subject).to be_new_record
-        expect(subject.metadata_node.type).to include(::RDF::URI("http://pcdm.org/ExtractedText") )
+        expect(subject.metadata_node.type).to include(::RDF::URI("http://pcdm.org/use#ExtractedText") )
         expect(subject.metadata_node.type).to include(RDFVocabularies::PCDMTerms.File)
       end
     end

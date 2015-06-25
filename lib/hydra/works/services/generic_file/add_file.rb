@@ -5,9 +5,10 @@ module Hydra::Works
     # @param [Hydra::PCDM::GenericFile::Base] generic_file the file will be added to
     # @param [String] path to the file
     # @param [RDF::URI or String] type URI for the RDF.type that identifies the file's role within the generic_file
-    # @param [Boolean] update_existing when set to false, always adds a new file.  When set to true, performs a create_or_update
+    # @param [Boolean] update_existing whether to update an existing file if there is one. When set to true, performs a create_or_update. When set to false, always creates a new file within generic_file.files.
+    # @param [Boolean] versioning whether to create new version entries (only applicable if +type+ corresponds to a versionable file)
 
-    def self.call(generic_file, path, type, update_existing=true)
+    def self.call(generic_file, path, type, update_existing: true, versioning: true)
       raise ArgumentError, "supplied object must be a generic file" unless Hydra::Works.generic_file?(generic_file)
       raise ArgumentError, "supplied path must be a string" unless path.is_a?(String)
       raise ArgumentError, "supplied path to file does not exist" unless ::File.exists?(path)
@@ -44,7 +45,9 @@ module Hydra::Works
           current_file.save # if we updated an existing file's content we need to save the file explicitly
         end
         generic_file.reload     # this forces the generic_file to see the updated file
-        current_file.create_version # Create version _after_ saving because ActiveFedora::Versionable#create_version tells Fedora to create a version that is a snapshot of the generic_file's current state within Fedora
+        if versioning
+          current_file.create_version # Create version _after_ saving because ActiveFedora::Versionable#create_version tells Fedora to create a version that is a snapshot of the generic_file's current state within Fedora
+        end
       else
         generic_file.save
       end
