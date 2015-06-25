@@ -34,7 +34,7 @@ describe Hydra::Works::UploadFileToGenericFile do
   end
 
   context "with an empty generic file" do
-    before { described_class.call(generic_file, file, additional_services) }
+    before { described_class.call(generic_file, file, additional_services: additional_services) }
 
     describe "the uploaded file" do
       subject { generic_file.original_file }
@@ -61,8 +61,8 @@ describe Hydra::Works::UploadFileToGenericFile do
     let(:additional_services) { [] }
 
     before do
-      described_class.call(generic_file, file, additional_services)
-      described_class.call(generic_file, updated_file, additional_services, update_existing: true)
+      described_class.call(generic_file, file, additional_services: additional_services)
+      described_class.call(generic_file, updated_file, additional_services: additional_services, update_existing: true)
       generic_file.reload
     end
 

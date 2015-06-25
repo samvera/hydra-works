@@ -17,8 +17,11 @@ describe Hydra::Works::GenericFile::VersionedContent do
   end
 
   describe "latest_content_version" do
-    it "returns the most recent version of original_file" do
-      expect(reloaded.latest_content_version.content).to eq("some updated content\n")
+    subject { reloaded.latest_content_version }
+    it "returns the most recent version entry for original_file" do
+      # Can't use a simple equivalence because they are actually different ResourceVersion objects
+      expect(subject.uri).to eq(generic_file.original_file.versions.last.uri)
+      expect(subject.label).to eq(generic_file.original_file.versions.last.label)
     end
   end
 

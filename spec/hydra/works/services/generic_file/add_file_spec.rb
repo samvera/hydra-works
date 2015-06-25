@@ -7,11 +7,11 @@ describe Hydra::Works::AddFileToGenericFile do
   let(:filename)            { "sample-file.pdf" }
   let(:path)                { File.join(fixture_path, filename) }
   let(:path2)               { File.join(fixture_path, "updated-file.txt") }
-  let(:type)                { ::RDF::URI("http://pcdm.org/ExtractedText") }
+  let(:type)                { ::RDF::URI("http://pcdm.org/use#ExtractedText") }
   let(:update_existing)     { true }
 
   it "adds the given file and applies the specified type to it" do
-    Hydra::Works::AddFileToGenericFile.call(generic_file, path, type, update_existing)
+    Hydra::Works::AddFileToGenericFile.call(generic_file, path, type, update_existing: update_existing)
     expect(generic_file.filter_files_by_type(type).first.content).to start_with("%PDF-1.3")
   end
 
@@ -28,20 +28,28 @@ describe Hydra::Works::AddFileToGenericFile do
   context "when the file is versionable" do
     let(:type)  { :original_file }
     subject     { reloaded }
-    before do
-      Hydra::Works::AddFileToGenericFile.call(generic_file, path, type)
-    end
     it "updates the file and creates a version" do
+      Hydra::Works::AddFileToGenericFile.call(generic_file, path, type)
       expect(subject.original_file.versions.all.count).to eq(1)
       expect(subject.original_file.content).to start_with("%PDF-1.3")
     end
     context "and there are already versions" do
       before do
+        Hydra::Works::AddFileToGenericFile.call(generic_file, path, type)
         Hydra::Works::AddFileToGenericFile.call(generic_file, path2, type)
       end
       it "adds to the version history" do
         expect(subject.original_file.versions.all.count).to eq(2)
         expect(subject.original_file.content).to eq("some updated content\n")
+      end
+    end
+    context "but :versioning => false" do
+      before do
+        Hydra::Works::AddFileToGenericFile.call(generic_file, path, type, versioning: false)
+      end
+      it "skips creating versions" do
+        expect(subject.original_file.versions.all.count).to eq(0)
+        expect(subject.original_file.content).to start_with("%PDF-1.3")
       end
     end
   end
