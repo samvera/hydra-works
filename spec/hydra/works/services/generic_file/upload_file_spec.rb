@@ -9,8 +9,16 @@ describe Hydra::Works::UploadFileToGenericFile do
   let(:updated_filename)    { "updated-file.txt"}
   let(:updated_file)        { File.join(fixture_path, updated_filename) }
   let(:mime_type)           { "application/pdf" }
-  let(:updated_mime_type)   { "text/plain" }  
+  let(:original_name)       { "my_original.pdf" }
+  let(:updated_mime_type)   { "text/plain" }
   let(:additional_services) { [Hydra::Works::GenerateThumbnail] }
+
+  context "when you provide mime_type and original_name, etc" do
+    it "uses the provided values" do
+      expect(Hydra::Works::AddFileToGenericFile).to receive(:call).with(generic_file, file, :original_file, update_existing: true, versioning: true, mime_type:mime_type, original_name:original_name)
+      described_class.call(generic_file, file, mime_type: mime_type, original_name:original_name)
+    end
+  end
 
   context "without a proper generic file" do
     let(:error_message) { "supplied object must be a generic file" }
