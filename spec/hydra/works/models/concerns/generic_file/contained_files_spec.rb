@@ -15,6 +15,7 @@ describe Hydra::Works::GenericFile::ContainedFiles do
   let(:pcdm_thumbnail_uri)  { ::RDF::URI("http://pcdm.org/use#ThumbnailImage") }
 
   before do
+    file.content = "I'm nothing special."
     generic_file.files = [file]
     generic_file.save
   end
