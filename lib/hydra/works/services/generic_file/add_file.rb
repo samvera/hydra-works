@@ -40,6 +40,10 @@ module Hydra::Works
       current_file.original_name = original_name ? original_name : ::File.basename(path)
       current_file.mime_type = mime_type ? mime_type : Hydra::PCDM::GetMimeTypeForFile.call(path)
 
+      # Allow generic_file to run its validations (ie. virus check)
+      # Skip saving anything and/or creating versions if it's not valid.
+      return false unless generic_file.valid?
+
       if versioning
         if current_file.new_record?
           generic_file.save  # this persists current_file and its membership in generic_file.files container

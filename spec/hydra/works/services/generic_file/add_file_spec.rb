@@ -18,6 +18,15 @@ describe Hydra::Works::AddFileToGenericFile do
     end
   end
 
+  context "when generic_file is not valid" do
+    before do
+      allow(generic_file).to receive(:valid?).and_return(false)
+    end
+    it "returns false" do
+      expect( described_class.call(generic_file, path, type) ).to be false
+    end
+  end
+
   context "when you provide mime_type and original_name" do
     before { described_class.call(generic_file, path, type, mime_type: "image/png", original_name:'chosen_filename.txt') }
     subject { generic_file.filter_files_by_type(type).first }
