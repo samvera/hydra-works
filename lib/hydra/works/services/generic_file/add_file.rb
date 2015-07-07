@@ -8,10 +8,12 @@ module Hydra::Works
     # @param [Boolean] update_existing whether to update an existing file if there is one. When set to true, performs a create_or_update. When set to false, always creates a new file within generic_file.files.
     # @param [Boolean] versioning whether to create new version entries (only applicable if +type+ corresponds to a versionable file)
 
-    def self.call(generic_file, path, type, update_existing: true, versioning: true)
+    def self.call(generic_file, path, type, update_existing: true, versioning: true, mime_type:nil, original_name:nil)
       raise ArgumentError, "supplied object must be a generic file" unless Hydra::Works.generic_file?(generic_file)
       raise ArgumentError, "supplied path must be a string" unless path.is_a?(String)
       raise ArgumentError, "supplied path to file does not exist" unless ::File.exists?(path)
+
+      generic_file.save unless generic_file.persisted?
 
       if type.instance_of? Symbol
         raise ArgumentError, "you're attempting to add a file to a generic_file using '#{type}' association but the generic_file does not have an association called '#{type}''" unless object_has_association?(generic_file, type)
@@ -35,8 +37,8 @@ module Hydra::Works
       end
 
       current_file.content = ::File.open(path)
-      current_file.original_name = ::File.basename(path)
-      current_file.mime_type = Hydra::PCDM::GetMimeTypeForFile.call(path)
+      current_file.original_name = original_name ? original_name : ::File.basename(path)
+      current_file.mime_type = mime_type ? mime_type : Hydra::PCDM::GetMimeTypeForFile.call(path)
 
       if versioning
         if current_file.new_record?
