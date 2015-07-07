@@ -66,9 +66,9 @@ describe Hydra::Works::GenericFile::ContainedFiles do
       it "can be saved without errors" do
         expect(subject.save).to be_truthy
       end
-      it "retrieves content of the original_file as a VersionedFile" do
+      it "retrieves content of the original_file as a PCDM File" do
         expect(subject.content).to eql "original_file"
-        expect(subject).to be_instance_of Hydra::PCDM::VersionedFile
+        expect(subject).to be_instance_of Hydra::PCDM::File
       end
       it "retains origin pcdm.File RDF type" do
         expect(subject.metadata_node.type).to include(::RDF::URI("http://pcdm.org/use#OriginalFile") )
