@@ -38,7 +38,7 @@ module Hydra::Works
       current_file.original_name = ::File.basename(path)
       current_file.mime_type = Hydra::PCDM::GetMimeTypeForFile.call(path)
 
-      if current_file.versionable?
+      if versioning
         if current_file.new_record?
           generic_file.save  # this persists current_file and its membership in generic_file.files container
         else

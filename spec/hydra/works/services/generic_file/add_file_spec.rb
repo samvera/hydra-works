@@ -25,32 +25,37 @@ describe Hydra::Works::AddFileToGenericFile do
     end
   end
 
-  context "when the file is versionable" do
-    let(:type)  { :original_file }
+  context "when :versioning => true" do
+    let(:type)        { :original_file }
+    let(:versioning)  { true }
     subject     { reloaded }
     it "updates the file and creates a version" do
-      Hydra::Works::AddFileToGenericFile.call(generic_file, path, type)
+      Hydra::Works::AddFileToGenericFile.call(generic_file, path, type, versioning: versioning)
       expect(subject.original_file.versions.all.count).to eq(1)
       expect(subject.original_file.content).to start_with("%PDF-1.3")
     end
     context "and there are already versions" do
       before do
-        Hydra::Works::AddFileToGenericFile.call(generic_file, path, type)
-        Hydra::Works::AddFileToGenericFile.call(generic_file, path2, type)
+        Hydra::Works::AddFileToGenericFile.call(generic_file, path, type, versioning: versioning)
+        Hydra::Works::AddFileToGenericFile.call(generic_file, path2, type, versioning: versioning)
       end
       it "adds to the version history" do
         expect(subject.original_file.versions.all.count).to eq(2)
         expect(subject.original_file.content).to eq("some updated content\n")
       end
     end
-    context "but :versioning => false" do
-      before do
-        Hydra::Works::AddFileToGenericFile.call(generic_file, path, type, versioning: false)
-      end
-      it "skips creating versions" do
-        expect(subject.original_file.versions.all.count).to eq(0)
-        expect(subject.original_file.content).to start_with("%PDF-1.3")
-      end
+  end
+
+  context "when :versioning => false" do
+    let(:type)        { :original_file }
+    let(:versioning)  { false }
+    before do
+      Hydra::Works::AddFileToGenericFile.call(generic_file, path, type, versioning: versioning)
+    end
+    subject     { reloaded }
+    it "skips creating versions" do
+      expect(subject.original_file.versions.all.count).to eq(0)
+      expect(subject.original_file.content).to start_with("%PDF-1.3")
     end
   end
 

@@ -7,7 +7,7 @@ module Hydra::Works::GenericFile::ContainedFiles
 
   # TODO: se PCDM vocab class when projecthydra-labs/hydra-pcdm#80 is merged
   included do
-    directly_contains_one :original_file, through: :files, type: ::RDF::URI("http://pcdm.org/use#OriginalFile"), class_name: "Hydra::PCDM::VersionedFile"
+    directly_contains_one :original_file, through: :files, type: ::RDF::URI("http://pcdm.org/use#OriginalFile"), class_name: "Hydra::PCDM::File"
     directly_contains_one :thumbnail, through: :files, type: ::RDF::URI("http://pcdm.org/use#ThumbnailImage"), class_name: "Hydra::PCDM::File"
     directly_contains_one :extracted_text, through: :files, type: ::RDF::URI("http://pcdm.org/use#ExtractedText"), class_name: "Hydra::PCDM::File"
   end
