@@ -58,6 +58,7 @@ module Hydra
     autoload :RemoveRelatedObjectFromGenericFile,  'hydra/works/services/generic_file/remove_related_object'
     autoload :UploadFileToGenericFile,             'hydra/works/services/generic_file/upload_file'
     autoload :GenerateThumbnail,                   'hydra/works/services/generic_file/generate/thumbnail'
+    autoload :PersistDerivative,                   'hydra/works/services/generic_file/persist_derivative'
 
     # model validations
     def self.collection? collection
