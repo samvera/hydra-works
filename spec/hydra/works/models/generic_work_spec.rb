@@ -27,6 +27,19 @@ describe Hydra::Works::GenericWork do
     end
   end
 
+  context "sub-class" do
+    before do
+      class TestWork < Hydra::Works::GenericWork::Base
+      end
+    end
+
+    subject { TestWork.create(generic_files: [generic_file1]) }
+
+    it "should have many generic files" do
+      expect(subject.generic_files).to eq [generic_file1]
+    end
+  end
+
   describe '#contains' do
     it 'should present as a missing method' do
       expect{ generic_work1.contains = [pcdm_file1] }.to raise_error(NoMethodError,"works can not directly contain files.  You must add a GenericFile to the work's members and add files to that GenericFile.")
