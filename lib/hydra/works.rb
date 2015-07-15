@@ -6,6 +6,7 @@ require 'hydra/works/processor'
 
 module Hydra
   module Works
+    extend ActiveSupport::Autoload
 
     # vocabularies
     autoload :WorksVocabularies,      'hydra/works/vocab/works_terms'
@@ -14,7 +15,7 @@ module Hydra
     autoload :Collection,             'hydra/works/models/collection'
     autoload :GenericWork,            'hydra/works/models/generic_work'
     autoload :GenericFile,            'hydra/works/models/generic_file'
-    
+
     #behaviors
     autoload :CollectionBehavior,     'hydra/works/models/concerns/collection_behavior'
     autoload :GenericWorkBehavior,    'hydra/works/models/concerns/generic_work_behavior'
@@ -48,8 +49,10 @@ module Hydra
     autoload :RemoveRelatedObjectFromGenericWork,  'hydra/works/services/generic_work/remove_related_object'
 
     # generic_file services
+    autoload_under 'services/generic_file' do
+      autoload :AddFileToGenericFile
+    end
     autoload :AddGenericFileToGenericFile,         'hydra/works/services/generic_file/add_generic_file'
-    autoload :AddFileToGenericFile,                'hydra/works/services/generic_file/add_file'
     autoload :AddRelatedObjectToGenericFile,       'hydra/works/services/generic_file/add_related_object'
     autoload :GetGenericWorksFromGenericFile,      'hydra/works/services/generic_file/get_generic_works'
     autoload :GetGenericFilesFromGenericFile,      'hydra/works/services/generic_file/get_generic_files'
