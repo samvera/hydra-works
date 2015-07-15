@@ -3,22 +3,21 @@ module Hydra::Works
 
     # Adds a file to the generic_file
     # @param [Hydra::PCDM::GenericFile::Base] generic_file the file will be added to
-    # @param [String] path to the file
+    # @param [IO,File,Rack::Multipart::UploadedFile, #read] object that will be the contents. If file responds to :mime_type, :content_type, :original_name, or :original_filename, those will be called to provide metadata.
     # @param [RDF::URI or String] type URI for the RDF.type that identifies the file's role within the generic_file
     # @param [Boolean] update_existing whether to update an existing file if there is one. When set to true, performs a create_or_update. When set to false, always creates a new file within generic_file.files.
     # @param [Boolean] versioning whether to create new version entries (only applicable if +type+ corresponds to a versionable file)
 
-    def self.call(generic_file, path, type, update_existing: true, versioning: true, mime_type:nil, original_name:nil)
+    def self.call(generic_file, file, type, update_existing: true, versioning: true)
       raise ArgumentError, "supplied object must be a generic file" unless Hydra::Works.generic_file?(generic_file)
-      raise ArgumentError, "supplied path must be a string" unless path.is_a?(String)
-      raise ArgumentError, "supplied path to file does not exist" unless ::File.exists?(path)
+      raise ArgumentError, "supplied file must respond to read" unless file.respond_to? :read
 
       # TODO required as a workaround for https://github.com/projecthydra/active_fedora/pull/858
       generic_file.save unless generic_file.persisted?
 
       updater_class = versioning ? VersioningUpdater : Updater
       updater = updater_class.new(generic_file, type, update_existing)
-      status = updater.update(path, original_name, mime_type)
+      status = updater.update(file)
       status ? generic_file : false
     end
 
@@ -30,11 +29,10 @@ module Hydra::Works
         @current_file = find_or_create_file(type, update_existing)
       end
 
-      # @param [String] path path to the file
-      # @param [String] original_name the original name of the file
-      # @param [String] mime_type the content type of the file
-      def update(path, original_name, mime_type)
-        attach_attributes(path, original_name, mime_type)
+      # @param [#read] file object that will be interrogated using the methods: :path, :original_name, :original_filename, :mime_type, :content_type
+      # None of the attribute description methods are required.
+      def update(file)
+        attach_attributes(file)
         persist
       end
 
@@ -50,13 +48,40 @@ module Hydra::Works
           end
         end
 
-        def attach_attributes(path, original_name, mime_type)
-          current_file.content = ::File.open(path)
-          current_file.original_name = original_name ? original_name : ::File.basename(path)
-          current_file.mime_type = mime_type ? mime_type : Hydra::PCDM::GetMimeTypeForFile.call(path)
+        def attach_attributes(file) 
+          current_file.content = file
+          current_file.original_name = determine_original_name(file)
+          current_file.mime_type = determine_mime_type(file)
         end
 
-        # @param [Hydra::PCDM::GenericFile::Base] generic_file the parent object
+        # Return mime_type based on methods available to file
+        # @param object for mimetype to be determined. Attempts to use methods: :mime_type, :content_type, and :path.
+        def determine_mime_type(file)
+          if file.respond_to? :mime_type
+            return file.mime_type
+          elsif file.respond_to? :content_type
+            return file.content_type
+          elsif file.respond_to? :path
+            return Hydra::PCDM::GetMimeTypeForFile.call(file.path)
+          else
+            return "application/octet-stream"
+          end
+        end
+
+        # Return original_name based on methods available to file
+        # @param object for original name to be determined. Attempts to use methods: :original_name, :original_filename, and :path.
+        def determine_original_name(file)
+          if file.respond_to? :original_name
+            return file.original_name
+          elsif file.respond_to? :original_filename
+            return file.original_filename
+          elsif file.respond_to? :path
+            return ::File.basename(file.path)
+          else
+            return ""
+          end
+        end
+
         # @param [Symbol, RDF::URI] the type of association or filter to use
         # @param [true, false] update_existing when true, try to retrieve existing element before building one
         def find_or_create_file(type, update_existing)
@@ -90,7 +115,7 @@ module Hydra::Works
             raise ArgumentError, "Invalid file type.  You must submit a URI or a symbol."
           end
         end
-      end
+      end  
 
       class VersioningUpdater < Updater
         def update(*)

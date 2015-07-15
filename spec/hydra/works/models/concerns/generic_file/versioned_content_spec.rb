@@ -3,8 +3,8 @@ require 'spec_helper'
 describe Hydra::Works::GenericFile::VersionedContent do
   let(:generic_file)  { Hydra::Works::GenericFile::Base.new }
   before do
-    Hydra::Works::UploadFileToGenericFile.call(generic_file, File.join(fixture_path, "sample-file.pdf"))
-    Hydra::Works::UploadFileToGenericFile.call(generic_file, File.join(fixture_path, "updated-file.txt"))
+    Hydra::Works::UploadFileToGenericFile.call(generic_file, File.open(File.join(fixture_path, "sample-file.pdf")))
+    Hydra::Works::UploadFileToGenericFile.call(generic_file, File.open(File.join(fixture_path, "updated-file.txt")))
   end
 
   describe "content_versions" do
