@@ -29,10 +29,15 @@ module Hydra::Works::GenericFile
     end
 
     def file_format
-      return nil if mime_type.blank? and format_label.blank?
-      return mime_type.split('/')[1]+ " ("+format_label.join(", ")+")" unless mime_type.blank? or format_label.blank?
-      return mime_type.split('/')[1] unless mime_type.blank?
-      return format_label
+      if mime_type.present? && format_label.present?
+        "#{mime_type.split('/').last}  (#{format_label.join(", ")})"
+      elsif mime_type.present?
+        mime_type.split('/').last
+      elsif format_label.present?
+        format_label
+      else
+        nil
+      end
     end
 
     module ClassMethods
