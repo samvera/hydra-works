@@ -15,3 +15,5 @@ spec/internal
 mkmf.log
 jetty
 .DS_Store
+.ruby-gemset
+.ruby-version
