@@ -2,15 +2,15 @@ require 'spec_helper'
 
 describe Hydra::Works::AddGenericFileToGenericWork do
 
-  let(:subject) { Hydra::Works::GenericWork::Base.create }
+  let(:subject) { Hydra::Works::GenericWork::Base.new }
 
   describe '#call' do
     context 'with acceptable generic_works' do
-      let(:generic_work1) { Hydra::Works::GenericWork::Base.create }
-      let(:generic_work2) { Hydra::Works::GenericWork::Base.create }
-      let(:generic_file1)   { Hydra::Works::GenericFile::Base.create }
-      let(:generic_file2)   { Hydra::Works::GenericFile::Base.create }
-      let(:generic_file3)   { Hydra::Works::GenericFile::Base.create }
+      let(:generic_work1) { Hydra::Works::GenericWork::Base.new }
+      let(:generic_work2) { Hydra::Works::GenericWork::Base.new }
+      let(:generic_file1)   { Hydra::Works::GenericFile::Base.new }
+      let(:generic_file2)   { Hydra::Works::GenericFile::Base.new }
+      let(:generic_file3)   { Hydra::Works::GenericFile::Base.new }
 
       context 'with generic_files and generic_works' do
         before do
@@ -18,7 +18,6 @@ describe Hydra::Works::AddGenericFileToGenericWork do
           Hydra::Works::AddGenericFileToGenericWork.call( subject, generic_file2 )
           Hydra::Works::AddGenericWorkToGenericWork.call( subject, generic_work1 )
           Hydra::Works::AddGenericWorkToGenericWork.call( subject, generic_work2 )
-          subject.save
         end
 
         it 'should add generic_file to generic_work with generic_files and generic_works' do
@@ -43,11 +42,10 @@ describe Hydra::Works::AddGenericFileToGenericWork do
           end
         end
         after { Object.send(:remove_const, :DummyIncFile) }
-        let(:ifile1) { DummyIncFile.create }
+        let(:ifile1) { DummyIncFile.new }
 
         it 'should accept implementing generic_file as a child' do
           Hydra::Works::AddGenericFileToGenericWork.call( subject, ifile1 )
-          subject.save
           expect( Hydra::Works::GetGenericFilesFromGenericWork.call( subject ) ).to eq [ifile1]
         end
 
@@ -59,24 +57,23 @@ describe Hydra::Works::AddGenericFileToGenericWork do
           end
         end
         after { Object.send(:remove_const, :DummyExtFile) }
-        let(:efile1) { DummyExtFile.create }
+        let(:efile1) { DummyExtFile.new }
 
         it 'should accept extending generic_file as a child' do
           Hydra::Works::AddGenericFileToGenericWork.call( subject, efile1 )
-          subject.save
           expect( Hydra::Works::GetGenericFilesFromGenericWork.call( subject ) ).to eq [efile1]
         end
       end
     end
 
     context 'with unacceptable child generic_files' do
-      let(:collection1)      { Hydra::Works::Collection.create }
-      let(:generic_work1)    { Hydra::Works::GenericWork::Base.create }
-      let(:pcdm_collection1) { Hydra::PCDM::Collection.create }
-      let(:pcdm_object1)     { Hydra::PCDM::Object.create }
+      let(:collection1)      { Hydra::Works::Collection.new }
+      let(:generic_work1)    { Hydra::Works::GenericWork::Base.new }
+      let(:pcdm_collection1) { Hydra::PCDM::Collection.new }
+      let(:pcdm_object1)     { Hydra::PCDM::Object.new }
       let(:pcdm_file1)       { Hydra::PCDM::File.new }
       let(:non_PCDM_object)  { "I'm not a PCDM object" }
-      let(:af_base_object)   { ActiveFedora::Base.create }
+      let(:af_base_object)   { ActiveFedora::Base.new }
 
       let(:error_message) { 'child_generic_file must be a hydra-works generic file' }
 
@@ -108,49 +105,5 @@ describe Hydra::Works::AddGenericFileToGenericWork do
         expect{ Hydra::Works::AddGenericFileToGenericWork.call( subject, af_base_object ) }.to raise_error(ArgumentError,error_message)
       end
     end
-
-    context 'with unacceptable parent generic works' do
-      let(:collection1)      { Hydra::Works::Collection.create }
-      let(:generic_work1)    { Hydra::Works::GenericWork::Base.create }
-      let(:generic_work2)    { Hydra::Works::GenericWork::Base.create }
-      let(:generic_file1)    { Hydra::Works::GenericFile::Base.create }
-      let(:pcdm_collection1) { Hydra::PCDM::Collection.create }
-      let(:pcdm_object1)     { Hydra::PCDM::Object.create }
-      let(:pcdm_file1)       { Hydra::PCDM::File.new }
-      let(:non_PCDM_object)  { "I'm not a PCDM object" }
-      let(:af_base_object)   { ActiveFedora::Base.create }
-
-      let(:error_message) { 'parent_generic_work must be a hydra-works generic work' }
-
-      it 'should NOT accept Hydra::Works::Collection as parent generic work' do
-        expect{ Hydra::Works::AddGenericFileToGenericWork.call( collection1, generic_work2 ) }.to raise_error(ArgumentError,error_message)
-      end
-
-      it 'should NOT accept Hydra::Works::GenericFile as parent generic work' do
-        expect{ Hydra::Works::AddGenericFileToGenericWork.call( generic_file1, generic_work2 ) }.to raise_error(ArgumentError,error_message)
-      end
-
-      it 'should NOT accept Hydra::PCDM::Collections as parent generic work' do
-        expect{ Hydra::Works::AddGenericFileToGenericWork.call( pcdm_collection1, generic_work2 ) }.to raise_error(ArgumentError,error_message)
-      end
-
-      it 'should NOT accept Hydra::PCDM::Objects as parent generic work' do
-        expect{ Hydra::Works::AddGenericFileToGenericWork.call( pcdm_object1, generic_work2 ) }.to raise_error(ArgumentError,error_message)
-      end
-
-      it 'should NOT accept Hydra::PCDM::Files as parent generic work' do
-        expect{ Hydra::Works::AddGenericFileToGenericWork.call( pcdm_file1, generic_work2 ) }.to raise_error(ArgumentError,error_message)
-      end
-
-      it 'should NOT accept non-PCDM objects as parent generic work' do
-        expect{ Hydra::Works::AddGenericFileToGenericWork.call( non_PCDM_object, generic_work2 ) }.to raise_error(ArgumentError,error_message)
-      end
-
-      it 'should NOT accept AF::Base objects as parent generic work' do
-        expect{ Hydra::Works::AddGenericFileToGenericWork.call( af_base_object, generic_work2 ) }.to raise_error(ArgumentError,error_message)
-      end
-    end
-
   end
-
 end

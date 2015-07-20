@@ -2,16 +2,16 @@ require 'spec_helper'
 
 describe Hydra::Works::RemoveCollectionFromCollection do
 
-  subject { Hydra::Works::Collection.create }
+  subject { Hydra::Works::Collection.new }
 
-    let(:collection1) { Hydra::Works::Collection.create }
-    let(:collection2) { Hydra::Works::Collection.create }
-    let(:collection3) { Hydra::Works::Collection.create }
-    let(:collection4) { Hydra::Works::Collection.create }
-    let(:collection5) { Hydra::Works::Collection.create }
+    let(:collection1) { Hydra::Works::Collection.new }
+    let(:collection2) { Hydra::Works::Collection.new }
+    let(:collection3) { Hydra::Works::Collection.new }
+    let(:collection4) { Hydra::Works::Collection.new }
+    let(:collection5) { Hydra::Works::Collection.new }
 
-    let(:generic_work1) { Hydra::Works::GenericWork::Base.create }
-    let(:generic_work2) { Hydra::Works::GenericWork::Base.create }
+    let(:generic_work1) { Hydra::Works::GenericWork::Base.new }
+    let(:generic_work2) { Hydra::Works::GenericWork::Base.new }
 
 
   describe '#call' do
@@ -49,13 +49,13 @@ describe Hydra::Works::RemoveCollectionFromCollection do
   end
 
   context 'with unacceptable collections' do
-    let(:generic_work1)    { Hydra::Works::GenericWork::Base.create }
-    let(:generic_file1)    { Hydra::Works::GenericFile::Base.create }
-    let(:pcdm_collection1) { Hydra::PCDM::Collection.create }
-    let(:pcdm_object1)     { Hydra::PCDM::Object.create }
+    let(:generic_work1)    { Hydra::Works::GenericWork::Base.new }
+    let(:generic_file1)    { Hydra::Works::GenericFile::Base.new }
+    let(:pcdm_collection1) { Hydra::PCDM::Collection.new }
+    let(:pcdm_object1)     { Hydra::PCDM::Object.new }
     let(:pcdm_file1)       { Hydra::PCDM::File.new }
     let(:non_PCDM_object)  { "I'm not a PCDM object" }
-    let(:af_base_object)   { ActiveFedora::Base.create }
+    let(:af_base_object)   { ActiveFedora::Base.new }
 
     let(:error_type)    { ArgumentError }
     let(:error_message) { 'child_collection must be a hydra-works collection' }
@@ -86,48 +86,6 @@ describe Hydra::Works::RemoveCollectionFromCollection do
 
     it 'should NOT remove AF::Base objects from collections aggregation' do
       expect{ Hydra::Works::RemoveCollectionFromCollection.call( subject, af_base_object ) }.to raise_error(error_type,error_message)
-    end
-  end
-
-  context 'with unacceptable parent collection' do
-    let(:collection2)      { Hydra::Works::Collection.create }
-    let(:generic_work1)    { Hydra::Works::GenericWork::Base.create }
-    let(:generic_file1)    { Hydra::Works::GenericFile::Base.create }
-    let(:pcdm_collection1) { Hydra::PCDM::Collection.create }
-    let(:pcdm_object1)     { Hydra::PCDM::Object.create }
-    let(:pcdm_file1)       { Hydra::PCDM::File.new }
-    let(:non_PCDM_object)  { "I'm not a PCDM object" }
-    let(:af_base_object)   { ActiveFedora::Base.create }
-
-    let(:error_type)    { ArgumentError }
-    let(:error_message) { 'parent_collection must be a hydra-works collection' }
-
-    it 'should NOT accept Hydra::Works::GenericWork as parent collection' do
-      expect{ Hydra::Works::RemoveCollectionFromCollection.call( generic_work1, collection2 ) }.to raise_error(ArgumentError,error_message)
-    end
-
-    it 'should NOT accept Hydra::Works::GenericFile as parent collection' do
-      expect{ Hydra::Works::RemoveCollectionFromCollection.call( generic_file1, collection2 ) }.to raise_error(ArgumentError,error_message)
-    end
-
-    it 'should NOT accept Hydra::PCDM::Collections as parent collection' do
-      expect{ Hydra::Works::RemoveCollectionFromCollection.call( pcdm_collection1, collection2 ) }.to raise_error(ArgumentError,error_message)
-    end
-
-    it 'should NOT accept Hydra::PCDM::Objects as parent collection' do
-      expect{ Hydra::Works::RemoveCollectionFromCollection.call( pcdm_object1, collection2 ) }.to raise_error(error_type,error_message)
-    end
-
-    it 'should NOT accept Hydra::PCDM::Files as parent collection' do
-      expect{ Hydra::Works::RemoveCollectionFromCollection.call( pcdm_file1, collection2 ) }.to raise_error(error_type,error_message)
-    end
-
-    it 'should NOT accept non-PCDM objects as parent collection' do
-      expect{ Hydra::Works::RemoveCollectionFromCollection.call( non_PCDM_object, collection2 ) }.to raise_error(error_type,error_message)
-    end
-
-    it 'should NOT accept AF::Base objects as parent collection' do
-      expect{ Hydra::Works::RemoveCollectionFromCollection.call( af_base_object, collection2 ) }.to raise_error(error_type,error_message)
     end
   end
 end

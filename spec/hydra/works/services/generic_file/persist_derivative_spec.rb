@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe Hydra::Works::PersistDerivative do
 
-  let(:generic_file)        { Hydra::Works::GenericFile::Base.create }
+  let(:generic_file)        { Hydra::Works::GenericFile::Base.new }
   let(:filename)            { "sample-file.pdf" }
   let(:destination_name)    { File.join(fixture_path, filename) }
   let(:file)                { File.new(destination_name) }

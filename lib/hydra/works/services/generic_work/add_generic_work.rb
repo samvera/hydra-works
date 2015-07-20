@@ -12,8 +12,7 @@ module Hydra::Works
     def self.call( parent_generic_work, child_generic_work )
       raise ArgumentError, 'parent_generic_work must be a hydra-works generic work' unless Hydra::Works.generic_work? parent_generic_work
       raise ArgumentError, 'child_generic_work must be a hydra-works generic work' unless Hydra::Works.generic_work? child_generic_work
-      Hydra::PCDM::AddObjectToObject.call( parent_generic_work, child_generic_work )
+      parent_generic_work.members << child_generic_work
     end
-
   end
 end

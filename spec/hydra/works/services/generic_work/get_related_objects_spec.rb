@@ -2,14 +2,14 @@ require 'spec_helper'
 
 describe Hydra::Works::GetRelatedObjectsFromGenericWork do
 
-  subject { Hydra::Works::GenericWork::Base.create }
+  subject { Hydra::Works::GenericWork::Base.new }
 
-  let(:object1) { Hydra::PCDM::Object.create }
-  let(:object2) { Hydra::PCDM::Object.create }
+  let(:object1) { Hydra::PCDM::Object.new }
+  let(:object2) { Hydra::PCDM::Object.new }
 
-  let(:generic_work1) { Hydra::Works::GenericWork::Base.create }
-  let(:generic_work2) { Hydra::Works::GenericWork::Base.create }
-  let(:generic_file1) { Hydra::Works::GenericFile::Base.create }
+  let(:generic_work1) { Hydra::Works::GenericWork::Base.new }
+  let(:generic_work2) { Hydra::Works::GenericWork::Base.new }
+  let(:generic_file1) { Hydra::Works::GenericFile::Base.new }
 
   describe '#call' do
     context 'with generic files and works' do
@@ -17,7 +17,6 @@ describe Hydra::Works::GetRelatedObjectsFromGenericWork do
         Hydra::Works::AddGenericWorkToGenericWork.call( subject, generic_work1 )
         Hydra::Works::AddGenericWorkToGenericWork.call( subject, generic_work1 )
         Hydra::Works::AddGenericFileToGenericWork.call( subject, generic_file1 )
-        subject.save
       end
 
       it 'should return empty array when only generic files and generic works are aggregated' do
