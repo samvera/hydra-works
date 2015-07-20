@@ -2,28 +2,26 @@ require 'spec_helper'
 
 describe Hydra::Works::GenericFile::Base do
 
-  let(:generic_file1) { Hydra::Works::GenericFile::Base.create }
-  let(:generic_file2) { Hydra::Works::GenericFile::Base.create }
-  let(:generic_file3) { Hydra::Works::GenericFile::Base.create }
+  let(:generic_file1) { Hydra::Works::GenericFile::Base.new }
+  let(:generic_file2) { Hydra::Works::GenericFile::Base.new }
+  let(:generic_file3) { Hydra::Works::GenericFile::Base.new }
 
   describe '#generic_files=' do
     it 'should aggregate generic_files' do
       generic_file1.generic_files = [generic_file2, generic_file3]
-      generic_file1.save
       expect(generic_file1.generic_files).to eq [generic_file2, generic_file3]
     end
   end
 
   describe 'Related objects' do
-    let(:object1) { Hydra::PCDM::Object.create }
+    let(:object1) { Hydra::PCDM::Object.new }
 
     before do
       generic_file1.related_objects = [object1]
-      generic_file1.save
     end
 
     it 'persists' do
-      expect(generic_file1.reload.related_objects).to eq [object1]
+      expect(generic_file1.related_objects).to eq [object1]
     end
   end
 

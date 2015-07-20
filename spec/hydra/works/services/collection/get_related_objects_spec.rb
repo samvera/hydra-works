@@ -2,17 +2,17 @@ require 'spec_helper'
 
 describe Hydra::Works::GetRelatedObjectsFromCollection do
 
-  subject { Hydra::Works::Collection.create }
+  subject { Hydra::Works::Collection.new }
 
-  let(:collection1) { Hydra::Works::Collection.create }
-  let(:collection2) { Hydra::Works::Collection.create }
+  let(:collection1) { Hydra::Works::Collection.new }
+  let(:collection2) { Hydra::Works::Collection.new }
 
-  let(:object1) { Hydra::PCDM::Object.create }
-  let(:object2) { Hydra::PCDM::Object.create }
+  let(:object1) { Hydra::PCDM::Object.new }
+  let(:object2) { Hydra::PCDM::Object.new }
 
-  let(:generic_work1) { Hydra::Works::GenericWork::Base.create }
-  let(:generic_work2) { Hydra::Works::GenericWork::Base.create }
-  let(:generic_file1) { Hydra::Works::GenericFile::Base.create }
+  let(:generic_work1) { Hydra::Works::GenericWork::Base.new }
+  let(:generic_work2) { Hydra::Works::GenericWork::Base.new }
+  let(:generic_file1) { Hydra::Works::GenericFile::Base.new }
 
   describe '#call' do
     context 'with collections and generic works' do
@@ -20,7 +20,6 @@ describe Hydra::Works::GetRelatedObjectsFromCollection do
         Hydra::Works::AddCollectionToCollection.call( subject, collection1 )
         Hydra::Works::AddCollectionToCollection.call( subject, collection2 )
         Hydra::Works::AddGenericWorkToCollection.call( subject, generic_work1 )
-        subject.save
       end
 
       it 'should return empty array when only collections and generic works are aggregated' do

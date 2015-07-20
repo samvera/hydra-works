@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe Hydra::Works::AddFileToGenericFile do
 
-  let(:generic_file)        { Hydra::Works::GenericFile::Base.create }
+  let(:generic_file)        { Hydra::Works::GenericFile::Base.new }
   let(:reloaded)            { generic_file.reload }
   let(:filename)            { "sample-file.pdf" }
   let(:path)                { File.join(fixture_path, filename) }
@@ -20,6 +20,7 @@ describe Hydra::Works::AddFileToGenericFile do
 
   context "when generic_file is not valid" do
     before do
+      generic_file.save
       allow(generic_file).to receive(:valid?).and_return(false)
     end
     it "returns false" do

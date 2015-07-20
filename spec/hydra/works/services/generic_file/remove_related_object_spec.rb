@@ -2,16 +2,16 @@ require 'spec_helper'
 
 describe Hydra::Works::RemoveRelatedObjectFromGenericFile do
 
-  subject { Hydra::Works::GenericFile::Base.create }
+  subject { Hydra::Works::GenericFile::Base.new }
 
-  let(:related_object1) { Hydra::PCDM::Object.create }
-  let(:related_work2)   { Hydra::Works::GenericWork::Base.create }
-  let(:related_file3)   { Hydra::Works::GenericFile::Base.create }
-  let(:related_object4) { Hydra::PCDM::Object.create }
-  let(:related_work5)   { Hydra::Works::GenericWork::Base.create }
+  let(:related_object1) { Hydra::PCDM::Object.new }
+  let(:related_work2)   { Hydra::Works::GenericWork::Base.new }
+  let(:related_file3)   { Hydra::Works::GenericFile::Base.new }
+  let(:related_object4) { Hydra::PCDM::Object.new }
+  let(:related_work5)   { Hydra::Works::GenericWork::Base.new }
 
-  let(:generic_file1) { Hydra::Works::GenericFile::Base.create }
-  let(:generic_file2) { Hydra::Works::GenericFile::Base.create }
+  let(:generic_file1) { Hydra::Works::GenericFile::Base.new }
+  let(:generic_file2) { Hydra::Works::GenericFile::Base.new }
 
 
   describe '#call' do
@@ -49,11 +49,11 @@ describe Hydra::Works::RemoveRelatedObjectFromGenericFile do
   end
 
   context 'with unacceptable related object' do
-    let(:collection1)      { Hydra::Works::Collection.create }
-    let(:pcdm_collection1) { Hydra::PCDM::Collection.create }
+    let(:collection1)      { Hydra::Works::Collection.new }
+    let(:pcdm_collection1) { Hydra::PCDM::Collection.new }
     let(:pcdm_file1)       { Hydra::PCDM::File.new }
     let(:non_PCDM_object)  { "I'm not a PCDM object" }
-    let(:af_base_object)   { ActiveFedora::Base.create }
+    let(:af_base_object)   { ActiveFedora::Base.new }
 
     let(:error_type)    { ArgumentError }
     let(:error_message) { 'child_related_object must be a pcdm object' }
@@ -76,48 +76,6 @@ describe Hydra::Works::RemoveRelatedObjectFromGenericFile do
 
     it 'should NOT remove AF::Base objects from related_objects aggregation' do
       expect{ Hydra::Works::RemoveRelatedObjectFromGenericFile.call( subject, af_base_object ) }.to raise_error(error_type,error_message)
-    end
-  end
-
-  context 'with unacceptable parent generic file' do
-    let(:related_object2)  { Hydra::PCDM::Object.create }
-    let(:collection1)      { Hydra::Works::Collection.create }
-    let(:generic_work1)    { Hydra::Works::GenericWork::Base.create }
-    let(:pcdm_collection1) { Hydra::PCDM::Collection.create }
-    let(:pcdm_object1)     { Hydra::PCDM::Object.create }
-    let(:pcdm_file1)       { Hydra::PCDM::File.new }
-    let(:non_PCDM_object)  { "I'm not a PCDM object" }
-    let(:af_base_object)   { ActiveFedora::Base.create }
-
-    let(:error_type)    { ArgumentError }
-    let(:error_message) { 'parent_generic_file must be a hydra-works generic file' }
-
-    it 'should NOT accept Hydra::Works::Collection as parent generic file' do
-      expect{ Hydra::Works::RemoveRelatedObjectFromGenericFile.call( collection1, related_object2 ) }.to raise_error(ArgumentError,error_message)
-    end
-
-    it 'should NOT accept Hydra::Works::GenericWork as parent generic file' do
-      expect{ Hydra::Works::RemoveRelatedObjectFromGenericFile.call( generic_work1, related_object2 ) }.to raise_error(ArgumentError,error_message)
-    end
-
-    it 'should NOT accept Hydra::PCDM::Collections as parent generic file' do
-      expect{ Hydra::Works::RemoveRelatedObjectFromGenericFile.call( pcdm_collection1, related_object2 ) }.to raise_error(ArgumentError,error_message)
-    end
-
-    it 'should NOT accept Hydra::PCDM::Objects as parent generic file' do
-      expect{ Hydra::Works::RemoveRelatedObjectFromGenericFile.call( pcdm_object1, related_object2 ) }.to raise_error(error_type,error_message)
-    end
-
-    it 'should NOT accept Hydra::PCDM::Files as parent generic file' do
-      expect{ Hydra::Works::RemoveRelatedObjectFromGenericFile.call( pcdm_file1, related_object2 ) }.to raise_error(error_type,error_message)
-    end
-
-    it 'should NOT accept non-PCDM objects as parent generic file' do
-      expect{ Hydra::Works::RemoveRelatedObjectFromGenericFile.call( non_PCDM_object, related_object2 ) }.to raise_error(error_type,error_message)
-    end
-
-    it 'should NOT accept AF::Base objects as parent generic file' do
-      expect{ Hydra::Works::RemoveRelatedObjectFromGenericFile.call( af_base_object, related_work2 ) }.to raise_error(error_type,error_message)
     end
   end
 end
