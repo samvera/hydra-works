@@ -16,7 +16,6 @@ describe Hydra::Works::GenericFile::ContainedFiles do
 
   before do
     generic_file.files = [file]
-    generic_file.save
   end
 
   describe "#thumbnail" do
@@ -25,8 +24,6 @@ describe Hydra::Works::GenericFile::ContainedFiles do
       before do
         original_file = generic_file.build_thumbnail
         original_file.content = "thumbnail"
-        generic_file.save
-        generic_file.reload
       end
       subject { generic_file.thumbnail }
       it "can be saved without errors" do
@@ -58,8 +55,6 @@ describe Hydra::Works::GenericFile::ContainedFiles do
       before do
         original_file = generic_file.build_original_file
         original_file.content = "original_file"
-        generic_file.save
-        generic_file.reload
       end
       subject { generic_file.original_file }
 
@@ -93,8 +88,6 @@ describe Hydra::Works::GenericFile::ContainedFiles do
       before do
         extracted_text = generic_file.build_extracted_text
         extracted_text.content = "extracted_text"
-        generic_file.save
-        generic_file.reload
       end
       subject { generic_file.extracted_text }
       it "can be saved without errors" do

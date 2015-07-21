@@ -36,7 +36,6 @@ describe Hydra::Works::AddGenericFileToGenericFile do
           file2.content = "I am too"
           Hydra::Works::AddGenericFileToGenericFile.call( subject, generic_file1 )
           Hydra::Works::AddGenericFileToGenericFile.call( subject, generic_file2 )
-          subject.save!
         end
 
         it 'should add generic_file to generic_file with generic_files and files' do

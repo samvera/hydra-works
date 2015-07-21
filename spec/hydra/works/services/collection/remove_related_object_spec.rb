@@ -26,29 +26,28 @@ describe Hydra::Works::RemoveRelatedObjectFromCollection do
         Hydra::Works::AddRelatedObjectToCollection.call( subject, related_object4 )
         Hydra::Works::AddCollectionToCollection.call( subject, collection1 )
         Hydra::Works::AddRelatedObjectToCollection.call( subject, related_work5 )
-        subject.save
-        expect( Hydra::Works::GetRelatedObjectsFromCollection.call( subject.reload )).to eq [related_object1,related_work2,related_file3,related_object4,related_work5]
+        expect( Hydra::Works::GetRelatedObjectsFromCollection.call( subject )).to eq [related_object1,related_work2,related_file3,related_object4,related_work5]
       end
 
       it 'should remove first related object' do
         expect( Hydra::Works::RemoveRelatedObjectFromCollection.call( subject, related_object1 ) ).to eq related_object1
-        expect( Hydra::Works::GetRelatedObjectsFromCollection.call( subject.reload )).to eq [related_work2,related_file3,related_object4,related_work5]
-        expect( Hydra::Works::GetCollectionsFromCollection.call( subject.reload )).to eq [collection2,collection1]
-        expect( Hydra::Works::GetGenericWorksFromCollection.call( subject.reload )).to eq [generic_work1]
+        expect( Hydra::Works::GetRelatedObjectsFromCollection.call( subject )).to eq [related_work2,related_file3,related_object4,related_work5]
+        expect( Hydra::Works::GetCollectionsFromCollection.call( subject )).to eq [collection2,collection1]
+        expect( Hydra::Works::GetGenericWorksFromCollection.call( subject )).to eq [generic_work1]
       end
 
       it 'should remove last related object' do
         expect( Hydra::Works::RemoveRelatedObjectFromCollection.call( subject, related_work5 ) ).to eq related_work5
-        expect( Hydra::Works::GetRelatedObjectsFromCollection.call( subject.reload )).to eq [related_object1,related_work2,related_file3,related_object4]
-        expect( Hydra::Works::GetCollectionsFromCollection.call( subject.reload )).to eq [collection2,collection1]
-        expect( Hydra::Works::GetGenericWorksFromCollection.call( subject.reload )).to eq [generic_work1]
+        expect( Hydra::Works::GetRelatedObjectsFromCollection.call( subject )).to eq [related_object1,related_work2,related_file3,related_object4]
+        expect( Hydra::Works::GetCollectionsFromCollection.call( subject )).to eq [collection2,collection1]
+        expect( Hydra::Works::GetGenericWorksFromCollection.call( subject )).to eq [generic_work1]
       end
 
       it 'should remove middle related object' do
         expect( Hydra::Works::RemoveRelatedObjectFromCollection.call( subject, related_file3 ) ).to eq related_file3
-        expect( Hydra::Works::GetRelatedObjectsFromCollection.call( subject.reload )).to eq [related_object1,related_work2,related_object4,related_work5]
-        expect( Hydra::Works::GetCollectionsFromCollection.call( subject.reload )).to eq [collection2,collection1]
-        expect( Hydra::Works::GetGenericWorksFromCollection.call( subject.reload )).to eq [generic_work1]
+        expect( Hydra::Works::GetRelatedObjectsFromCollection.call( subject )).to eq [related_object1,related_work2,related_object4,related_work5]
+        expect( Hydra::Works::GetCollectionsFromCollection.call( subject )).to eq [collection2,collection1]
+        expect( Hydra::Works::GetGenericWorksFromCollection.call( subject )).to eq [generic_work1]
       end
     end
   end

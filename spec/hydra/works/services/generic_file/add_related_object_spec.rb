@@ -35,7 +35,6 @@ describe Hydra::Works::AddRelatedObjectToGenericFile do
           file2.content = "I am too"
           Hydra::Works::AddGenericFileToGenericFile.call( subject, generic_file1 )
           Hydra::Works::AddRelatedObjectToGenericFile.call( subject, object1 )
-          subject.save!
         end
 
         it 'should add a related object to a generic_file with files and generic_files' do
