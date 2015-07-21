@@ -20,6 +20,36 @@ module Hydra::Works
       include Hydra::Works::GenericFile::Derivatives
       include Hydra::Works::GenericFile::MimeTypes
       include Hydra::Works::GenericFile::VersionedContent
+      include Hydra::Works::BlockChildObjects
+
+      filters_association :members, as: :child_generic_files, condition: :works_generic_file?
+    end
+
+    # @return [Boolean] whether this instance is a Hydra::Works Collection.
+    def works_collection?
+      false
+    end
+
+    # @return [Boolean] whether this instance is a Hydra::Works Generic Work.
+    def works_generic_work?
+      false
+    end
+
+    # @return [Boolean] whether this instance is a Hydra::Works Generic File.
+    def works_generic_file?
+      true
+    end
+
+    def parents
+      aggregated_by
+    end
+
+    def parent_generic_works
+      aggregated_by.select { |parent| parent.class.included_modules.include?(Hydra::Works::GenericWorkBehavior) }
+    end
+
+    def parent_generic_files
+      aggregated_by.select { |parent| parent.class.included_modules.include?(Hydra::Works::GenericFileBehavior) }
     end
 
   end

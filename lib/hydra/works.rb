@@ -24,6 +24,7 @@ module Hydra
     autoload :AggregatesGenericWorks, 'hydra/works/models/concerns/aggregates_generic_works'
     autoload :AggregatesCollections,  'hydra/works/models/concerns/aggregates_collections'
     autoload :GenericFile,            'hydra/works/models/generic_file'
+    autoload :BlockChildObjects,      'hydra/works/models/concerns/block_child_objects'
 
     # collection services
     autoload :AddCollectionToCollection,           'hydra/works/services/collection/add_collection'

@@ -2,18 +2,18 @@ module Hydra::Works
   # Allows instances of a class to aggregate (pcdm:hasMember) hydra-works generic works
   module AggregatesGenericWorks
 
+    def child_generic_work_ids
+      child_generic_works.map(&:id)
+    end
+
     def generic_works= generic_works
-      raise ArgumentError, "each generic_work must be a hydra works generic work" unless generic_works.all? { |w| Hydra::Works.generic_work? w }
-      raise ArgumentError, "a generic work can't be an ancestor of itself" if self.respond_to?(:object_ancestor?) && object_ancestor?(generic_works)
-      if self.respond_to?(:generic_files)
-        self.members = self.generic_files + generic_works
-      else
-        self.members = generic_works
-      end
+      warn "[DEPRECATION] `generic_works=` is deprecated.  Please use `child_generic_works=` instead.  This has a target date for removal of 07-31-2015"
+      self.child_generic_works = generic_works
     end
 
     def generic_works
-      members.to_a.select { |m| Hydra::Works.generic_work? m }
+      warn "[DEPRECATION] `generic_works` is deprecated.  Please use `child_generic_works` instead.  This has a target date for removal of 07-31-2015"
+      self.child_generic_works
     end
 
   end

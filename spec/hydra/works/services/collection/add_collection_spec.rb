@@ -75,43 +75,52 @@ describe Hydra::Works::AddCollectionToCollection do
       end
     end
 
-    context 'with unacceptable child collections' do
-      let(:generic_work1)    { Hydra::Works::GenericWork::Base.new }
-      let(:generic_file1)    { Hydra::Works::GenericFile::Base.new }
-      let(:pcdm_collection1) { Hydra::PCDM::Collection.new }
-      let(:pcdm_object1)     { Hydra::PCDM::Object.new }
-      let(:pcdm_file1)       { Hydra::PCDM::File.new }
-      let(:non_PCDM_object)  { "I'm not a PCDM object" }
-      let(:af_base_object)   { ActiveFedora::Base.new }
-
-      let(:error_message) { 'child_collection must be a hydra-works collection' }
-
-      it 'should NOT aggregate Hydra::Works::GenericWork in collections aggregation' do
-        expect{ Hydra::Works::AddCollectionToCollection.call( subject, generic_work1 ) }.to raise_error(ArgumentError,error_message)
+    context 'with unacceptable inputs' do
+      before(:all) do
+        @works_collection101  = Hydra::Works::Collection.new
+        @generic_work101      = Hydra::Works::GenericWork::Base.new
+        @generic_file101      = Hydra::Works::GenericFile::Base.new
+        @pcdm_collection101   = Hydra::PCDM::Collection.new
+        @pcdm_object101       = Hydra::PCDM::Object.new
+        @pcdm_file101         = Hydra::PCDM::File.new
+        @non_PCDM_object      = "I'm not a PCDM object"
+        @af_base_object       = ActiveFedora::Base.new
       end
 
-      it 'should NOT aggregate Hydra::Works::GenericFile in collections aggregation' do
-        expect{ Hydra::Works::AddCollectionToCollection.call( subject, generic_file1 ) }.to raise_error(ArgumentError,error_message)
-      end
+      context 'that are unacceptable child collections' do
 
-      it 'should NOT aggregate Hydra::PCDM::Collections in collections aggregation' do
-        expect{ Hydra::Works::AddCollectionToCollection.call( subject, pcdm_collection1 ) }.to raise_error(ArgumentError,error_message)
-      end
+        let(:error_type1)    { ArgumentError }
+        let(:error_message1) { /Hydra::Works::Generic(Work|File)::Base with ID:  was expected to works_collection\?, but it was false/ }
+        let(:error_type2)    { NoMethodError }
+        let(:error_message2) { /undefined method `works_collection\?' for .*/ }
 
-      it 'should NOT aggregate Hydra::PCDM::Objects in collections aggregation' do
-        expect{ Hydra::Works::AddCollectionToCollection.call( subject, pcdm_object1 ) }.to raise_error(ArgumentError,error_message)
-      end
+        it 'should NOT aggregate Hydra::Works::GenericWork in collections aggregation' do
+          expect{ Hydra::Works::AddCollectionToCollection.call( @works_collection101, @generic_work101 ) }.to raise_error(error_type1,error_message1)
+        end
 
-      it 'should NOT aggregate Hydra::PCDM::Files in collections aggregation' do
-        expect{ Hydra::Works::AddCollectionToCollection.call( subject, pcdm_file1 ) }.to raise_error(ArgumentError,error_message)
-      end
+        it 'should NOT aggregate Hydra::Works::GenericFile in collections aggregation' do
+          expect{ Hydra::Works::AddCollectionToCollection.call( @works_collection101, @generic_file101 ) }.to raise_error(error_type1,error_message1)
+        end
 
-      it 'should NOT aggregate non-PCDM objects in collections aggregation' do
-        expect{ Hydra::Works::AddCollectionToCollection.call( subject, non_PCDM_object ) }.to raise_error(ArgumentError,error_message)
-      end
+        it 'should NOT aggregate Hydra::PCDM::Collections in collections aggregation' do
+          expect{ Hydra::Works::AddCollectionToCollection.call( @works_collection101, @pcdm_collection101 ) }.to raise_error(error_type2,error_message2)
+        end
 
-      it 'should NOT aggregate AF::Base objects in collections aggregation' do
-        expect{ Hydra::Works::AddCollectionToCollection.call( subject, af_base_object ) }.to raise_error(ArgumentError,error_message)
+        it 'should NOT aggregate Hydra::PCDM::Objects in collections aggregation' do
+          expect{ Hydra::Works::AddCollectionToCollection.call( @works_collection101, @pcdm_object101 ) }.to raise_error(error_type2,error_message2)
+        end
+
+        it 'should NOT aggregate Hydra::PCDM::Files in collections aggregation' do
+          expect{ Hydra::Works::AddCollectionToCollection.call( @works_collection101, @pcdm_file101 ) }.to raise_error(error_type2,error_message2)
+        end
+
+        it 'should NOT aggregate non-PCDM objects in collections aggregation' do
+          expect{ Hydra::Works::AddCollectionToCollection.call( @works_collection101, @non_PCDM_object ) }.to raise_error(error_type2,error_message2)
+        end
+
+        it 'should NOT aggregate AF::Base objects in collections aggregation' do
+          expect{ Hydra::Works::AddCollectionToCollection.call( @works_collection101, @af_base_object ) }.to raise_error(error_type2,error_message2)
+        end
       end
     end
   end
