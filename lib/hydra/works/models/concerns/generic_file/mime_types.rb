@@ -30,7 +30,7 @@ module Hydra::Works::GenericFile
 
     def file_format
       if mime_type.present? && format_label.present?
-        "#{mime_type.split('/').last}  (#{format_label.join(", ")})"
+        "#{mime_type.split('/').last} (#{format_label.join(", ")})"
       elsif mime_type.present?
         mime_type.split('/').last
       elsif format_label.present?
