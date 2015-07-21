@@ -87,8 +87,9 @@ describe Hydra::Works::AddFileToGenericFile do
   end
 
   context "type_to_uri" do
+    subject { Hydra::Works::AddFileToGenericFile::Updater.allocate }
     it "converts URI strings to RDF::URI" do
-      expect(described_class.send(:type_to_uri, "http://example.com/CustomURI" )).to eq(::RDF::URI("http://example.com/CustomURI"))
+      expect(subject.send(:type_to_uri, "http://example.com/CustomURI" )).to eq(::RDF::URI("http://example.com/CustomURI"))
     end
   end
 
