@@ -2,14 +2,18 @@ module Hydra::Works
   # Allows instances of a class to aggregate (pcdm:hasMember) hydra-works collections
   module AggregatesCollections
 
+    def child_collection_ids
+      child_collections.map(&:id)
+    end
+
     def collections= collections
-      raise ArgumentError, "each collection must be a hydra works collection" unless collections.all? { |c| Hydra::Works.collection? c }
-      raise ArgumentError, "a collection can't be an ancestor of itself" if collection_ancestor?(collections)
-      self.members = self.generic_works + collections
+      warn "[DEPRECATION] `collections=` is deprecated.  Please use `child_collections=` instead.  This has a target date for removal of 07-31-2015"
+      self.child_collections = collections
     end
 
     def collections
-      members.to_a.select { |m| Hydra::Works.collection? m }
+      warn "[DEPRECATION] `collections` is deprecated.  Please use `child_collections` instead.  This has a target date for removal of 07-31-2015"
+      self.child_collections
     end
 
   end

@@ -67,43 +67,53 @@ describe Hydra::Works::AddGenericWorkToGenericWork do
       end
     end
 
-    context 'with unacceptable child generic_works' do
-      let(:collection1)      { Hydra::Works::Collection.new }
-      let(:generic_file1)    { Hydra::Works::GenericFile::Base.new }
-      let(:pcdm_collection1) { Hydra::PCDM::Collection.new }
-      let(:pcdm_object1)     { Hydra::PCDM::Object.new }
-      let(:pcdm_file1)       { Hydra::PCDM::File.new }
-      let(:non_PCDM_object)  { "I'm not a PCDM object" }
-      let(:af_base_object)   { ActiveFedora::Base.new }
+    context 'with unacceptable inputs' do
+      before(:all) do
+        @generic_work102      = Hydra::Works::GenericWork::Base.new
 
-      let(:error_message) { 'child_generic_work must be a hydra-works generic work' }
-
-      it 'should NOT aggregate Hydra::Works::Collection in generic works aggregation' do
-        expect{ Hydra::Works::AddGenericWorkToGenericWork.call( subject, collection1 ) }.to raise_error(ArgumentError,error_message)
+        @works_collection101  = Hydra::Works::Collection.new
+        @generic_file101      = Hydra::Works::GenericFile::Base.new
+        @pcdm_collection101   = Hydra::PCDM::Collection.new
+        @pcdm_object101       = Hydra::PCDM::Object.new
+        @pcdm_file101         = Hydra::PCDM::File.new
+        @non_PCDM_object      = "I'm not a PCDM object"
+        @af_base_object       = ActiveFedora::Base.new
       end
 
-      it 'should NOT aggregate Hydra::Works::GenericFile in generic works aggregation' do
-        expect{ Hydra::Works::AddGenericWorkToGenericWork.call( subject, generic_file1 ) }.to raise_error(ArgumentError,error_message)
-      end
+      context 'that are unacceptable child generic works' do
 
-      it 'should NOT aggregate Hydra::PCDM::Collections in generic works aggregation' do
-        expect{ Hydra::Works::AddGenericWorkToGenericWork.call( subject, pcdm_collection1 ) }.to raise_error(ArgumentError,error_message)
-      end
+        let(:error_type1)    { ArgumentError }
+        let(:error_message1) { /Hydra::Works::(GenericFile::Base|Collection) with ID:  was expected to works_generic_work\?, but it was false/ }
+        let(:error_type2)    { NoMethodError }
+        let(:error_message2) { /undefined method `works_generic_work\?' for .*/ }
 
-      it 'should NOT aggregate Hydra::PCDM::Objects in generic works aggregation' do
-        expect{ Hydra::Works::AddGenericWorkToGenericWork.call( subject, pcdm_object1 ) }.to raise_error(ArgumentError,error_message)
-      end
+        it 'should NOT aggregate Hydra::Works::Collection in generic works aggregation' do
+          expect{ Hydra::Works::AddGenericWorkToGenericWork.call( @generic_work102, @works_collection101 ) }.to raise_error(error_type1,error_message1)
+        end
 
-      it 'should NOT aggregate Hydra::PCDM::Files in generic works aggregation' do
-        expect{ Hydra::Works::AddGenericWorkToGenericWork.call( subject, pcdm_file1 ) }.to raise_error(ArgumentError,error_message)
-      end
+        it 'should NOT aggregate Hydra::Works::GenericFile in generic works aggregation' do
+          expect{ Hydra::Works::AddGenericWorkToGenericWork.call( @generic_work102, @generic_file101 ) }.to raise_error(error_type1,error_message1)
+        end
 
-      it 'should NOT aggregate non-PCDM objects in generic works aggregation' do
-        expect{ Hydra::Works::AddGenericWorkToGenericWork.call( subject, non_PCDM_object ) }.to raise_error(ArgumentError,error_message)
-      end
+        it 'should NOT aggregate Hydra::PCDM::Collections in generic works aggregation' do
+          expect{ Hydra::Works::AddGenericWorkToGenericWork.call( @generic_work102, @pcdm_collection101 ) }.to raise_error(error_type2,error_message2)
+        end
 
-      it 'should NOT aggregate AF::Base objects in generic works aggregation' do
-        expect{ Hydra::Works::AddGenericWorkToGenericWork.call( subject, af_base_object ) }.to raise_error(ArgumentError,error_message)
+        it 'should NOT aggregate Hydra::PCDM::Objects in generic works aggregation' do
+          expect{ Hydra::Works::AddGenericWorkToGenericWork.call( @generic_work102, @pcdm_object101 ) }.to raise_error(error_type2,error_message2)
+        end
+
+        it 'should NOT aggregate Hydra::PCDM::Files in generic works aggregation' do
+          expect{ Hydra::Works::AddGenericWorkToGenericWork.call( @generic_work102, @pcdm_file101 ) }.to raise_error(error_type2,error_message2)
+        end
+
+        it 'should NOT aggregate non-PCDM objects in generic works aggregation' do
+          expect{ Hydra::Works::AddGenericWorkToGenericWork.call( @generic_work102, @non_PCDM_object ) }.to raise_error(error_type2,error_message2)
+        end
+
+        it 'should NOT aggregate AF::Base objects in generic works aggregation' do
+          expect{ Hydra::Works::AddGenericWorkToGenericWork.call( @generic_work102, @af_base_object ) }.to raise_error(error_type2,error_message2)
+        end
       end
     end
   end

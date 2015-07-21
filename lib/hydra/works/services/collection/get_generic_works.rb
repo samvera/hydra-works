@@ -9,8 +9,8 @@ module Hydra::Works
     # @return [Array<Hydra::Works::GenericWork::Base>] all member generic works
 
     def self.call( parent_collection )
-      raise ArgumentError, 'parent_collection must be a hydra-works collection' unless Hydra::Works.collection? parent_collection
-      parent_collection.generic_works
+      warn "[DEPRECATION] `Hydra::PCDM::GetGenericWorksFromCollection` is deprecated.  Please use syntax `child_generic_works = parent_collection.child_generic_works` instead.  NOTE: The new syntax returns an association instead of an array.  This has a target date for removal of 07-31-2015"
+      parent_collection.child_generic_works.to_a
     end
 
   end

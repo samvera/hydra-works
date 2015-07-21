@@ -9,8 +9,8 @@ module Hydra::Works
     # @return [Array<Hydra::Works::GenericFile::Base>] all member generic files
 
     def self.call( parent_generic_file )
-      raise ArgumentError, 'parent_generic_file must be a hydra-works generic file' unless Hydra::Works.generic_file? parent_generic_file
-      parent_generic_file.generic_files
+      warn "[DEPRECATION] `Hydra::PCDM::GetGenericFilesFromGenericFile` is deprecated.  Please use syntax `child_generic_files = parent_generic_file.child_generic_files` instead.  NOTE: The new syntax returns an association instead of an array.  This has a target date for removal of 07-31-2015"
+      parent_generic_file.child_generic_files.to_a
     end
 
   end

@@ -10,9 +10,8 @@ module Hydra::Works
     # @return [Hydra::Works::Collection] the updated hydra works collection
 
     def self.call( parent_collection, child_generic_work )
-      raise ArgumentError, 'parent_collection must be a hydra-works collection' unless Hydra::Works.collection? parent_collection
-      raise ArgumentError, 'child_generic_work must be a hydra-works generic work' unless Hydra::Works.generic_work? child_generic_work
-      Hydra::PCDM::AddObjectToCollection.call( parent_collection, child_generic_work )
+      warn "[DEPRECATION] `Hydra::Works::AddGenericWorkToCollection` is deprecated.  Please use syntax `parent_collection.child_generic_works << child_generic_work` instead.  This has a target date for removal of 07-31-2015"
+      parent_collection.child_generic_works << child_generic_work
     end
 
   end

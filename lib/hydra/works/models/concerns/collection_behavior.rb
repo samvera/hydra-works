@@ -22,6 +22,33 @@ module Hydra::Works
       type [RDFVocabularies::PCDMTerms.Collection,WorksVocabularies::WorksTerms.Collection]
       include Hydra::Works::AggregatesGenericWorks
       include Hydra::Works::AggregatesCollections
+      include Hydra::Works::BlockChildObjects
+
+      filters_association :members, as: :child_collections, condition: :works_collection?
+      filters_association :members, as: :child_generic_works, condition: :works_generic_work?
+    end
+
+    # @return [Boolean] whether this instance is a Hydra::Works Collection.
+    def works_collection?
+      true
+    end
+
+    # @return [Boolean] whether this instance is a Hydra::Works Generic Work.
+    def works_generic_work?
+      false
+    end
+
+    # @return [Boolean] whether this instance is a Hydra::Works Generic File.
+    def works_generic_file?
+      false
+    end
+
+    def parents
+      aggregated_by
+    end
+
+    def parent_collections
+      aggregated_by.select { |parent| parent.class.included_modules.include?(Hydra::Works::CollectionBehavior) }
     end
 
   end

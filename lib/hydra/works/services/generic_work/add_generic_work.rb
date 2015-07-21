@@ -10,9 +10,8 @@ module Hydra::Works
     # @return [Hydra::Works::GenericWork::Base] the updated hydra works generic work
 
     def self.call( parent_generic_work, child_generic_work )
-      raise ArgumentError, 'parent_generic_work must be a hydra-works generic work' unless Hydra::Works.generic_work? parent_generic_work
-      raise ArgumentError, 'child_generic_work must be a hydra-works generic work' unless Hydra::Works.generic_work? child_generic_work
-      parent_generic_work.members << child_generic_work
+      warn "[DEPRECATION] `Hydra::Works::AddGenericWorkToGenericWork` is deprecated.  Please use syntax `parent_generic_work.child_generic_works << child_generic_work` instead.  This has a target date for removal of 07-31-2015"
+      parent_generic_work.child_generic_works << child_generic_work
     end
   end
 end
