@@ -3,7 +3,6 @@ require 'spec_helper'
 describe Hydra::Works::AddFileToGenericFile do
 
   let(:generic_file)        { Hydra::Works::GenericFile::Base.new }
-  let(:reloaded)            { generic_file.reload }
   let(:filename)            { "sample-file.pdf" }
   let(:path)                { File.join(fixture_path, filename) }
   let(:path2)               { File.join(fixture_path, "updated-file.txt") }
@@ -48,14 +47,14 @@ describe Hydra::Works::AddFileToGenericFile do
       described_class.call(generic_file, path, type)
     end
     it "builds and uses the association's target" do
-      expect(reloaded.extracted_text.content).to start_with("%PDF-1.3")
+      expect(generic_file.extracted_text.content).to start_with("%PDF-1.3")
     end
   end
 
   context "when :versioning => true" do
     let(:type)        { :original_file }
     let(:versioning)  { true }
-    subject     { reloaded }
+    subject     { generic_file }
     it "updates the file and creates a version" do
       described_class.call(generic_file, path, type, versioning: versioning)
       expect(subject.original_file.versions.all.count).to eq(1)
@@ -79,7 +78,7 @@ describe Hydra::Works::AddFileToGenericFile do
     before do
       described_class.call(generic_file, path, type, versioning: versioning)
     end
-    subject     { reloaded }
+    subject     { generic_file }
     it "skips creating versions" do
       expect(subject.original_file.versions.all.count).to eq(0)
       expect(subject.original_file.content).to start_with("%PDF-1.3")

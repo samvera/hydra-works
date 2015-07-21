@@ -24,26 +24,25 @@ describe Hydra::Works::RemoveCollectionFromCollection do
         Hydra::Works::AddCollectionToCollection.call( subject, collection4 )
         Hydra::Works::AddGenericWorkToCollection.call( subject, generic_work1 )
         Hydra::Works::AddCollectionToCollection.call( subject, collection5 )
-        subject.save
-        expect( Hydra::Works::GetCollectionsFromCollection.call( subject.reload )).to eq [collection1,collection2,collection3,collection4,collection5]
+        expect( Hydra::Works::GetCollectionsFromCollection.call( subject )).to eq [collection1,collection2,collection3,collection4,collection5]
       end
 
       it 'should remove first collection' do
         expect( Hydra::Works::RemoveCollectionFromCollection.call( subject, collection1 ) ).to eq collection1
-        expect( Hydra::Works::GetCollectionsFromCollection.call( subject.reload )).to eq [collection2,collection3,collection4,collection5]
-        expect( Hydra::Works::GetGenericWorksFromCollection.call( subject.reload )).to eq [generic_work2,generic_work1]
+        expect( Hydra::Works::GetCollectionsFromCollection.call( subject )).to eq [collection2,collection3,collection4,collection5]
+        expect( Hydra::Works::GetGenericWorksFromCollection.call( subject )).to eq [generic_work2,generic_work1]
       end
 
       it 'should remove last collection' do
         expect( Hydra::Works::RemoveCollectionFromCollection.call( subject, collection5 ) ).to eq collection5
-        expect( Hydra::Works::GetCollectionsFromCollection.call( subject.reload )).to eq [collection1,collection2,collection3,collection4]
-        expect( Hydra::Works::GetGenericWorksFromCollection.call( subject.reload )).to eq [generic_work2,generic_work1]
+        expect( Hydra::Works::GetCollectionsFromCollection.call( subject )).to eq [collection1,collection2,collection3,collection4]
+        expect( Hydra::Works::GetGenericWorksFromCollection.call( subject )).to eq [generic_work2,generic_work1]
       end
 
       it 'should remove middle collection' do
         expect( Hydra::Works::RemoveCollectionFromCollection.call( subject, collection3 ) ).to eq collection3
-        expect( Hydra::Works::GetCollectionsFromCollection.call( subject.reload )).to eq [collection1,collection2,collection4,collection5]
-        expect( Hydra::Works::GetGenericWorksFromCollection.call( subject.reload )).to eq [generic_work2,generic_work1]
+        expect( Hydra::Works::GetCollectionsFromCollection.call( subject )).to eq [collection1,collection2,collection4,collection5]
+        expect( Hydra::Works::GetGenericWorksFromCollection.call( subject )).to eq [generic_work2,generic_work1]
       end
     end
   end

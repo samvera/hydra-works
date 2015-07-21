@@ -45,21 +45,11 @@ describe Hydra::Works::UploadFileToGenericFile do
     before { described_class.call(generic_file, file, additional_services: additional_services) }
 
     describe "the uploaded file" do
-      subject { generic_file.original_file }
-      it "has content" do
-        expect(subject.content).to start_with("%PDF-1.3")
-      end
-      it "has a mime type" do
-        expect(subject.mime_type).to eql mime_type
-      end
-      it "has a name" do
-        expect(subject.original_name).to eql filename
-      end
-    end
-
-    describe "the generic file's generated files" do
       subject { generic_file }
-      it "has a thumbnail" do
+      it "has content and generated files" do
+        expect(subject.original_file.content).to start_with("%PDF-1.3")
+        expect(subject.original_file.mime_type).to eql mime_type
+        expect(subject.original_file.original_name).to eql filename
         expect(subject.thumbnail.content).not_to be_nil
       end
     end
@@ -71,21 +61,14 @@ describe Hydra::Works::UploadFileToGenericFile do
     before do
       described_class.call(generic_file, file, additional_services: additional_services)
       described_class.call(generic_file, updated_file, additional_services: additional_services, update_existing: true)
-      generic_file.reload
     end
 
     describe "the new file" do
       subject { generic_file.original_file }
       it "has updated content" do
         expect(subject.content).to eql File.open(updated_file).read
-      end
-      it "has an updated name" do
         expect(subject.original_name).to eql updated_filename
-      end
-      it "has a updated mime type" do
         expect(subject.mime_type).to eql updated_mime_type
-      end
-      it "has 2 versions in its history" do
         expect(subject.versions.all.count).to eql 2
       end
     end
