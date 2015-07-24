@@ -23,7 +23,7 @@ module Hydra::Works
       include Hydra::Works::BlockChildObjects
 
       filters_association :members, as: :child_generic_works, condition: :works_generic_work?
-      filters_association :members, as: :child_generic_files, condition: :works_generic_file?
+      filters_association :members, as: :generic_files, condition: :works_generic_file?
     end
 
     def contains= files
