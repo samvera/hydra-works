@@ -18,7 +18,7 @@ describe Hydra::Works::GenericWork do
 
   let(:pcdm_file1)       { Hydra::PCDM::File.new }
 
-  describe '#generic_works=' do
+  describe '#child_generic_works=' do
     it 'should aggregate generic_works' do
       generic_work1.child_generic_works = [generic_work2, generic_work3]
       expect(generic_work1.child_generic_works).to eq [generic_work2, generic_work3]
@@ -29,6 +29,13 @@ describe Hydra::Works::GenericWork do
     it 'should aggregate generic_files' do
       generic_work1.generic_files = [generic_file1, generic_file2]
       expect(generic_work1.generic_files).to eq [generic_file1, generic_file2]
+    end
+  end
+
+  describe '#generic_file_ids' do
+    it 'should list child generic_file ids' do
+      generic_work1.generic_files = [generic_file1, generic_file2]
+      expect(generic_work1.generic_file_ids).to eq [generic_file1.id, generic_file2.id]
     end
   end
 
