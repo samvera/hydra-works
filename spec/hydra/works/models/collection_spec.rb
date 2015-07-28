@@ -47,15 +47,6 @@ describe Hydra::Works::Collection do
           subject.child_collections << collection3
           expect( subject.child_collections ).to eq [collection1,collection2,collection3]
         end
-
-        it 'should solrize member ids' do
-          skip 'skipping this test because issue #109 needs to be addressed' do
-          expect(subject.to_solr["generic_works_ssim"]).to include(generic_work1.id,generic_work2.id)
-          expect(subject.to_solr["generic_works_ssim"]).not_to include(collection2.id,collection1.id,collection3.id)
-          expect(subject.to_solr["collections_ssim"]).to include(collection2.id,collection1.id,collection3.id)
-          expect(subject.to_solr["collections_ssim"]).not_to include(generic_work1.id,generic_work2.id)
-        end
-        end
       end
 
       describe 'aggregates collections that implement Hydra::Works' do
@@ -214,15 +205,6 @@ describe Hydra::Works::Collection do
         it 'should add generic_work to collection with collections and generic_works' do 
           subject.child_generic_works << generic_work3
           expect( subject.child_generic_works  ).to eq [generic_work1,generic_work2,generic_work3]
-        end
-
-        it 'should solrize member ids' do
-          skip 'skipping this test because issue #109 needs to be addressed' do
-          expect(subject.to_solr["generic_works_ssim"]).to include(generic_work1.id,generic_work2.id,generic_work3.id)  
-          expect(subject.to_solr["generic_works_ssim"]).not_to include(collection2.id,collection1.id)
-          expect(subject.to_solr["collections_ssim"]).to include(collection2.id,collection1.id)
-          expect(subject.to_solr["collections_ssim"]).not_to include(generic_work1.id,generic_work2.id,generic_work3.id)
-        end
         end
       end
       
@@ -407,17 +389,6 @@ describe Hydra::Works::Collection do
           expect( subject.related_objects.include? object1 ).to be true
           expect( subject.related_objects.include? object2 ).to be true
           expect( subject.related_objects.size ).to eq 2
-        end
-
-        it 'should solrize member ids' do
-          skip 'skipping this test because issue #109 needs to be addressed' do
-          expect(subject.to_solr["generic_works_ssim"]).to include(generic_work1.id,generic_work2.id)
-          expect(subject.to_solr["generic_works_ssim"]).not_to include(collection2.id,collection1.id,object1.id,object2.id)
-          expect(subject.to_solr["collections_ssim"]).to include(collection2.id,collection1.id)
-          expect(subject.to_solr["collections_ssim"]).not_to include(object1.id,object2.id,generic_work1.id,generic_work2.id)
-          expect(subject.to_solr["related_objects_ssim"]).to include(object1.id,object2.id)
-          expect(subject.to_solr["related_objects_ssim"]).not_to include(collection2.id,collection1.id,generic_work1.id,generic_work2.id)
-        end
         end
       end
     end
