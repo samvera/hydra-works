@@ -563,6 +563,13 @@ describe Hydra::Works::Collection do
     end
   end
 
+  describe '#collections=' do
+    it 'should aggregate collections' do
+      collection1.child_collections = [collection2, collection3]
+      expect(collection1.child_collections).to eq [collection2, collection3]
+    end
+  end
+
   describe '#child_generic_works=' do
     it 'should aggregate generic_works' do
       collection1.child_generic_works = [generic_work1,generic_work2]

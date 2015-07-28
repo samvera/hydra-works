@@ -11,8 +11,8 @@ module Hydra::Works
     # @return [Hydra::Works::GenericWork::Base] the updated hydra works generic work
 
     def self.call( parent_generic_work, child_generic_file, nth_occurrence=1 )
-      warn "[DEPRECATION] `Hydra::Works::RemoveGenericFileFromGenericWork` is deprecated.  Please use syntax `parent_generic_work.child_generic_files.delete child_generic_file` instead which returns [child_generic_file] instead of child_generic_file.  This has a target date for removal of 07-31-2015"
-      result = parent_generic_work.child_generic_files.delete child_generic_file
+      warn "[DEPRECATION] `Hydra::Works::RemoveGenericFileFromGenericWork` is deprecated.  Please use syntax `parent_generic_work.generic_files.delete child_generic_file` instead which returns [child_generic_file] instead of child_generic_file.  This has a target date for removal of 07-31-2015"
+      result = parent_generic_work.generic_files.delete child_generic_file
       result = result.first if result.kind_of?(Array) && result.size >= 1      # temporarily done for compatibility with current service object API
       result
 

@@ -9,20 +9,14 @@ describe Hydra::Works::GetRelatedObjectsFromGenericFile do
 
   let(:generic_work1) { Hydra::Works::GenericWork::Base.new }
   let(:generic_file1) { Hydra::Works::GenericFile::Base.new }
-  let(:generic_file2) { Hydra::Works::GenericFile::Base.new }
 
   describe '#call' do
     context 'with generic files' do
-      before do
-        Hydra::Works::AddGenericFileToGenericFile.call( subject, generic_file1 )
-        Hydra::Works::AddGenericFileToGenericFile.call( subject, generic_file2 )
-      end
-
       it 'should return empty array when only generic files are aggregated' do
         expect(Hydra::Works::GetRelatedObjectsFromGenericFile.call( subject )).to eq []
       end
 
-      it 'should only return related objects' do
+      it 'should return related objects' do
         Hydra::Works::AddRelatedObjectToGenericFile.call( subject, object2 )
         expect(Hydra::Works::GetRelatedObjectsFromGenericFile.call( subject )).to eq [object2]
       end

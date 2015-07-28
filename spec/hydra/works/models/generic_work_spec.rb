@@ -13,8 +13,8 @@ describe Hydra::Works::GenericWork do
 
   describe '#generic_works=' do
     it 'should aggregate generic_works' do
-      generic_work1.generic_works = [generic_work2, generic_work3]
-      expect(generic_work1.generic_works).to eq [generic_work2, generic_work3]
+      generic_work1.child_generic_works = [generic_work2, generic_work3]
+      expect(generic_work1.child_generic_works).to eq [generic_work2, generic_work3]
     end
   end
 

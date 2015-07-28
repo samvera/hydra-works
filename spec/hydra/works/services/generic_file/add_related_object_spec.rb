@@ -12,7 +12,6 @@ describe Hydra::Works::AddRelatedObjectToGenericFile do
       let(:generic_work1) { Hydra::Works::GenericWork::Base.new }
       let(:generic_work2) { Hydra::Works::GenericWork::Base.new }
       let(:generic_file1) { Hydra::Works::GenericFile::Base.new }
-      let(:generic_file2) { Hydra::Works::GenericFile::Base.new }
 
       it 'should add various types of related objects to generic_file' do
         Hydra::Works::AddRelatedObjectToGenericFile.call( subject, generic_work1 )
@@ -33,7 +32,6 @@ describe Hydra::Works::AddRelatedObjectToGenericFile do
           subject.save
           file1.content = "I'm a file"
           file2.content = "I am too"
-          Hydra::Works::AddGenericFileToGenericFile.call( subject, generic_file1 )
           Hydra::Works::AddRelatedObjectToGenericFile.call( subject, object1 )
         end
 
@@ -47,12 +45,10 @@ describe Hydra::Works::AddRelatedObjectToGenericFile do
 
         it 'should solrize member ids' do
           skip 'skipping this test because issue #109 needs to be addressed' do
-          expect(subject.to_solr["generic_files_ssim"]).to include(generic_file2.id,generic_file1.id)
-          expect(subject.to_solr["generic_files_ssim"]).not_to include(object1.id,object2.id,file1.id,file2.id)
           expect(subject.to_solr["files_ssim"]).to include(file1.id,file2.id)
-          expect(subject.to_solr["files_ssim"]).not_to include(object1.id,object2.id,generic_file1.id,generic_file2.id)
-          expect(subject.to_solr["related_objects_ssim"]).to include(object1.id,object2.id)
-          expect(subject.to_solr["related_objects_ssim"]).not_to include(generic_file2.id,generic_file1.id,file1.id,file2.id)
+          expect(subject.to_solr["files_ssim"]).not_to include(object1.id,object2.id,generic_file1.id)
+          expect(subject.to_solr["related_objects_ssim"]).to include(object1.id,object2.id,generic_file1.id)
+          expect(subject.to_solr["related_objects_ssim"]).not_to include(file1.id,file2.id)
         end
         end
       end

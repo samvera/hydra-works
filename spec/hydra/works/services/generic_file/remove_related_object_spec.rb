@@ -19,10 +19,8 @@ describe Hydra::Works::RemoveRelatedObjectFromGenericFile do
       before do
         Hydra::Works::AddRelatedObjectToGenericFile.call( subject, related_object1 )
         Hydra::Works::AddRelatedObjectToGenericFile.call( subject, related_work2 )
-        Hydra::Works::AddGenericFileToGenericFile.call( subject, generic_file2 )
         Hydra::Works::AddRelatedObjectToGenericFile.call( subject, related_file3 )
         Hydra::Works::AddRelatedObjectToGenericFile.call( subject, related_object4 )
-        Hydra::Works::AddGenericFileToGenericFile.call( subject, generic_file1 )
         Hydra::Works::AddRelatedObjectToGenericFile.call( subject, related_work5 )
         expect( Hydra::Works::GetRelatedObjectsFromGenericFile.call( subject )).to eq [related_object1,related_work2,related_file3,related_object4,related_work5]
       end
@@ -30,19 +28,16 @@ describe Hydra::Works::RemoveRelatedObjectFromGenericFile do
       it 'should remove first related object' do
         expect( Hydra::Works::RemoveRelatedObjectFromGenericFile.call( subject, related_object1 ) ).to eq related_object1
         expect( Hydra::Works::GetRelatedObjectsFromGenericFile.call( subject )).to eq [related_work2,related_file3,related_object4,related_work5]
-        expect( Hydra::Works::GetGenericFilesFromGenericFile.call( subject )).to eq [generic_file2,generic_file1]
       end
 
       it 'should remove last related object' do
         expect( Hydra::Works::RemoveRelatedObjectFromGenericFile.call( subject, related_work5 ) ).to eq related_work5
         expect( Hydra::Works::GetRelatedObjectsFromGenericFile.call( subject )).to eq [related_object1,related_work2,related_file3,related_object4]
-        expect( Hydra::Works::GetGenericFilesFromGenericFile.call( subject )).to eq [generic_file2,generic_file1]
       end
 
       it 'should remove middle related object' do
         expect( Hydra::Works::RemoveRelatedObjectFromGenericFile.call( subject, related_file3 ) ).to eq related_file3
         expect( Hydra::Works::GetRelatedObjectsFromGenericFile.call( subject )).to eq [related_object1,related_work2,related_object4,related_work5]
-        expect( Hydra::Works::GetGenericFilesFromGenericFile.call( subject )).to eq [generic_file2,generic_file1]
       end
     end
   end
