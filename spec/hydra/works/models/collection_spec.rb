@@ -49,12 +49,11 @@ describe Hydra::Works::Collection do
         end
 
         it 'should solrize member ids' do
-          skip 'skipping this test because issue #109 needs to be addressed' do
-          expect(subject.to_solr["generic_works_ssim"]).to include(generic_work1.id,generic_work2.id)
-          expect(subject.to_solr["generic_works_ssim"]).not_to include(collection2.id,collection1.id,collection3.id)
-          expect(subject.to_solr["collections_ssim"]).to include(collection2.id,collection1.id,collection3.id)
-          expect(subject.to_solr["collections_ssim"]).not_to include(generic_work1.id,generic_work2.id)
-        end
+          [collection1, collection2, collection3, generic_work1, generic_work2].each(&:save)
+          expect(subject.to_solr["child_collection_ids_ssim"]).to include(collection2.id,collection1.id)
+          expect(subject.to_solr["child_collection_ids_ssim"]).not_to include(generic_work1.id,generic_work2.id)
+          expect(subject.to_solr["child_generic_work_ids_ssim"]).to include(generic_work1.id,generic_work2.id)
+          expect(subject.to_solr["child_generic_work_ids_ssim"]).not_to include(collection2.id,collection1.id,collection3.id)
         end
       end
 

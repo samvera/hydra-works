@@ -53,6 +53,9 @@ module Hydra
     autoload_under 'services/generic_file' do
       autoload :AddFileToGenericFile
     end
+    autoload_under 'indexers' do
+      autoload :CollectionIndexer
+    end
     autoload :AddGenericFileToGenericFile,         'hydra/works/services/generic_file/add_generic_file'
     autoload :AddRelatedObjectToGenericFile,       'hydra/works/services/generic_file/add_related_object'
     autoload :GetGenericWorksFromGenericFile,      'hydra/works/services/generic_file/get_generic_works'
