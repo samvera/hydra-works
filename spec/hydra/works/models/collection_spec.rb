@@ -399,36 +399,24 @@ describe Hydra::Works::Collection do
       let(:non_PCDM_object)  { "I'm not a PCDM object" }
       let(:af_base_object)   { ActiveFedora::Base.new }
 
-      let(:error_message) { 'child_related_object must be a pcdm object' }
-
       it 'should NOT aggregate Hydra::Works::Collection in related objects aggregation' do
-        skip( "pending resolution of hydra-pcdm#153" ) do
-          expect{ subject.related_objects << collection1 }.to raise_error(ArgumentError,error_message)
-        end
+        expect{ subject.related_objects << collection1 }.to raise_error(ActiveFedora::AssociationTypeMismatch, /Hydra::Works::Collection:.*> is not a PCDM object./)
       end
 
       it 'should NOT aggregate Hydra::PCDM::Collections in related objects aggregation' do
-        skip( "pending resolution of hydra-pcdm#153" ) do
-          expect{ subject.related_objects << pcdm_collection1 }.to raise_error(ArgumentError,error_message)
-        end
+        expect{ subject.related_objects << pcdm_collection1 }.to raise_error(ActiveFedora::AssociationTypeMismatch, /Hydra::PCDM::Collection:.* is not a PCDM object./)
       end
 
       it 'should NOT aggregate Hydra::PCDM::Files in related objects aggregation' do
-        skip( "pending resolution of hydra-pcdm#153" ) do
-          expect{ subject.related_objects << pcdm_file1 }.to raise_error(ArgumentError,error_message)
-        end
+        expect{ subject.related_objects << pcdm_file1 }.to raise_error(ActiveFedora::AssociationTypeMismatch, /ActiveFedora::Base.* expected, got Hydra::PCDM::File.*/)
       end
 
       it 'should NOT aggregate non-PCDM objects in related objects aggregation' do
-        skip( "pending resolution of hydra-pcdm#153" ) do
-          expect{ subject.related_objects << non_PCDM_object }.to raise_error(ArgumentError,error_message)
-        end
+        expect{ subject.related_objects << non_PCDM_object }.to raise_error(ActiveFedora::AssociationTypeMismatch, /ActiveFedora::Base.* expected, got String.*/)
       end
 
       it 'should NOT aggregate AF::Base objects in related objects aggregation' do
-        skip( "pending resolution of hydra-pcdm#153" ) do
-          expect{ subject.related_objects << af_base_object }.to raise_error(ArgumentError,error_message)
-        end
+        expect{ subject.related_objects << af_base_object }.to raise_error(ActiveFedora::AssociationTypeMismatch, /ActiveFedora::Base.* is not a PCDM object./)
       end
     end
 
@@ -492,47 +480,6 @@ describe Hydra::Works::Collection do
       end
     end 
   end   
-
-  context 'with unacceptable related object' do
-    let(:collection1)      { Hydra::Works::Collection.new }
-    let(:pcdm_collection1) { Hydra::PCDM::Collection.new }
-    let(:pcdm_file1)       { Hydra::PCDM::File.new }
-    let(:non_PCDM_object)  { "I'm not a PCDM object" }
-    let(:af_base_object)   { ActiveFedora::Base.new }
-
-    let(:error_type)    { ArgumentError }
-    let(:error_message) { 'child_related_object must be a pcdm object' }
-
-    it 'should NOT remove Hydra::Works::Collection from related_objects aggregation' do
-      skip( "pending resolution of hydra-pcdm#153" ) do
-      expect{ subject.related_objects.delete collection1 }.to raise_error(ArgumentError,error_message)
-      end
-    end
-
-    it 'should NOT remove Hydra::PCDM::Collections from related_objects aggregation' do
-      skip( "pending resolution of hydra-pcdm#153" ) do
-      expect{ subject.related_objects.delete pcdm_collection1 }.to raise_error(ArgumentError,error_message)
-      end
-    end
-
-    it 'should NOT remove Hydra::PCDM::Files from related_objects aggregation' do
-      skip( "pending resolution of hydra-pcdm#153" ) do
-      expect{ subject.related_objects.delete pcdm_file1 }.to raise_error(error_type,error_message)
-      end
-    end
-
-    it 'should NOT remove non-PCDM objects from related_objects aggregation' do
-      skip( "pending resolution of hydra-pcdm#153" ) do
-      expect{ subject.related_objects.delete non_PCDM_object }.to raise_error(error_type,error_message)
-      end
-    end
-
-    it 'should NOT remove AF::Base objects from related_objects aggregation' do
-      skip( "pending resolution of hydra-pcdm#153" ) do
-      expect{ subject.related_objects.delete af_base_object }.to raise_error(error_type,error_message)
-      end
-    end
-  end
 
   describe '#collections=' do
     it 'should aggregate collections' do
