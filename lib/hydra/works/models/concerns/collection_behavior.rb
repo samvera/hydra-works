@@ -51,5 +51,11 @@ module Hydra::Works
       aggregated_by.select { |parent| parent.class.included_modules.include?(Hydra::Works::CollectionBehavior) }
     end
 
+    module ClassMethods
+      def indexer
+        Hydra::Works::CollectionIndexer
+      end
+    end
+
   end
 end
