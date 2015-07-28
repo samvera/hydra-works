@@ -42,15 +42,6 @@ describe Hydra::Works::AddRelatedObjectToGenericFile do
           expect( related_objects.include? object2 ).to be true
           expect( related_objects.size ).to eq 2
         end
-
-        it 'should solrize member ids' do
-          skip 'skipping this test because issue #109 needs to be addressed' do
-          expect(subject.to_solr["files_ssim"]).to include(file1.id,file2.id)
-          expect(subject.to_solr["files_ssim"]).not_to include(object1.id,object2.id,generic_file1.id)
-          expect(subject.to_solr["related_objects_ssim"]).to include(object1.id,object2.id,generic_file1.id)
-          expect(subject.to_solr["related_objects_ssim"]).not_to include(file1.id,file2.id)
-        end
-        end
       end
     end
 
