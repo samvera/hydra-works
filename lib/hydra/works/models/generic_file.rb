@@ -8,6 +8,7 @@ module Hydra::Works
     autoload :MimeTypes,              'hydra/works/models/concerns/generic_file/mime_types'
     autoload :ContainedFiles,         'hydra/works/models/concerns/generic_file/contained_files'
     autoload :VersionedContent,       'hydra/works/models/concerns/generic_file/versioned_content'
+    autoload :VirusCheck,             'hydra/works/models/concerns/generic_file/virus_check'
 
 
     # Base class for creating objects that behave like Hydra::Works::GenericFiles

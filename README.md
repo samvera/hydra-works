@@ -59,6 +59,22 @@ f1.content = "The quick brown fox jumped over the lazy dog."
 bf1.save
 ```
 
+## Virus Detection
+
+To turn on virus detection, install clamav on your system and add the `clamav` gem to your Gemfile
+
+    gem 'clamav'
+
+Then include the `VirusCheck` module in your `GenericFile` class:
+
+```ruby
+class BookFiles < ActiveFedora::Base
+  include Hydra::Works::GenericFileBehavior
+  include Hydra::Works::GenericFile::VirusCheck
+end
+```
+
+
 ## Access controls
 
 We are using [Web ACL](http://www.w3.org/wiki/WebAccessControl) as implemented by [hydra-access-controls](https://github.com/projecthydra/hydra-head/tree/master/hydra-access-controls).
