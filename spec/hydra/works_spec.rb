@@ -12,81 +12,81 @@ describe Hydra::Works do
 
   describe 'Validations' do
 
-    describe "#collection?" do
+    describe "#works_collection?" do
       it "should return true for a works collection" do
-        expect( Hydra::Works.collection? works_coll ).to be true
+        expect( works_coll.works_collection? ).to be true
       end
 
       it "should return false for a works generic work" do
-        expect( Hydra::Works.collection? works_gwork ).to be false
+        expect( works_gwork.works_collection? ).to be false
       end
 
       it "should return false for a works generic file" do
-        expect( Hydra::Works.collection? works_gfile ).to be false
+        expect( works_gfile.works_collection? ).to be false
       end
 
-      it "should return false for a pcdm collection" do
-        expect( Hydra::Works.collection? pcdm_coll ).to be false
+      it "should return that method is not available for pcdm a collection" do
+        expect(pcdm_coll).not_to respond_to(:works_collection?)
       end
 
-      it "should return false for a pcdm object" do
-        expect( Hydra::Works.collection? pcdm_obj ).to be false
+      it "should return that method is not available for a pcdm object" do
+        expect(pcdm_obj).not_to respond_to(:works_collection?)
       end
 
-      it "should return false for a pcdm file" do
-        expect( Hydra::Works.collection? pcdm_file ).to be false
+      it "should return that method is not available for a pcdm file" do
+        expect(pcdm_file).not_to respond_to(:works_collection?)
       end
     end
 
-    describe "#generic_work?" do
+    describe "#works_generic_work?" do
       it "should return false for a works collection" do
-        expect( Hydra::Works.generic_work? works_coll ).to be false
+        expect( works_coll.works_generic_work? ).to be false
       end
 
       it "should return true for a works generic work" do
-        expect( Hydra::Works.generic_work? works_gwork ).to be true
+        expect( works_gwork.works_generic_work? ).to be true
       end
 
       it "should return false for a works generic file" do
-        expect( Hydra::Works.generic_work? works_gfile ).to be false
+        expect( works_gfile.works_generic_work? ).to be false
       end
 
-      it "should return false for a pcdm collection" do
-        expect( Hydra::Works.generic_work? pcdm_coll ).to be false
+      it "should return that method is not available for a pcdm collection" do
+        expect(pcdm_coll).not_to respond_to(:works_generic_work?)
       end
 
-      it "should return false for a pcdm object" do
-        expect( Hydra::Works.generic_work? pcdm_obj ).to be false
+      it "should return that method is not available for a pcdm object" do
+        expect(pcdm_obj).not_to respond_to(:works_generic_work?)
       end
 
-      it "should return false for a pcdm file" do
-        expect( Hydra::Works.generic_work? pcdm_file ).to be false
+      it "should return that method is not available for a pcdm file" do
+        expect(pcdm_file).not_to respond_to(:works_generic_work?)
       end
     end
 
-    describe "#generic_file?" do
+    describe "#works_generic_file?" do
       it "should return false for a works collection" do
-        expect( Hydra::Works.generic_file? works_coll ).to be false
+        expect( works_coll.works_generic_file? ).to be false
       end
 
       it "should return false for a works generic work" do
-        expect( Hydra::Works.generic_file? works_gwork ).to be false
+        expect( works_gwork.works_generic_file? ).to be false
       end
 
       it "should return true for a works generic file" do
-        expect( Hydra::Works.generic_file? works_gfile ).to be true
+        expect( works_gfile.works_generic_file? ).to be true
       end
 
-      it "should return false for a pcdm collection" do
-        expect( Hydra::Works.generic_file? pcdm_coll ).to be false
+      it "should return that method is not available for a pcdm collection" do
+        expect(pcdm_coll).not_to respond_to(:works_generic_file?)
       end
 
-      it "should return false for a pcdm object" do
-        expect( Hydra::Works.generic_file? pcdm_obj ).to be false
+      it "should return that method is not available for a pcdm object" do
+        expect(pcdm_obj).not_to respond_to(:works_generic_file?)
       end
 
-      it "should return false for a pcdm file" do
-        expect( Hydra::Works.generic_file? pcdm_file ).to be false
+      it "should return that method is not available for a pcdm file" do
+        expect(pcdm_file).not_to respond_to(:works_generic_file?)
       end
     end
   end

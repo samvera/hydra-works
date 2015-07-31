@@ -64,20 +64,20 @@ module Hydra
     autoload :GenerateThumbnail,                   'hydra/works/services/generic_file/generate/thumbnail'
     autoload :PersistDerivative,                   'hydra/works/services/generic_file/persist_derivative'
 
-    # model validations
+    # model validations - these have been deprecated
     def self.collection? collection
-      return false unless collection.respond_to? :type
-      collection.type.include? WorksVocabularies::WorksTerms.Collection
+      warn "[DEPRECATION] `collection? collection` is deprecated.  Please use `works_collection?` instead.  This has a target date for removal of 07-31-2015"
+      collection.works_collection?
     end
 
     def self.generic_work? generic_work
-      return false unless generic_work.respond_to? :type
-      generic_work.type.include? WorksVocabularies::WorksTerms.GenericWork
+      warn "[DEPRECATION] `generic_work? generic_work` is deprecated.  Please use `works_generic_work?` instead.  This has a target date for removal of 07-31-2015"
+      generic_work.works_generic_work?
     end
 
     def self.generic_file? generic_file
-      return false unless generic_file.respond_to? :type
-      generic_file.type.include? WorksVocabularies::WorksTerms.GenericFile
+      warn "[DEPRECATION] `generic_file? generic_file` is deprecated.  Please use `works_generic_file?` instead.  This has a target date for removal of 07-31-2015"
+      generic_file.works_generic_file?
     end
 
   end
