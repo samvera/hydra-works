@@ -70,3 +70,8 @@ RSpec/FilePath:
 
 RSpec/InstanceVariable:
   Enabled: false
+
+RSpec/DescribedClass:
+  Exclude:
+    - 'spec/hydra/works/models/concerns/generic_file/characterization_spec.rb'
+
