@@ -214,4 +214,19 @@ describe Hydra::Works::GenericFile::Base do
 
   end
 
+  describe "should have parent work accessors" do
+    let(:generic_work1) { Hydra::Works::GenericWork::Base.create }
+    before do
+      generic_work1.generic_files << generic_file1
+    end
+
+    it 'should have parents' do
+      expect(generic_file1.parents).to eq [generic_work1]
+    end
+    it 'should have a parent work' do
+      expect(generic_file1.generic_works).to eq [generic_work1]
+    end
+  end
+
+
 end
