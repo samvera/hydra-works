@@ -15,7 +15,6 @@ module Hydra::Works
     included do
       type [RDFVocabularies::PCDMTerms.Object,WorksVocabularies::WorksTerms.GenericFile]
 
-      include Hydra::Works::AggregatesGenericFiles
       include Hydra::Works::GenericFile::ContainedFiles
       include Hydra::Works::GenericFile::Derivatives
       include Hydra::Works::GenericFile::MimeTypes

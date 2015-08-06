@@ -18,8 +18,6 @@ module Hydra::Works
 
     included do
       type [RDFVocabularies::PCDMTerms.Object,WorksVocabularies::WorksTerms.GenericWork]
-      include Hydra::Works::AggregatesGenericFiles
-      include Hydra::Works::AggregatesGenericWorks
       include Hydra::Works::BlockChildObjects
 
       filters_association :members, as: :child_generic_works, condition: :works_generic_work?
