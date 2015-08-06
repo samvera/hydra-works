@@ -1,6 +1,6 @@
 require 'rdf'
 module WorksVocabularies
-  class WorksTerms < RDF::Vocabulary("http://hydra.org/works/models#")
+  class WorksTerms < RDF::Vocabulary("http://projecthydra.org/works/models#")
 
     # Class definitions
     term :Collection
