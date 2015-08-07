@@ -507,4 +507,18 @@ describe Hydra::Works::Collection do
       expect(collection.related_objects).to eq [object]
     end
   end
+
+  describe "should have parent collection accessors" do
+    before do
+      collection1.child_collections << collection2
+      collection1.save
+    end
+
+    it 'should have parents' do
+      expect(collection2.parents).to eq [collection1]
+    end
+    it 'should have a parent collection' do
+      expect(collection2.parent_collections).to eq [collection1]
+    end
+  end
 end

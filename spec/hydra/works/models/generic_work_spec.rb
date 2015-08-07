@@ -542,4 +542,25 @@ describe Hydra::Works::GenericWork do
       end
     end
   end
+
+  describe "should have parent work and collection accessors" do
+    let(:collection1) { Hydra::Works::Collection.new }
+    before do
+      collection1.child_generic_works << generic_work2
+      generic_work1.child_generic_works << generic_work2
+      collection1.save
+      generic_work1.save
+      generic_work2.save
+    end
+
+    it 'should have parents' do
+      expect(generic_work2.parents).to eq [collection1,generic_work1]
+    end
+    it 'should have a parent collection' do
+      expect(generic_work2.parent_collections).to eq [collection1]
+    end
+    it 'should have a parent generic_work' do
+      expect(generic_work2.parent_generic_works).to eq [generic_work1]
+    end
+  end
 end
