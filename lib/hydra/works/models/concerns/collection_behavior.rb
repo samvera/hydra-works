@@ -20,8 +20,6 @@ module Hydra::Works
 
     included do
       type [RDFVocabularies::PCDMTerms.Collection,WorksVocabularies::WorksTerms.Collection]
-      include Hydra::Works::AggregatesGenericWorks
-      include Hydra::Works::AggregatesCollections
       include Hydra::Works::BlockChildObjects
 
       filters_association :members, as: :child_collections, condition: :works_collection?
