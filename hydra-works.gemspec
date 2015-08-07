@@ -18,9 +18,9 @@ Gem::Specification.new do |spec|
   spec.test_files    = spec.files.grep(%r{^(test|spec|features)/})
   spec.require_paths = ["lib"]
 
-  spec.add_dependency "hydra-pcdm", "~> 0.0.1"
+  spec.add_dependency "hydra-pcdm", "~> 0.1"
   spec.add_dependency "hydra-derivatives", "~> 1.1.0"
-  spec.add_dependency "activefedora-aggregation", "~> 0.3"
+  spec.add_dependency "activefedora-aggregation", "~> 0.4"
   spec.add_dependency "active-fedora", "~> 9.2"
 
   spec.add_development_dependency "bundler", "~> 1.7"
