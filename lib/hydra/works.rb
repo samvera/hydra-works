@@ -2,7 +2,6 @@ require 'hydra/works/version'
 require 'active_fedora/aggregation'
 require 'hydra/pcdm'
 require 'hydra/derivatives'
-require 'hydra/works/processor'
 
 module Hydra
   module Works
