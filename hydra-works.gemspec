@@ -19,7 +19,7 @@ Gem::Specification.new do |spec|
   spec.require_paths = ["lib"]
 
   spec.add_dependency "hydra-pcdm", "~> 0.1"
-  spec.add_dependency "hydra-derivatives", "~> 1.1.0"
+  spec.add_dependency "hydra-derivatives", "~> 2.0"
   spec.add_dependency "activefedora-aggregation", "~> 0.4"
   spec.add_dependency "active-fedora", "~> 9.2"
 
