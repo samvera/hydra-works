@@ -36,27 +36,26 @@ class Collection < ActiveFedora::Base
   include Hydra::Works::CollectionBehavior
 end
 
-class BookWork < ActiveFedora::Base
+class Book < ActiveFedora::Base
   include Hydra::Works::GenericWorkBehavior
 end
 
-class BookFiles < ActiveFedora::Base
+class Page < ActiveFedora::Base
   include Hydra::Works::GenericFileBehavior
 end
 
-c1 = Collection.create
-bw1 = BookWork.create
-bf1 = BookFiles.create
+collection = Collection.create
+book = BookWork.create
+page = Page.create
 
-Hydra::Works::AddGenericWorkToCollection(c1,bw1)
-Hydra::Works::AddGenericFileToGenericWork(bw1,bf1)
-c1.save
-bw1.save
-bf1.save
+collection.child_generic_works << book
+collection.save
+book.generic_files << page
+book.save
 
-f1 = bf1.files.build
-f1.content = "The quick brown fox jumped over the lazy dog."
-bf1.save
+file = page.files.build
+file.content = "The quick brown fox jumped over the lazy dog."
+page.save
 ```
 
 ## Virus Detection
