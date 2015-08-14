@@ -1,7 +1,7 @@
 module Hydra::Works::GenericFile
   module VirusCheck
     extend ActiveSupport::Concern
-    
+
     included do
       validate :detect_viruses
     end
@@ -43,6 +43,5 @@ module Hydra::Works::GenericFile
         end
       end
     end
-
   end
 end

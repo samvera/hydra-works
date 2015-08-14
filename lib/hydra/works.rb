@@ -15,7 +15,7 @@ module Hydra
     autoload :GenericWork,            'hydra/works/models/generic_work'
     autoload :GenericFile,            'hydra/works/models/generic_file'
 
-    #behaviors
+    # behaviors
     autoload :CollectionBehavior,     'hydra/works/models/concerns/collection_behavior'
     autoload :GenericWorkBehavior,    'hydra/works/models/concerns/generic_work_behavior'
     autoload :GenericFileBehavior,    'hydra/works/models/concerns/generic_file_behavior'

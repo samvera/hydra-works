@@ -1,0 +1,49 @@
+require: rubocop-rspec
+
+AllCops:
+  RunRailsCops: true
+  DisplayCopNames: true
+  Include:
+    - '**/Rakefile'
+
+Metrics/LineLength:
+  Enabled: false
+
+Metrics/CyclomaticComplexity:
+  Exclude:
+    - lib/hydra/works/services/generic_file/add_file_to_generic_file.rb
+
+Metrics/PerceivedComplexity:
+  Exclude:
+    - lib/hydra/works/services/generic_file/add_file_to_generic_file.rb
+
+Metrics/MethodLength:
+  Exclude:
+    - lib/hydra/works/services/generic_file/add_file_to_generic_file.rb
+    - lib/hydra/works/models/concerns/generic_file/virus_check.rb
+
+Metrics/AbcSize:
+  Exclude:
+    - lib/hydra/works/services/generic_file/add_file_to_generic_file.rb
+    - lib/hydra/works/models/concerns/generic_file/mime_types.rb
+    - lib/hydra/works/models/concerns/generic_file/virus_check.rb
+
+Style/CollectionMethods:
+  PreferredMethods:
+    collect: 'map'
+    collect!: 'map!'
+    inject: 'reduce'
+    detect: 'find'
+    find_all: 'select'
+
+Style/ClassAndModuleChildren:
+  Enabled: false
+
+Style/Documentation:
+  Enabled: false
+
+RSpec/FilePath:
+  Enabled: false
+
+RSpec/InstanceVariable:
+  Enabled: false

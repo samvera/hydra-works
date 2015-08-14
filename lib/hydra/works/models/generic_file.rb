@@ -1,7 +1,6 @@
 module Hydra::Works
   # Namespace for Modules with functionality specific to GenericFiles
   module GenericFile
-
     extend ActiveSupport::Concern
 
     autoload :Derivatives,            'hydra/works/models/concerns/generic_file/derivatives'
@@ -10,11 +9,9 @@ module Hydra::Works
     autoload :VersionedContent,       'hydra/works/models/concerns/generic_file/versioned_content'
     autoload :VirusCheck,             'hydra/works/models/concerns/generic_file/virus_check'
 
-
     # Base class for creating objects that behave like Hydra::Works::GenericFiles
     class Base < ActiveFedora::Base
       include Hydra::Works::GenericFileBehavior
     end
-
   end
 end

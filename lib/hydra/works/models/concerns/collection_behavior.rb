@@ -1,5 +1,4 @@
 module Hydra::Works
-
   # This module provides all of the Behaviors of a Hydra::Works::Collection
   #
   # behavior:
@@ -19,7 +18,7 @@ module Hydra::Works
     include Hydra::PCDM::CollectionBehavior
 
     included do
-      type [RDFVocabularies::PCDMTerms.Collection,WorksVocabularies::WorksTerms.Collection]
+      type [RDFVocabularies::PCDMTerms.Collection, WorksVocabularies::WorksTerms.Collection]
       include Hydra::Works::BlockChildObjects
 
       filters_association :members, as: :child_collections, condition: :works_collection?
@@ -48,6 +47,5 @@ module Hydra::Works
     def parent_collections
       aggregated_by.select { |parent| parent.class.included_modules.include?(Hydra::Works::CollectionBehavior) }
     end
-
   end
 end

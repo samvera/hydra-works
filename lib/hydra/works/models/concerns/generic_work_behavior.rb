@@ -17,15 +17,15 @@ module Hydra::Works
     include Hydra::PCDM::ObjectBehavior
 
     included do
-      type [RDFVocabularies::PCDMTerms.Object,WorksVocabularies::WorksTerms.GenericWork]
+      type [RDFVocabularies::PCDMTerms.Object, WorksVocabularies::WorksTerms.GenericWork]
       include Hydra::Works::BlockChildObjects
 
       filters_association :members, as: :child_generic_works, condition: :works_generic_work?
       filters_association :members, as: :generic_files, condition: :works_generic_file?
     end
 
-    def contains= files
-      raise NoMethodError, "works can not directly contain files.  You must add a GenericFile to the work's members and add files to that GenericFile."
+    def contains=(_files)
+      fail NoMethodError, "works can not directly contain files.  You must add a GenericFile to the work's members and add files to that GenericFile."
     end
 
     # @return [Boolean] whether this instance is a Hydra::Works Collection.
@@ -54,6 +54,5 @@ module Hydra::Works
     def parent_collections
       aggregated_by.select { |parent| parent.class.included_modules.include?(Hydra::Works::CollectionBehavior) }
     end
-
   end
 end

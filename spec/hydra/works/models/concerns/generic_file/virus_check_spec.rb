@@ -7,8 +7,12 @@ describe Hydra::Works::GenericFile::VirusCheck do
       include Hydra::Works::GenericFile::VirusCheck
     end
     class ClamAV
-      def self.instance; @instance ||= ClamAV.new; end
-      def scanfile(path); puts "scanfile: #{path}"; end
+      def self.instance
+        @instance ||= ClamAV.new
+      end
+      def scanfile(path)
+        puts "scanfile: #{path}"
+      end
     end
   end
   after do
@@ -25,26 +29,24 @@ describe Hydra::Works::GenericFile::VirusCheck do
   end
 
   context 'with an infected file' do
-
     before do
       expect(ClamAV.instance).to receive(:scanfile).and_return(1)
     end
-    it "should fail to save" do
+    it 'fails to save' do
       expect(subject.save).to eq false
     end
-    it "should fail to validate" do
+    it 'fails to validate' do
       expect(subject.validate).to eq false
     end
   end
 
-  context "with a clean file" do
+  context 'with a clean file' do
     before do
       expect(ClamAV.instance).to receive(:scanfile).and_return(0)
     end
 
-    it "should not detect viruses" do
+    it 'does not detect viruses' do
       expect(subject.detect_viruses).to eq true
     end
   end
-
 end

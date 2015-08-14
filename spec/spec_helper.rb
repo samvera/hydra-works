@@ -35,12 +35,10 @@ RSpec.configure do |config|
   config.formatter = :progress
 
   config.before :each do |example|
-    unless example.metadata[:no_clean]
-      ActiveFedora::Cleaner.clean!
-    end
+    ActiveFedora::Cleaner.clean! unless example.metadata[:no_clean]
   end
 end
 
 def fixture_path
-  File.expand_path("../fixtures", __FILE__)
+  File.expand_path('../fixtures', __FILE__)
 end
