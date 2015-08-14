@@ -1,7 +1,7 @@
 module Hydra::Works::GenericFile
   module Derivatives
     extend ActiveSupport::Concern
-    
+
     included do
       include Hydra::Derivatives
 
@@ -21,8 +21,6 @@ module Hydra::Works::GenericFile
           obj.transform_file :original_file, thumbnail: { format: 'jpg', size: '200x150>' }
         end
       end
-
     end
-
   end
 end

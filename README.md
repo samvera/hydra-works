@@ -1,12 +1,19 @@
 # Hydra::Works
+
+[![Version](https://badge.fury.io/rb/hydra-works.png)](http://badge.fury.io/rb/hydra-works)
 [![Build Status](https://travis-ci.org/projecthydra-labs/hydra-works.svg?branch=master)](https://travis-ci.org/projecthydra-labs/hydra-works)
 [![Coverage Status](https://coveralls.io/repos/projecthydra-labs/hydra-works/badge.svg?branch=master)](https://coveralls.io/r/projecthydra-labs/hydra-works?branch=master)
+[![Code Climate](https://codeclimate.com/github/projecthydra-labs/hydra-works/badges/gpa.svg)](https://codeclimate.com/github/projecthydra-labs/hydra-works)
+[![Apache 2.0 License](http://img.shields.io/badge/APACHE2-license-blue.svg)](./LICENSE)
+[![Contribution Guidelines](http://img.shields.io/badge/CONTRIBUTING-Guidelines-blue.svg)](./CONTRIBUTING.md)
+[![API Docs](http://img.shields.io/badge/API-docs-blue.svg)](http://rubydoc.info/gems/hydra-works)
+[![Stories in Ready](https://badge.waffle.io/projecthydra-labs/hydra-works.png?source=projecthydra-labs%2Fhydra-works&label=ready&title=Ready)](https://waffle.io/projecthydra-labs/hydra-works?source=projecthydra-labs%2Fhydra-works)
 
-The Hydra::Works gem provides a set of [Portland Common Data Model](https://wiki.duraspace.org/display/FF/Portland+Common+Data+Model)-compliant models and associated behaviors around the broad concept of multi-file "works", the need for which was expressed by a variety of [community use cases](https://github.com/projecthydra-labs/hydra-works/tree/master/use-cases). The Hydra::Works domain model includes:
+The Hydra::Works gem provides a set of [Portland Common Data Model](https://github.com/duraspace/pcdm/wiki)-compliant ActiveFedora models and associated behaviors around the broad concept of multi-file "works", the need for which was expressed by a variety of [community use cases](https://github.com/projecthydra-labs/hydra-works/tree/master/use-cases). The Hydra::Works domain model includes:
 
- * **GenericFile**: a *pcdm:Object* that encapsulates one or more directly related *pcdm:File*s, such as a PDF document, its derivatives, and extracted full-text
- * **GenericWork**: a *pcdm:Object* that holds zero or more **GenericFile**s and zero or more **GenericWork**s
- * **Collection**: a *pcdm:Collection* that indirectly contains zero or more **GenericWork**s and zero or more **Collection**s
+ * **GenericFile**: a *Hydra::PCDM::Object* that encapsulates one or more directly related *Hydra::PCDM::File*s, such as a PDF document, its derivatives, and extracted full-text
+ * **GenericWork**: a *Hydra::PCDM::Object* that holds zero or more **GenericFile**s and zero or more **GenericWork**s
+ * **Collection**: a *Hydra::PCDM::Collection* that indirectly contains zero or more **GenericWork**s and zero or more **Collection**s
 
 View [a diagram of the domain model](https://docs.google.com/drawings/d/1-NkkRPpGpZGoTimEpYTaGM1uUPRaT0SamuWDITvtG_8/edit).
 
@@ -14,10 +21,7 @@ View [a diagram of the domain model](https://docs.google.com/drawings/d/1-NkkRPp
 
 Add these lines to your application's Gemfile:
 
-    # hydra-pcdm requires an unreleased version of ActiveFedora
-    gem 'active-fedora', github: 'projecthydra/active_fedora'
-    gem 'hydra-pcdm', github: 'projecthydra-labs/hydra-pcdm'
-    gem 'hydra-works', github: 'projecthydra-labs/hydra-works'
+    gem 'hydra-works', '~> 0.1'
 
 And then execute:
 
@@ -73,14 +77,13 @@ class BookFiles < ActiveFedora::Base
 end
 ```
 
-
 ## Access controls
 
 We are using [Web ACL](http://www.w3.org/wiki/WebAccessControl) as implemented by [hydra-access-controls](https://github.com/projecthydra/hydra-head/tree/master/hydra-access-controls).
 
 ## How to contribute
 
-If you'd like to contribute to this effort, please check out the [Contributing Guide](CONTRIBUTING.md)
+If you'd like to contribute to this effort, please check out the [contributing guidelines](CONTRIBUTING.md)
 
 ## Development
 

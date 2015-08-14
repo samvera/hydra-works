@@ -1,7 +1,6 @@
 require 'spec_helper'
 
 describe Hydra::Works::PersistDerivative do
-
   describe 'thumbnail generation' do
     before do
       file = File.open(File.join(fixture_path, file_name), 'r')
@@ -37,7 +36,7 @@ describe Hydra::Works::PersistDerivative do
 
       it 'uses PersistDerivative service to generate a thumbnail derivative' do
         generic_file.create_derivatives
-        expect(Hydra::Derivatives.output_file_service).to eq(Hydra::Works::PersistDerivative)
+        expect(Hydra::Derivatives.output_file_service).to eq(described_class)
         expect(generic_file.thumbnail).to have_content
         expect(generic_file.thumbnail.mime_type).to eq('image/jpeg')
       end
