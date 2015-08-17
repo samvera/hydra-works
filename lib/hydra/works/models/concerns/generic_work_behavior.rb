@@ -24,10 +24,6 @@ module Hydra::Works
       filters_association :members, as: :generic_files, condition: :works_generic_file?
     end
 
-    def contains=(_files)
-      fail NoMethodError, "works can not directly contain files.  You must add a GenericFile to the work's members and add files to that GenericFile."
-    end
-
     # @return [Boolean] whether this instance is a Hydra::Works Collection.
     def works_collection?
       false
