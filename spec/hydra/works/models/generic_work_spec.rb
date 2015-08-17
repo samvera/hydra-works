@@ -51,12 +51,6 @@ describe Hydra::Works::GenericWork do
     end
   end
 
-  describe '#contains' do
-    it 'presents as a missing method' do
-      expect { generic_work1.contains = [pcdm_file1] }.to raise_error(NoMethodError, "works can not directly contain files.  You must add a GenericFile to the work's members and add files to that GenericFile.")
-    end
-  end
-
   describe 'Related objects' do
     let(:generic_work1) { Hydra::Works::GenericWork::Base.new }
     let(:object1) { Hydra::PCDM::Object.new }
