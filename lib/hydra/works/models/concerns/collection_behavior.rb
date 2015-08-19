@@ -18,7 +18,7 @@ module Hydra::Works
     include Hydra::PCDM::CollectionBehavior
 
     included do
-      type [RDFVocabularies::PCDMTerms.Collection, WorksVocabularies::WorksTerms.Collection]
+      type [Hydra::PCDM::Vocab::PCDMTerms.Collection, Vocab::WorksTerms.Collection]
       include Hydra::Works::BlockChildObjects
 
       filters_association :members, as: :child_collections, condition: :works_collection?

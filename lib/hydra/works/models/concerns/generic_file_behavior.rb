@@ -13,7 +13,7 @@ module Hydra::Works
     include Hydra::PCDM::ObjectBehavior
 
     included do
-      type [RDFVocabularies::PCDMTerms.Object, WorksVocabularies::WorksTerms.GenericFile]
+      type [Hydra::PCDM::Vocab::PCDMTerms.Object, Vocab::WorksTerms.GenericFile]
 
       include Hydra::Works::GenericFile::ContainedFiles
       include Hydra::Works::GenericFile::Derivatives

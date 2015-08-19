@@ -17,7 +17,7 @@ module Hydra::Works
     include Hydra::PCDM::ObjectBehavior
 
     included do
-      type [RDFVocabularies::PCDMTerms.Object, WorksVocabularies::WorksTerms.GenericWork]
+      type [Hydra::PCDM::Vocab::PCDMTerms.Object, Vocab::WorksTerms.GenericWork]
       include Hydra::Works::BlockChildObjects
 
       filters_association :members, as: :child_generic_works, condition: :works_generic_work?
