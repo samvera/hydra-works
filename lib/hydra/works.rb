@@ -7,25 +7,31 @@ module Hydra
   module Works
     extend ActiveSupport::Autoload
 
-    # vocabularies
-    autoload :WorksVocabularies,      'hydra/works/vocab/works_terms'
+    module Vocab
+      extend ActiveSupport::Autoload
+      eager_autoload do
+        autoload :WorksTerms
+      end
+    end
 
-    # models
-    autoload :Collection,             'hydra/works/models/collection'
-    autoload :GenericWork,            'hydra/works/models/generic_work'
-    autoload :GenericFile,            'hydra/works/models/generic_file'
+    autoload_under 'models' do
+      autoload :Collection
+      autoload :GenericWork
+      autoload :GenericFile
+    end
 
-    # behaviors
-    autoload :CollectionBehavior,     'hydra/works/models/concerns/collection_behavior'
-    autoload :GenericWorkBehavior,    'hydra/works/models/concerns/generic_work_behavior'
-    autoload :GenericFileBehavior,    'hydra/works/models/concerns/generic_file_behavior'
-    autoload :GenericFile,            'hydra/works/models/generic_file'
-    autoload :BlockChildObjects,      'hydra/works/models/concerns/block_child_objects'
+    autoload_under 'models/concerns' do
+      autoload :CollectionBehavior
+      autoload :GenericWorkBehavior
+      autoload :GenericFileBehavior
+      autoload :BlockChildObjects
+    end
 
-    # generic_file services
-    autoload :AddFileToGenericFile,    'hydra/works/services/generic_file/add_file_to_generic_file'
-    autoload :GenerateThumbnail,       'hydra/works/services/generic_file/generate/thumbnail'
-    autoload :UploadFileToGenericFile, 'hydra/works/services/generic_file/upload_file'
-    autoload :PersistDerivative,       'hydra/works/services/generic_file/persist_derivative'
+    autoload_under 'services/generic_file' do
+      autoload :AddFileToGenericFile
+      autoload :GenerateThumbnail
+      autoload :UploadFileToGenericFile
+      autoload :PersistDerivative
+    end
   end
 end

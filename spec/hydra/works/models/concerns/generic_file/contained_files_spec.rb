@@ -32,7 +32,7 @@ describe Hydra::Works::GenericFile::ContainedFiles do
       end
       it 'retains origin pcdm.File RDF type' do
         expect(subject.metadata_node.type).to include(::RDF::URI('http://pcdm.org/use#ThumbnailImage'))
-        expect(subject.metadata_node.type).to include(RDFVocabularies::PCDMTerms.File)
+        expect(subject.metadata_node.type).to include(Hydra::PCDM::Vocab::PCDMTerms.File)
       end
     end
 
@@ -41,7 +41,7 @@ describe Hydra::Works::GenericFile::ContainedFiles do
       it 'initializes an unsaved File object with Thumbnail type' do
         expect(subject).to be_new_record
         expect(subject.metadata_node.type).to include(pcdm_thumbnail_uri)
-        expect(subject.metadata_node.type).to include(RDFVocabularies::PCDMTerms.File)
+        expect(subject.metadata_node.type).to include(Hydra::PCDM::Vocab::PCDMTerms.File)
       end
     end
   end
@@ -63,7 +63,7 @@ describe Hydra::Works::GenericFile::ContainedFiles do
       end
       it 'retains origin pcdm.File RDF type' do
         expect(subject.metadata_node.type).to include(::RDF::URI('http://pcdm.org/use#OriginalFile'))
-        expect(generic_file.original_file.metadata_node.type).to include(RDFVocabularies::PCDMTerms.File)
+        expect(generic_file.original_file.metadata_node.type).to include(Hydra::PCDM::Vocab::PCDMTerms.File)
       end
     end
 
@@ -72,7 +72,7 @@ describe Hydra::Works::GenericFile::ContainedFiles do
       it 'initializes an unsaved File object with OrignalFile type' do
         expect(subject).to be_new_record
         expect(subject.metadata_node.type).to include(::RDF::URI('http://pcdm.org/use#OriginalFile'))
-        expect(subject.metadata_node.type).to include(RDFVocabularies::PCDMTerms.File)
+        expect(subject.metadata_node.type).to include(Hydra::PCDM::Vocab::PCDMTerms.File)
       end
     end
   end
@@ -92,7 +92,7 @@ describe Hydra::Works::GenericFile::ContainedFiles do
       end
       it 'retains origin pcdm.File RDF type' do
         expect(subject.metadata_node.type).to include(::RDF::URI('http://pcdm.org/use#ExtractedText'))
-        expect(subject.metadata_node.type).to include(RDFVocabularies::PCDMTerms.File)
+        expect(subject.metadata_node.type).to include(Hydra::PCDM::Vocab::PCDMTerms.File)
       end
     end
 
@@ -101,7 +101,7 @@ describe Hydra::Works::GenericFile::ContainedFiles do
       it 'initializes an unsaved File object with ExtractedText type' do
         expect(subject).to be_new_record
         expect(subject.metadata_node.type).to include(::RDF::URI('http://pcdm.org/use#ExtractedText'))
-        expect(subject.metadata_node.type).to include(RDFVocabularies::PCDMTerms.File)
+        expect(subject.metadata_node.type).to include(Hydra::PCDM::Vocab::PCDMTerms.File)
       end
     end
   end
