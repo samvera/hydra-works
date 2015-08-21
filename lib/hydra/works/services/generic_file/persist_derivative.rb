@@ -9,7 +9,7 @@ module Hydra::Works
     # This service will always update existing and does not do versioning of persisted files.
     #
     # @param [Hydra::Works::GenericFile::Base] object the file will be added to
-    # @param [#read or String] file the derivative filestream optionally responds to :mime_type
+    # @param [Hydra::Derivatives::IoDecorator] file the derivative filestream
     # @param [String] extract file type symbol (e.g. :thumbnail) from Hydra::Derivatives created destination_name
 
     def self.call(object, file, destination_name)
