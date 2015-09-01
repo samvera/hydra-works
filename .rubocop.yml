@@ -5,6 +5,10 @@ AllCops:
   DisplayCopNames: true
   Include:
     - '**/Rakefile'
+  Exclude:
+    - 'vendor/**/*'
+    - 'spec/internal/bin/*'
+    - 'spec/internal/db/schema.rb'
 
 Metrics/LineLength:
   Enabled: false
