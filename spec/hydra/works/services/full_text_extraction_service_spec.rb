@@ -15,7 +15,6 @@ describe Hydra::Works::FullTextExtractionService do
   end
 
   describe "run" do
-
     let(:generic_file) { double(id: '123') }
     subject { described_class.run(generic_file) }
 
