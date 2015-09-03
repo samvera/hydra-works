@@ -18,21 +18,40 @@ module Hydra::Works
     #
     # @return [String] The extracted text
     def extract
-      uri = URI("#{connection_url}/update/extract?extractOnly=true&wt=json&extractFormat=text")
-      req = Net::HTTP.new(uri.host, uri.port)
-      resp = req.post(uri.to_s, original_file.content, 'Content-type' => "#{original_file.mime_type};charset=utf-8", 'Content-Length' => original_file.content.size.to_s)
-      fail "URL '#{uri}' returned code #{resp.code}" unless resp.code == '200'
-      original_file.content.rewind if original_file.content.respond_to?(:rewind)
-      JSON.parse(resp.body)[''].rstrip
-
+      JSON.parse(fetch)[''].rstrip
+    rescue Hydra::Works::FullTextExtractionError => e
+      raise e
     rescue => e
       raise Hydra::Works::FullTextExtractionError.new, "Error extracting content from #{id}: #{e.inspect}"
     end
 
+    # send the request to the extract service and return the response if it was successful.
+    # TODO: this pulls the whole file into memory. We should stream it from Fedora instead
+    # @return [String] the result of calling the extract service
+    def fetch
+      req = Net::HTTP.new(uri.host, uri.port)
+      resp = req.post(uri.to_s, original_file.content, request_headers)
+      raise Hydra::Works::FullTextExtractionError.new, "Solr Extract service was unsuccessful. '#{uri}' returned code #{resp.code} for #{id}\n#{resp.body}" unless resp.code == '200'
+      original_file.content.rewind if original_file.content.respond_to?(:rewind)
+
+      resp.body
+    end
+
+    # @return [Hash] the request headers to send to the Solr extract service
+    def request_headers
+      { Faraday::Request::UrlEncoded::CONTENT_TYPE => "#{original_file.mime_type};charset=utf-8",
+        Faraday::Adapter::CONTENT_LENGTH => original_file.size.to_s }
+    end
+
+    # @returns [URI] path to the extract service
+    def uri
+      @uri ||= URI("#{connection_url}/update/extract?extractOnly=true&wt=json&extractFormat=text")
+    end
+
     private
 
-    def connection_url
-      ActiveFedora.solr_config[:url]
-    end
+      def connection_url
+        ActiveFedora.solr_config[:url]
+      end
   end
 end
