@@ -32,6 +32,11 @@ module Hydra
       autoload :GenerateThumbnail
       autoload :UploadFileToGenericFile
       autoload :PersistDerivative
+      autoload :FullTextExtractionService
+    end
+
+    autoload_under 'errors' do
+      autoload :FullTextExtractionError
     end
   end
 end
