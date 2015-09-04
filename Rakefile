@@ -5,6 +5,8 @@ require 'rspec/core/rake_task'
 require 'engine_cart/rake_task'
 require 'rubocop/rake_task'
 
+Dir.glob('lib/tasks/*.rake').each { |r| import r }
+
 desc 'Run style checker'
 RuboCop::RakeTask.new(:rubocop) do |task|
   task.requires << 'rubocop-rspec'
@@ -18,7 +20,7 @@ task :spec do
 end
 
 desc 'Spin up hydra-jetty and run specs'
-task ci: ['jetty:clean'] do
+task ci: ['jetty:clean', 'jetty:config'] do
   puts 'running continuous integration'
   jetty_params = Jettywrapper.load_config
   jetty_params[:startup_wait] = 90
