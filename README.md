@@ -17,6 +17,8 @@ The Hydra::Works gem provides a set of [Portland Common Data Model](https://gith
 
 View [a diagram of the domain model](https://docs.google.com/drawings/d/1-NkkRPpGpZGoTimEpYTaGM1uUPRaT0SamuWDITvtG_8/edit).
 
+Checkout the readme for [hydra-derivatives](https://github.com/projecthydra/hydra-derivatives#dependencies) for additional dependencies.
+
 ## Installation
 
 Add these lines to your application's Gemfile:
@@ -90,6 +92,7 @@ If you'd like to contribute to this effort, please check out the [contributing g
 To set up for running the test suite, you need a copy of jetty
 
     $ rake jetty:clean
+    $ rake jetty:config
 
 To run the test suite, generate the test app (which goes into spec/internal) and start jetty (if it's not already running)
 
