@@ -3,14 +3,13 @@ require 'spec_helper'
 describe Hydra::Works::FullTextExtractionService do
   let(:generic_file) { Hydra::Works::GenericFile::Base.new }
 
-  describe 'integration test', unless: ENV['TRAVIS'] do
+  describe 'integration test' do
     before do
       Hydra::Works::UploadFileToGenericFile.call(generic_file, File.open(File.join(fixture_path, 'sample-file.pdf')))
     end
-
+    subject { described_class.run(generic_file) }
     it 'extracts fulltext and stores the results' do
-      described_class.run(generic_file)
-      expect(subject.original_file.content).to start_with('%PDF-1.3')
+      expect(subject).to include('This is some original content')
     end
   end
 

@@ -5,6 +5,7 @@
 /coverage/
 /doc/
 /pkg/
+/solr_conf/
 /spec/reports/
 spec/internal
 /tmp/
