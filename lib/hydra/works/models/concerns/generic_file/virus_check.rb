@@ -29,19 +29,19 @@ module Hydra::Works::GenericFile
 
     private
 
-    # Returns a path for reading the content of +file+
-    # @param [File] file object to retrieve a path for
-    def local_path_for_file(file)
-      if file.respond_to?(:path)
-        file.path
-      else
-        Tempfile.open('') do |t|
-          t.binmode
-          t.write(file)
-          t.close
-          t.path
+      # Returns a path for reading the content of +file+
+      # @param [File] file object to retrieve a path for
+      def local_path_for_file(file)
+        if file.respond_to?(:path)
+          file.path
+        else
+          Tempfile.open('') do |t|
+            t.binmode
+            t.write(file)
+            t.close
+            t.path
+          end
         end
       end
-    end
   end
 end

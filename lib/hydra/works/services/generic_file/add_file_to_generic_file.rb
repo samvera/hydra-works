@@ -37,83 +37,83 @@ module Hydra::Works
 
       private
 
-      def persist
-        if current_file.new_record?
-          # persist current_file and its membership in generic_file.files container
-          generic_file.save
-        else
-          # we updated the content of an existing file, so we need to save the file explicitly
-          current_file.save
-        end
-      end
-
-      def attach_attributes(file)
-        current_file.content = file
-        current_file.original_name = determine_original_name(file)
-        current_file.mime_type = determine_mime_type(file)
-      end
-
-      # Return mime_type based on methods available to file
-      # @param object for mimetype to be determined. Attempts to use methods: :mime_type, :content_type, and :path.
-      def determine_mime_type(file)
-        if file.respond_to? :mime_type
-          return file.mime_type
-        elsif file.respond_to? :content_type
-          return file.content_type
-        elsif file.respond_to? :path
-          return Hydra::PCDM::GetMimeTypeForFile.call(file.path)
-        else
-          return 'application/octet-stream'
-        end
-      end
-
-      # Return original_name based on methods available to file
-      # @param object for original name to be determined. Attempts to use methods: :original_name, :original_filename, and :path.
-      def determine_original_name(file)
-        if file.respond_to? :original_name
-          return file.original_name
-        elsif file.respond_to? :original_filename
-          return file.original_filename
-        elsif file.respond_to? :path
-          return ::File.basename(file.path)
-        else
-          return ''
-        end
-      end
-
-      # @param [Symbol, RDF::URI] the type of association or filter to use
-      # @param [true, false] update_existing when true, try to retrieve existing element before building one
-      def find_or_create_file(type, update_existing)
-        if type.instance_of? Symbol
-          association = generic_file.association(type)
-          fail ArgumentError, "you're attempting to add a file to a generic_file using '#{type}' association but the generic_file does not have an association called '#{type}''" unless association
-
-          current_file = association.reader if update_existing
-          current_file || association.build
-        else
-          current_file = generic_file.filter_files_by_type(type_to_uri(type)).first if update_existing
-          unless current_file
-            generic_file.files.build
-            current_file = generic_file.files.last
-            Hydra::PCDM::AddTypeToFile.call(current_file, type_to_uri(type))
+        def persist
+          if current_file.new_record?
+            # persist current_file and its membership in generic_file.files container
+            generic_file.save
+          else
+            # we updated the content of an existing file, so we need to save the file explicitly
+            current_file.save
           end
         end
-      end
 
-      # Returns appropriate URI for the requested type
-      #  * Converts supported symbols to corresponding URIs
-      #  * Converts URI strings to RDF::URI
-      #  * Returns RDF::URI objects as-is
-      def type_to_uri(type)
-        case type
-        when ::RDF::URI
-          type
-        when String
-          ::RDF::URI(type)
-        else
-          fail ArgumentError, 'Invalid file type.  You must submit a URI or a symbol.'
+        def attach_attributes(file)
+          current_file.content = file
+          current_file.original_name = determine_original_name(file)
+          current_file.mime_type = determine_mime_type(file)
         end
-      end
+
+        # Return mime_type based on methods available to file
+        # @param object for mimetype to be determined. Attempts to use methods: :mime_type, :content_type, and :path.
+        def determine_mime_type(file)
+          if file.respond_to? :mime_type
+            return file.mime_type
+          elsif file.respond_to? :content_type
+            return file.content_type
+          elsif file.respond_to? :path
+            return Hydra::PCDM::GetMimeTypeForFile.call(file.path)
+          else
+            return 'application/octet-stream'
+          end
+        end
+
+        # Return original_name based on methods available to file
+        # @param object for original name to be determined. Attempts to use methods: :original_name, :original_filename, and :path.
+        def determine_original_name(file)
+          if file.respond_to? :original_name
+            return file.original_name
+          elsif file.respond_to? :original_filename
+            return file.original_filename
+          elsif file.respond_to? :path
+            return ::File.basename(file.path)
+          else
+            return ''
+          end
+        end
+
+        # @param [Symbol, RDF::URI] the type of association or filter to use
+        # @param [true, false] update_existing when true, try to retrieve existing element before building one
+        def find_or_create_file(type, update_existing)
+          if type.instance_of? Symbol
+            association = generic_file.association(type)
+            fail ArgumentError, "you're attempting to add a file to a generic_file using '#{type}' association but the generic_file does not have an association called '#{type}''" unless association
+
+            current_file = association.reader if update_existing
+            current_file || association.build
+          else
+            current_file = generic_file.filter_files_by_type(type_to_uri(type)).first if update_existing
+            unless current_file
+              generic_file.files.build
+              current_file = generic_file.files.last
+              Hydra::PCDM::AddTypeToFile.call(current_file, type_to_uri(type))
+            end
+          end
+        end
+
+        # Returns appropriate URI for the requested type
+        #  * Converts supported symbols to corresponding URIs
+        #  * Converts URI strings to RDF::URI
+        #  * Returns RDF::URI objects as-is
+        def type_to_uri(type)
+          case type
+          when ::RDF::URI
+            type
+          when String
+            ::RDF::URI(type)
+          else
+            fail ArgumentError, 'Invalid file type.  You must submit a URI or a symbol.'
+          end
+        end
     end
 
     class VersioningUpdater < Updater
