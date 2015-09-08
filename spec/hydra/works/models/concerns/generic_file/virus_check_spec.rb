@@ -10,6 +10,7 @@ describe Hydra::Works::GenericFile::VirusCheck do
       def self.instance
         @instance ||= ClamAV.new
       end
+
       def scanfile(path)
         puts "scanfile: #{path}"
       end
