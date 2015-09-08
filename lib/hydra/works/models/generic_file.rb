@@ -8,6 +8,7 @@ module Hydra::Works
     autoload :ContainedFiles,         'hydra/works/models/concerns/generic_file/contained_files'
     autoload :VersionedContent,       'hydra/works/models/concerns/generic_file/versioned_content'
     autoload :VirusCheck,             'hydra/works/models/concerns/generic_file/virus_check'
+    autoload :Characterization,       'hydra/works/models/concerns/generic_file/characterization'
 
     # Base class for creating objects that behave like Hydra::Works::GenericFiles
     class Base < ActiveFedora::Base
