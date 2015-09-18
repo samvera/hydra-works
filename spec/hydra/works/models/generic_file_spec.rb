@@ -213,10 +213,22 @@ describe Hydra::Works::GenericFile::Base do
     end
 
     it 'has parents' do
-      expect(generic_file1.parents).to eq [generic_work1]
+      expect(generic_file1.member_of).to eq [generic_work1]
     end
     it 'has a parent work' do
+      expect(generic_file1.in_generic_works).to eq [generic_work1]
+    end
+  end
+
+  describe 'make sure deprecated methods still work' do
+    let(:generic_work1) { Hydra::Works::GenericWork::Base.create }
+    before do
+      generic_work1.generic_files << generic_file1
+      generic_work1.save # required until issue AF-Agg-75 is fixed
+    end
+    it 'deprecated methods should pass' do
       expect(generic_file1.generic_works).to eq [generic_work1]
+      expect(generic_file1.parents).to eq [generic_work1]
     end
   end
 end

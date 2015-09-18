@@ -3,15 +3,15 @@ require 'spec_helper'
 describe Hydra::Works::BlockChildObjects do
   subject { Hydra::Works::GenericFile::Base.new }
 
-  describe '#child_objects=?' do
+  describe '#objects=?' do
     it 'raises an error' do
-      expect { subject.child_objects = [] }.to raise_error(StandardError, /method `child_objects=' not allowed for #<Hydra::Works::GenericFile::Base.*/)
+      expect { subject.objects = [] }.to raise_error(StandardError, /method `objects=' not allowed for #<Hydra::Works::GenericFile::Base.*/)
     end
   end
 
-  describe '#child_objects' do
+  describe '#objects' do
     it 'raises an error' do
-      expect { subject.child_objects }.to raise_error(StandardError, /method `child_objects' not allowed for #<Hydra::Works::GenericFile::Base.*/)
+      expect { subject.objects }.to raise_error(StandardError, /method `objects' not allowed for #<Hydra::Works::GenericFile::Base.*/)
     end
   end
 end

@@ -54,7 +54,7 @@ collection = Collection.create
 book = BookWork.create
 page = Page.create
 
-collection.child_generic_works << book
+collection.generic_works << book
 collection.save
 book.generic_files << page
 book.save
