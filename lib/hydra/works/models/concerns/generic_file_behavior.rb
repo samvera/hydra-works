@@ -37,12 +37,22 @@ module Hydra::Works
       true
     end
 
-    def parents
+    def member_of
       aggregated_by
     end
 
-    def generic_works
+    def parents
+      warn '[DEPRECATION] `parents` is deprecated in Hydra::Works.  Please use `member_of` instead.  This has a target date for removal of 10-31-2015'
+      member_of
+    end
+
+    def in_generic_works
       aggregated_by.select { |parent| parent.class.included_modules.include?(Hydra::Works::GenericWorkBehavior) }
+    end
+
+    def generic_works
+      warn '[DEPRECATION] `generic_works` is deprecated in Hydra::Works.  Please use `in_generic_works` instead.  This has a target date for removal of 10-31-2015'
+      in_generic_works
     end
   end
 end
