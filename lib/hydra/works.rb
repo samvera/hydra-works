@@ -30,6 +30,7 @@ module Hydra
     autoload_under 'services/generic_file' do
       autoload :AddFileToGenericFile
       autoload :GenerateThumbnail
+      autoload :GenerateExtractedText
       autoload :UploadFileToGenericFile
       autoload :PersistDerivative
       autoload :FullTextExtractionService

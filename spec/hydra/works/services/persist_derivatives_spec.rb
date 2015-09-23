@@ -88,5 +88,21 @@ describe Hydra::Works::PersistDerivative do
         expect(generic_file.thumbnail.mime_type).to eq('image/jpeg')
       end
     end
+
+    context 'with a pdf file' do
+      let(:mime_type) { 'application/pdf' }
+      let(:file_name) { 'sample-file.pdf' }
+      let(:generic_file) { Hydra::Works::GenericFile::Base.new }
+
+      it 'lacks a thumbnail' do
+        expect(generic_file.thumbnail).to be_nil
+      end
+
+      it 'generates a thumbnail on job run', unless: ENV['CI'] do
+        generic_file.create_derivatives
+        expect(generic_file.thumbnail).to have_content
+        expect(generic_file.thumbnail.mime_type).to eq('image/jpeg')
+      end
+    end
   end
 end
