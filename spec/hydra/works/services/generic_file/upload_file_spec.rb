@@ -9,7 +9,6 @@ describe Hydra::Works::UploadFileToGenericFile do
   let(:original_name)       { 'my_original.pdf' }
   let(:updated_mime_type)   { 'text/plain' }
   let(:updated_name)        { 'my_updated.txt' }
-  let(:additional_services) { [Hydra::Works::GenerateThumbnail] }
 
   context 'when you provide mime_type and original_name, etc' do
     it 'uses the provided values' do
@@ -35,6 +34,7 @@ describe Hydra::Works::UploadFileToGenericFile do
   end
 
   context 'with an empty generic file' do
+    let(:additional_services) { [] }
     before do
       allow(file).to receive(:mime_type).and_return(mime_type)
       allow(file).to receive(:original_name).and_return(original_name)
@@ -43,13 +43,9 @@ describe Hydra::Works::UploadFileToGenericFile do
 
     describe 'the uploaded file' do
       subject { generic_file.original_file }
-      it 'has content' do
+      it 'has updated properties' do
         expect(subject.content).to start_with('%PDF-1.3')
-      end
-      it 'has a mime type' do
         expect(subject.mime_type).to eql mime_type
-      end
-      it 'has a name' do
         expect(subject.original_name).to eql original_name
       end
     end
@@ -60,14 +56,12 @@ describe Hydra::Works::UploadFileToGenericFile do
         expect(subject.original_file.content).to start_with('%PDF-1.3')
         expect(subject.original_file.mime_type).to eql mime_type
         expect(subject.original_file.original_name).to eql original_name
-        expect(subject.thumbnail.content).not_to be_nil
       end
     end
   end
 
   context 'when updating an existing file' do
     let(:additional_services) { [] }
-
     before do
       allow(file).to receive(:mime_type).and_return(mime_type)
       allow(file).to receive(:original_name).and_return(original_name)
@@ -80,14 +74,10 @@ describe Hydra::Works::UploadFileToGenericFile do
 
     describe 'the new file' do
       subject { generic_file.original_file }
-      it 'has updated content' do
+      it 'has updated properties' do
         updated_file.rewind
         expect(subject.content).to eql updated_file.read
-      end
-      it 'has an updated name' do
         expect(subject.original_name).to eql updated_name
-      end
-      it 'has a updated mime type' do
         expect(subject.mime_type).to eql updated_mime_type
         expect(subject.versions.all.count).to eql 2
       end
