@@ -1,14 +1,21 @@
 module Hydra::Works
   # Extract the full text from the content using Solr's extract handler
   class FullTextExtractionService
-    def self.run(generic_file)
-      new(generic_file).extract
+    # @param [GenericFile] generic_file
+    # @param [String] file_path for a local file
+    def self.run(generic_file, file_path = nil)
+      new(generic_file, file_path).extract
     end
 
     delegate :original_file, :id, to: :@generic_file
 
-    def initialize(generic_file)
+    attr_reader :file_path
+
+    # @param [GenericFile] generic_file
+    # @param [String] file_path for a local file
+    def initialize(generic_file, file_path)
       @generic_file = generic_file
+      @file_path = file_path
     end
 
     ##
@@ -30,17 +37,29 @@ module Hydra::Works
     # @return [String] the result of calling the extract service
     def fetch
       req = Net::HTTP.new(uri.host, uri.port)
-      resp = req.post(uri.to_s, original_file.content, request_headers)
+      resp = req.post(uri.to_s, file_content, request_headers)
       raise Hydra::Works::FullTextExtractionError.new, "Solr Extract service was unsuccessful. '#{uri}' returned code #{resp.code} for #{id}\n#{resp.body}" unless resp.code == '200'
-      original_file.content.rewind if original_file.content.respond_to?(:rewind)
+      file_content.rewind if file_content.respond_to?(:rewind)
 
       resp.body
     end
 
+    def file_content
+      @content ||= if file_path
+                     File.open(file_path).read
+                   else
+                     original_file.content
+                   end
+    end
+
     # @return [Hash] the request headers to send to the Solr extract service
     def request_headers
-      { Faraday::Request::UrlEncoded::CONTENT_TYPE => "#{original_file.mime_type};charset=utf-8",
+      { Faraday::Request::UrlEncoded::CONTENT_TYPE => "#{mime_type};charset=utf-8",
         Faraday::Adapter::CONTENT_LENGTH => original_file.size.to_s }
+    end
+
+    def mime_type
+      original_file.try(:mime_type)
     end
 
     # @returns [URI] path to the extract service

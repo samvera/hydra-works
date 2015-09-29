@@ -4,12 +4,26 @@ describe Hydra::Works::FullTextExtractionService do
   let(:generic_file) { Hydra::Works::GenericFile::Base.new }
 
   describe 'integration test' do
-    before do
-      Hydra::Works::UploadFileToGenericFile.call(generic_file, File.open(File.join(fixture_path, 'sample-file.pdf')))
+    context "with a file in Fedora" do
+      before do
+        Hydra::Works::UploadFileToGenericFile.call(generic_file, File.open(File.join(fixture_path, 'sample-file.pdf')))
+      end
+      subject { described_class.run(generic_file) }
+      it 'extracts fulltext and stores the results' do
+        expect(subject).to include('This is some original content')
+      end
     end
-    subject { described_class.run(generic_file) }
-    it 'extracts fulltext and stores the results' do
-      expect(subject).to include('This is some original content')
+
+    context "with a local file" do
+      before do
+        generic_file.save!
+        generic_file.build_original_file.mime_type = 'text/plain'
+      end
+
+      subject { described_class.run(generic_file, File.join(fixture_path, 'sample-file.pdf')) }
+      it 'extracts fulltext and stores the results' do
+        expect(subject).to include('This is some original content')
+      end
     end
   end
 
@@ -45,8 +59,9 @@ describe Hydra::Works::FullTextExtractionService do
 
   describe "fetch" do
     let(:generic_file) { double('generic file', id: '123', original_file: original) }
+    let(:file_path) { nil }
+    let(:service) { described_class.new(generic_file, file_path) }
     let(:original) { double(content: content, size: 13, mime_type: 'text/plain') }
-    let(:service) { described_class.new(generic_file) }
     subject { service.fetch }
     let(:request) { double }
     let(:response_body) { 'returned by Solr' }
@@ -78,7 +93,8 @@ describe Hydra::Works::FullTextExtractionService do
 
   describe "uri" do
     let(:generic_file) { double }
-    let(:service) { described_class.new(generic_file) }
+    let(:file_path) { nil }
+    let(:service) { described_class.new(generic_file, file_path) }
     subject { service.uri }
 
     it "points at the extraction service" do
