@@ -4,6 +4,7 @@ source 'https://rubygems.org'
 gemspec
 
 gem 'slop', '~> 3.6' # For byebug
+gem 'hydra-derivatives', github: 'projecthydra/hydra-derivatives', ref: '3eaa38b' #on the transcode_local_file branch
 
 group :development, :test do
   gem 'rubocop', require: false
