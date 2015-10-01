@@ -9,8 +9,8 @@ module Hydra::Works::GenericFile::Characterization
       apply_schema DocumentSchema, AlreadyThereStrategy
 
       # Update the configuration to map the parsed terms to the correct property.
-      parser_config.merge!(file_title: :title,
-                           file_author: :author)
+      parser_mapping.merge!(file_title: :title,
+                            file_author: :author)
     end
   end
 end

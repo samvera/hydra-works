@@ -9,11 +9,11 @@ module Hydra::Works::GenericFile::Characterization
       apply_schema VideoSchema, AlreadyThereStrategy
 
       # Update the configuration to map the parsed terms to the correct property.
-      parser_config.merge!(video_sample_rate: :sample_rate,
-                           video_audio_sample_rate: :sample_rate,
-                           video_duration: :duration,
-                           video_width: :width,
-                           video_height: :height)
+      parser_mapping.merge!(video_sample_rate: :sample_rate,
+                            video_audio_sample_rate: :sample_rate,
+                            video_duration: :duration,
+                            video_width: :width,
+                            video_height: :height)
     end
   end
 end
