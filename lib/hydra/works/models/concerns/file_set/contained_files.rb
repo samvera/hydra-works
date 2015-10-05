@@ -1,4 +1,4 @@
-module Hydra::Works::GenericFile::ContainedFiles
+module Hydra::Works::ContainedFiles
   extend ActiveSupport::Concern
 
   # HydraWorks supports only one each of original_file, thumbnail, and extracted_text. However

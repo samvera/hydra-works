@@ -1,8 +1,8 @@
-module Hydra::Works::GenericFile::Characterization
+module Hydra::Works::Characterization
   module Video
     extend ActiveSupport::Concern
 
-    autoload :VideoSchema, 'hydra/works/models/generic_file/characterization/video_schema.rb'
+    autoload :VideoSchema, 'hydra/works/models/characterization/video_schema.rb'
 
     included do
       # Apply the module schema. This will add properties defined in the schema.

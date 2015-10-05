@@ -1,27 +1,27 @@
 module Hydra::Works
   # Extract the full text from the content using Solr's extract handler
   class FullTextExtractionService
-    # @param [GenericFile] generic_file
+    # @param [FileSet] file_set
     # @param [String] file_path for a local file
-    def self.run(generic_file, file_path = nil)
-      new(generic_file, file_path).extract
+    def self.run(file_set, file_path = nil)
+      new(file_set, file_path).extract
     end
 
-    delegate :original_file, :id, to: :@generic_file
+    delegate :original_file, :id, to: :@file_set
 
     attr_reader :file_path
 
-    # @param [GenericFile] generic_file
+    # @param [FileSet] file_set
     # @param [String] file_path for a local file
-    def initialize(generic_file, file_path)
-      @generic_file = generic_file
+    def initialize(file_set, file_path)
+      @file_set = file_set
       @file_path = file_path
     end
 
     ##
     # Extract full text from the content using Solr's extract handler.
-    # This will extract text from the file uploaded to generic_file.
-    # The file uploaded to @generic_file can be accessed via :original_file.
+    # This will extract text from the file uploaded to file_set.
+    # The file uploaded to @file_set can be accessed via :original_file.
     #
     # @return [String] The extracted text
     def extract

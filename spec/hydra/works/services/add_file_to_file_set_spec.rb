@@ -1,7 +1,7 @@
 require 'spec_helper'
 
-describe Hydra::Works::AddFileToGenericFile do
-  let(:generic_file)        { Hydra::Works::GenericFile::Base.new }
+describe Hydra::Works::AddFileToFileSet do
+  let(:generic_file)        { Hydra::Works::FileSet.new }
   let(:filename)            { 'sample-file.pdf' }
   let(:filename2)           { 'updated-file.txt' }
   let(:original_name)       { 'original-name.pdf' }
@@ -12,7 +12,7 @@ describe Hydra::Works::AddFileToGenericFile do
   let(:mime_type)           { 'application/pdf' }
 
   context 'when generic_file is not persisted' do
-    let(:generic_file) { Hydra::Works::GenericFile::Base.new }
+    let(:generic_file) { Hydra::Works::FileSet.new }
     it 'saves generic_file' do
       described_class.call(generic_file, file, type)
       expect(generic_file.persisted?).to be true
@@ -100,7 +100,7 @@ describe Hydra::Works::AddFileToGenericFile do
   end
 
   context 'type_to_uri' do
-    subject { Hydra::Works::AddFileToGenericFile::Updater.allocate }
+    subject { Hydra::Works::AddFileToFileSet::Updater.allocate }
     it 'converts URI strings to RDF::URI' do
       expect(subject.send(:type_to_uri, 'http://example.com/CustomURI')).to eq(::RDF::URI('http://example.com/CustomURI'))
     end

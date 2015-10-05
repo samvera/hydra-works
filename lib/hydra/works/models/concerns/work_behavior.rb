@@ -3,13 +3,13 @@ module Hydra::Works
   #
   # behavior:
   #   1) Hydra::Works::Work can aggregate Hydra::Works::Work
-  #   2) Hydra::Works::Work can aggregate Hydra::Works::GenericFile
+  #   2) Hydra::Works::Work can aggregate Hydra::Works::FileSet
   #   3) Hydra::Works::Work can NOT aggregate Hydra::PCDM::Collection
   #   4) Hydra::Works::Work can NOT aggregate Hydra::Works::Collection
-  #   5) Hydra::Works::Work can NOT aggregate Works::Object unless it is also a Hydra::Works::GenericFile
+  #   5) Hydra::Works::Work can NOT aggregate Works::Object unless it is also a Hydra::Works::FileSet
   #   6) Hydra::Works::Work can NOT contain PCDM::File
   #   7) Hydra::Works::Work can NOT aggregate non-PCDM object
-  #   8) Hydra::Works::Work can NOT contain Hydra::Works::GenericFile
+  #   8) Hydra::Works::Work can NOT contain Hydra::Works::FileSet
   #   9) Hydra::Works::Work can have descriptive metadata
   #   10) Hydra::Works::Work can have access metadata
   module WorkBehavior
@@ -23,11 +23,14 @@ module Hydra::Works
       include Hydra::Works::BlockChildObjects
 
       filters_association :members, as: :works, condition: :work?
-      filters_association :members, as: :generic_files, condition: :generic_file?
+      filters_association :members, as: :file_sets, condition: :file_set?
 
       alias_method :generic_works, :works
       alias_method :generic_works=, :works=
       deprecation_deprecate :generic_works, :generic_works=
+
+      alias_method :generic_files, :file_sets
+      alias_method :generic_files=, :file_sets=
     end
 
     # @return [Boolean] whether this instance is a Hydra::Works Collection.
@@ -46,12 +49,12 @@ module Hydra::Works
     alias_method :works_generic_work?, :work?
     deprecation_deprecate :works_generic_work?
 
-    # @return [Boolean] whether this instance is a Hydra::Works Generic File.
-    def generic_file?
+    # @return [Boolean] whether this instance is a Hydra::Works::FileSet.
+    def file_set?
       false
     end
 
-    alias_method :works_generic_file?, :generic_file?
+    alias_method :works_generic_file?, :file_set?
     deprecation_deprecate :works_generic_file?
 
     def member_of

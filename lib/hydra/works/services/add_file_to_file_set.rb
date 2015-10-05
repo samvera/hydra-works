@@ -1,30 +1,30 @@
 module Hydra::Works
-  class AddFileToGenericFile
-    # Adds a file to the generic_file
-    # @param [Hydra::PCDM::GenericFile::Base] generic_file the file will be added to
+  class AddFileToFileSet
+    # Adds a file to the file_set
+    # @param [Hydra::PCDM::FileSet] file_set the file will be added to
     # @param [IO,File,Rack::Multipart::UploadedFile, #read] object that will be the contents. If file responds to :mime_type, :content_type, :original_name, or :original_filename, those will be called to provide metadata.
-    # @param [RDF::URI or String] type URI for the RDF.type that identifies the file's role within the generic_file
-    # @param [Boolean] update_existing whether to update an existing file if there is one. When set to true, performs a create_or_update. When set to false, always creates a new file within generic_file.files.
+    # @param [RDF::URI or String] type URI for the RDF.type that identifies the file's role within the file_set
+    # @param [Boolean] update_existing whether to update an existing file if there is one. When set to true, performs a create_or_update. When set to false, always creates a new file within file_set.files.
     # @param [Boolean] versioning whether to create new version entries (only applicable if +type+ corresponds to a versionable file)
 
-    def self.call(generic_file, file, type, update_existing: true, versioning: true)
-      fail ArgumentError, 'supplied object must be a generic file' unless generic_file.generic_file?
+    def self.call(file_set, file, type, update_existing: true, versioning: true)
+      fail ArgumentError, 'supplied object must be a generic file' unless file_set.file_set?
       fail ArgumentError, 'supplied file must respond to read' unless file.respond_to? :read
 
       # TODO: required as a workaround for https://github.com/projecthydra/active_fedora/pull/858
-      generic_file.save unless generic_file.persisted?
+      file_set.save unless file_set.persisted?
 
       updater_class = versioning ? VersioningUpdater : Updater
-      updater = updater_class.new(generic_file, type, update_existing)
+      updater = updater_class.new(file_set, type, update_existing)
       status = updater.update(file)
-      status ? generic_file : false
+      status ? file_set : false
     end
 
     class Updater
-      attr_reader :generic_file, :current_file
+      attr_reader :file_set, :current_file
 
-      def initialize(generic_file, type, update_existing)
-        @generic_file = generic_file
+      def initialize(file_set, type, update_existing)
+        @file_set = file_set
         @current_file = find_or_create_file(type, update_existing)
       end
 
@@ -39,8 +39,8 @@ module Hydra::Works
 
         def persist
           if current_file.new_record?
-            # persist current_file and its membership in generic_file.files container
-            generic_file.save
+            # persist current_file and its membership in file_set.files container
+            file_set.save
           else
             # we updated the content of an existing file, so we need to save the file explicitly
             current_file.save
@@ -85,16 +85,16 @@ module Hydra::Works
         # @param [true, false] update_existing when true, try to retrieve existing element before building one
         def find_or_create_file(type, update_existing)
           if type.instance_of? Symbol
-            association = generic_file.association(type)
-            fail ArgumentError, "you're attempting to add a file to a generic_file using '#{type}' association but the generic_file does not have an association called '#{type}''" unless association
+            association = file_set.association(type)
+            fail ArgumentError, "you're attempting to add a file to a file_set using '#{type}' association but the file_set does not have an association called '#{type}''" unless association
 
             current_file = association.reader if update_existing
             current_file || association.build
           else
-            current_file = generic_file.filter_files_by_type(type_to_uri(type)).first if update_existing
+            current_file = file_set.filter_files_by_type(type_to_uri(type)).first if update_existing
             unless current_file
-              generic_file.files.build
-              current_file = generic_file.files.last
+              file_set.files.build
+              current_file = file_set.files.last
               Hydra::PCDM::AddTypeToFile.call(current_file, type_to_uri(type))
             end
           end

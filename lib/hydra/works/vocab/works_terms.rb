@@ -5,7 +5,7 @@ module Hydra::Works
       # Class definitions
       term :Collection
       term :Work
-      term :GenericFile
+      term :FileSet
       term :File
     end
   end

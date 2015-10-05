@@ -1,10 +1,10 @@
 require 'spec_helper'
 
-describe Hydra::Works::GenericFile::VirusCheck do
+describe Hydra::Works::VirusCheck do
   before do
     class FileWithVirusCheck < ActiveFedora::Base
-      include Hydra::Works::GenericFileBehavior
-      include Hydra::Works::GenericFile::VirusCheck
+      include Hydra::Works::FileSetBehavior
+      include Hydra::Works::VirusCheck
     end
     class ClamAV
       def self.instance

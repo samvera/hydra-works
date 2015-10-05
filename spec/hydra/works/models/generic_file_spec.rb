@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Hydra::Works::GenericFile::Base do
+describe Hydra::Works::FileSet do
   let(:generic_file1) { described_class.new }
 
   describe 'Related objects' do

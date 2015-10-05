@@ -94,7 +94,7 @@ describe Hydra::Works::Collection do
       before(:all) do
         @works_collection101  = described_class.new
         @generic_work101      = Hydra::Works::GenericWork.new
-        @generic_file101      = Hydra::Works::GenericFile::Base.new
+        @generic_file101      = Hydra::Works::FileSet.new
         @pcdm_collection101   = Hydra::PCDM::Collection.new
         @pcdm_object101       = Hydra::PCDM::Object.new
         @pcdm_file101         = Hydra::PCDM::File.new
@@ -104,7 +104,7 @@ describe Hydra::Works::Collection do
 
       context 'that are unacceptable child collections' do
         let(:error_type1)    { ArgumentError }
-        let(:error_message1) { /Hydra::Works::Generic(Work|File::Base) with ID:  was expected to collection\?, but it was false/ }
+        let(:error_message1) { /Hydra::Works::(GenericWork|FileSet) with ID:  was expected to collection\?, but it was false/ }
         let(:error_type2)    { NoMethodError }
         let(:error_message2) { /undefined method `collection\?' for .*/ }
 
@@ -112,7 +112,7 @@ describe Hydra::Works::Collection do
           expect { subject.collections << @generic_work101 }.to raise_error(error_type1, error_message1)
         end
 
-        it 'does not aggregate Hydra::Works::GenericFile in collections aggregation' do
+        it 'does not aggregate Hydra::Works::FileSet in collections aggregation' do
           expect { subject.collections << @generic_file101 }.to raise_error(error_type1, error_message1)
         end
 
@@ -241,7 +241,7 @@ describe Hydra::Works::Collection do
       before(:all) do
         @works_collection101  = described_class.new
         @works_collection102  = described_class.new
-        @generic_file101      = Hydra::Works::GenericFile::Base.new
+        @generic_file101      = Hydra::Works::FileSet.new
         @pcdm_collection101   = Hydra::PCDM::Collection.new
         @pcdm_object101       = Hydra::PCDM::Object.new
         @pcdm_file101         = Hydra::PCDM::File.new
@@ -251,7 +251,7 @@ describe Hydra::Works::Collection do
 
       context 'that are unacceptable child generic works' do
         let(:error_type1)    { ArgumentError }
-        let(:error_message1) { /Hydra::Works::(GenericFile::Base|Collection) with ID:  was expected to work\?, but it was false/ }
+        let(:error_message1) { /Hydra::Works::(FileSet|Collection) with ID:  was expected to work\?, but it was false/ }
         let(:error_type2)    { NoMethodError }
         let(:error_message2) { /undefined method `work\?' for .*/ }
 
@@ -259,7 +259,7 @@ describe Hydra::Works::Collection do
           expect { subject.works << @works_collection101 }.to raise_error(error_type1, error_message1)
         end
 
-        it 'does not aggregate Hydra::Works::GenericFile in generic works aggregation' do
+        it 'does not aggregate Hydra::Works::FileSet in generic works aggregation' do
           expect { subject.works << @generic_file101 }.to raise_error(error_type1, error_message1)
         end
 
@@ -318,7 +318,7 @@ describe Hydra::Works::Collection do
   end
 
   describe '#related_objects' do
-    let(:generic_file1) { Hydra::Works::GenericFile::Base.new }
+    let(:generic_file1) { Hydra::Works::FileSet.new }
     let(:object1) { Hydra::PCDM::Object.new }
     let(:object2) { Hydra::PCDM::Object.new }
 
@@ -356,7 +356,7 @@ describe Hydra::Works::Collection do
     context 'with acceptable related objects' do
       let(:object1) { Hydra::PCDM::Object.new }
       let(:object2) { Hydra::PCDM::Object.new }
-      let(:generic_file1) { Hydra::Works::GenericFile::Base.new }
+      let(:generic_file1) { Hydra::Works::FileSet.new }
 
       it 'adds various types of related objects to collection' do
         subject.related_objects << generic_work1
@@ -438,7 +438,7 @@ describe Hydra::Works::Collection do
   describe '#related_objects.delete' do
     let(:related_object1) { Hydra::PCDM::Object.new }
     let(:related_work2)   { Hydra::Works::GenericWork.new }
-    let(:related_file3)   { Hydra::Works::GenericFile::Base.new }
+    let(:related_file3)   { Hydra::Works::FileSet.new }
     let(:related_object4) { Hydra::PCDM::Object.new }
     let(:related_work5)   { Hydra::Works::GenericWork.new }
 

@@ -3,7 +3,7 @@ require 'spec_helper'
 describe Hydra::Works do
   let(:works_coll)   { Hydra::Works::Collection.new }
   let(:works_gwork)  { Hydra::Works::GenericWork.new }
-  let(:works_gfile)  { Hydra::Works::GenericFile::Base.new }
+  let(:file_set)     { Hydra::Works::FileSet.new }
 
   let(:pcdm_coll)  { Hydra::PCDM::Collection.new }
   let(:pcdm_obj)   { Hydra::PCDM::Object.new }
@@ -19,8 +19,8 @@ describe Hydra::Works do
         expect(works_gwork.collection?).to be false
       end
 
-      it 'returns false for a works generic file' do
-        expect(works_gfile.collection?).to be false
+      it 'returns false for a works file set' do
+        expect(file_set.collection?).to be false
       end
     end
 
@@ -33,22 +33,22 @@ describe Hydra::Works do
         expect(works_gwork.work?).to be true
       end
 
-      it 'returns false for a generic file' do
-        expect(works_gfile.work?).to be false
+      it 'returns false for a file set' do
+        expect(file_set.work?).to be false
       end
     end
 
-    describe '#generic_file?' do
+    describe '#file_set?' do
       it 'returns false for a works collection' do
-        expect(works_coll.generic_file?).to be false
+        expect(works_coll.file_set?).to be false
       end
 
       it 'returns false for a works generic work' do
-        expect(works_gwork.generic_file?).to be false
+        expect(works_gwork.file_set?).to be false
       end
 
-      it 'returns true for a works generic file' do
-        expect(works_gfile.generic_file?).to be true
+      it 'returns true for a works file set' do
+        expect(file_set.file_set?).to be true
       end
     end
   end
@@ -63,8 +63,8 @@ describe Hydra::Works do
         expect(Hydra::PCDM.collection? works_gwork).to be false
       end
 
-      it 'returns false for a works generic file' do
-        expect(Hydra::PCDM.collection? works_gfile).to be false
+      it 'returns false for a works file set' do
+        expect(Hydra::PCDM.collection? file_set).to be false
       end
 
       it 'returns true for a pcdm collection' do
@@ -89,8 +89,8 @@ describe Hydra::Works do
         expect(Hydra::PCDM.object? works_gwork).to be true
       end
 
-      it 'returns true for a works generic file' do
-        expect(Hydra::PCDM.object? works_gfile).to be true
+      it 'returns true for a works file set' do
+        expect(Hydra::PCDM.object? file_set).to be true
       end
 
       it 'returns false for a pcdm collection' do

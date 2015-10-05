@@ -3,16 +3,15 @@ module Hydra::Works
   module GenericFile
     extend ActiveSupport::Concern
 
-    autoload :Derivatives,            'hydra/works/models/concerns/generic_file/derivatives'
-    autoload :MimeTypes,              'hydra/works/models/concerns/generic_file/mime_types'
-    autoload :ContainedFiles,         'hydra/works/models/concerns/generic_file/contained_files'
-    autoload :VersionedContent,       'hydra/works/models/concerns/generic_file/versioned_content'
-    autoload :VirusCheck,             'hydra/works/models/concerns/generic_file/virus_check'
-    autoload :Characterization,       'hydra/works/models/concerns/generic_file/characterization'
-
-    # Base class for creating objects that behave like Hydra::Works::GenericFiles
+    # @deprecated Base class for creating objects that behave like Hydra::Works::GenericFiles
     class Base < ActiveFedora::Base
-      include Hydra::Works::GenericFileBehavior
+      extend Deprecation
+      include Hydra::Works::FileSetBehavior
+      after_initialize :deprecation_warning
+
+      def deprecation_warning
+        Deprecation.warn Base, "Hydra::Works::FileSet is deprecated and will be removed in 0.4.0. Use Hydra::Works::FileSet instead"
+      end
     end
   end
 end

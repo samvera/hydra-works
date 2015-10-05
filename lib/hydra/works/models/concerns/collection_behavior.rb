@@ -6,7 +6,7 @@ module Hydra::Works
   #   2) Hydra::Works::Collection can aggregate Hydra::Works::Work
 
   #   3) Hydra::Works::Collection can NOT aggregate Hydra::PCDM::Collection unless it is also a Hydra::Works::Collection
-  #   4) Hydra::Works::Collection can NOT aggregate Hydra::Works::GenericFile
+  #   4) Hydra::Works::Collection can NOT aggregate Hydra::Works::FileSet
   #   5) Hydra::Works::Collection can NOT aggregate non-PCDM object
   #   6) Hydra::Works::Collection can NOT contain Hydra::PCDM::File
   #   7) Hydra::Works::Collection can NOT contain
@@ -47,12 +47,12 @@ module Hydra::Works
     alias_method :works_generic_work?, :work?
     deprecation_deprecate :works_generic_work?
 
-    # @return [Boolean] whether this instance is a Hydra::Works Generic File.
-    def generic_file?
+    # @return [Boolean] whether this instance is a Hydra::Works::FileSet.
+    def file_set?
       false
     end
 
-    alias_method :works_generic_file?, :generic_file?
+    alias_method :works_generic_file?, :file_set?
     deprecation_deprecate :works_generic_file?
 
     def member_of

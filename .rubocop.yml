@@ -15,28 +15,28 @@ Metrics/LineLength:
 
 Metrics/CyclomaticComplexity:
   Exclude:
-    - lib/hydra/works/services/generic_file/add_file_to_generic_file.rb
+    - lib/hydra/works/services/add_file_to_file_set.rb
 
 Metrics/PerceivedComplexity:
   Exclude:
-    - lib/hydra/works/services/generic_file/add_file_to_generic_file.rb
+    - lib/hydra/works/services/add_file_to_file_set.rb
 
 Metrics/MethodLength:
   Exclude:
-    - lib/hydra/works/services/generic_file/add_file_to_generic_file.rb
-    - lib/hydra/works/models/concerns/generic_file/virus_check.rb
-    - lib/hydra/works/models/generic_file/characterization/fits_datastream.rb
+    - lib/hydra/works/services/add_file_to_file_set.rb
+    - lib/hydra/works/models/concerns/file_set/virus_check.rb
+    - lib/hydra/works/models/characterization/fits_datastream.rb
 
 Metrics/ClassLength:
   Exclude:
-    - lib/hydra/works/models/generic_file/characterization/fits_datastream.rb
+    - lib/hydra/works/models/characterization/fits_datastream.rb
 
 Metrics/AbcSize:
   Exclude:
-    - lib/hydra/works/services/generic_file/add_file_to_generic_file.rb
-    - lib/hydra/works/services/generic_file/full_text_extraction_service.rb	
-    - lib/hydra/works/models/concerns/generic_file/mime_types.rb
-    - lib/hydra/works/models/concerns/generic_file/virus_check.rb
+    - lib/hydra/works/services/add_file_to_file_set.rb
+    - lib/hydra/works/services/full_text_extraction_service.rb
+    - lib/hydra/works/models/concerns/file_set/mime_types.rb
+    - lib/hydra/works/models/concerns/file_set/virus_check.rb
 
 Style/CollectionMethods:
   PreferredMethods:
