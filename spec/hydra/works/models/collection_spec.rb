@@ -104,9 +104,9 @@ describe Hydra::Works::Collection do
 
       context 'that are unacceptable child collections' do
         let(:error_type1)    { ArgumentError }
-        let(:error_message1) { /Hydra::Works::Generic(Work|File)::Base with ID:  was expected to works_collection\?, but it was false/ }
+        let(:error_message1) { /Hydra::Works::Generic(Work|File)::Base with ID:  was expected to collection\?, but it was false/ }
         let(:error_type2)    { NoMethodError }
-        let(:error_message2) { /undefined method `works_collection\?' for .*/ }
+        let(:error_message2) { /undefined method `collection\?' for .*/ }
 
         it 'does not aggregate Hydra::Works::GenericWork in collections aggregation' do
           expect { subject.collections << @generic_work101 }.to raise_error(error_type1, error_message1)
@@ -251,9 +251,9 @@ describe Hydra::Works::Collection do
 
       context 'that are unacceptable child generic works' do
         let(:error_type1)    { ArgumentError }
-        let(:error_message1) { /Hydra::Works::(GenericFile::Base|Collection) with ID:  was expected to works_generic_work\?, but it was false/ }
+        let(:error_message1) { /Hydra::Works::(GenericFile::Base|Collection) with ID:  was expected to generic_work\?, but it was false/ }
         let(:error_type2)    { NoMethodError }
-        let(:error_message2) { /undefined method `works_generic_work\?' for .*/ }
+        let(:error_message2) { /undefined method `generic_work\?' for .*/ }
 
         it 'does not aggregate Hydra::Works::Collection in generic works aggregation' do
           expect { subject.generic_works << @works_collection101 }.to raise_error(error_type1, error_message1)

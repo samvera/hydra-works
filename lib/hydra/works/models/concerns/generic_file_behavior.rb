@@ -10,6 +10,8 @@ module Hydra::Works
   #   6) Hydra::Works::GenericFile can have access metadata
   module GenericFileBehavior
     extend ActiveSupport::Concern
+    extend Deprecation
+    self.deprecation_horizon = "Hydra::Works 0.4.0"
     include Hydra::PCDM::ObjectBehavior
 
     included do
@@ -23,19 +25,28 @@ module Hydra::Works
     end
 
     # @return [Boolean] whether this instance is a Hydra::Works Collection.
-    def works_collection?
+    def collection?
       false
     end
+
+    alias_method :works_collection?, :collection?
+    deprecation_deprecate :works_collection?
 
     # @return [Boolean] whether this instance is a Hydra::Works Generic Work.
-    def works_generic_work?
+    def generic_work?
       false
     end
 
+    alias_method :works_generic_work?, :generic_work?
+    deprecation_deprecate :works_generic_work?
+
     # @return [Boolean] whether this instance is a Hydra::Works Generic File.
-    def works_generic_file?
+    def generic_file?
       true
     end
+
+    alias_method :works_generic_file?, :generic_file?
+    deprecation_deprecate :works_generic_file?
 
     def member_of
       aggregated_by
