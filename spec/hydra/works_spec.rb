@@ -10,81 +10,81 @@ describe Hydra::Works do
   let(:pcdm_file)  { Hydra::PCDM::File.new }
 
   describe 'Validations' do
-    describe '#works_collection?' do
+    describe '#collection?' do
       it 'returns true for a works collection' do
-        expect(works_coll.works_collection?).to be true
+        expect(works_coll.collection?).to be true
       end
 
       it 'returns false for a works generic work' do
-        expect(works_gwork.works_collection?).to be false
+        expect(works_gwork.collection?).to be false
       end
 
       it 'returns false for a works generic file' do
-        expect(works_gfile.works_collection?).to be false
+        expect(works_gfile.collection?).to be false
       end
 
       it 'returns that method is not available for pcdm a collection' do
-        expect(pcdm_coll).not_to respond_to(:works_collection?)
+        expect(pcdm_coll).not_to respond_to(:collection?)
       end
 
       it 'returns that method is not available for a pcdm object' do
-        expect(pcdm_obj).not_to respond_to(:works_collection?)
+        expect(pcdm_obj).not_to respond_to(:collection?)
       end
 
       it 'returns that method is not available for a pcdm file' do
-        expect(pcdm_file).not_to respond_to(:works_collection?)
+        expect(pcdm_file).not_to respond_to(:collection?)
       end
     end
 
-    describe '#works_generic_work?' do
+    describe '#generic_work?' do
       it 'returns false for a works collection' do
-        expect(works_coll.works_generic_work?).to be false
+        expect(works_coll.generic_work?).to be false
       end
 
       it 'returns true for a works generic work' do
-        expect(works_gwork.works_generic_work?).to be true
+        expect(works_gwork.generic_work?).to be true
       end
 
       it 'returns false for a works generic file' do
-        expect(works_gfile.works_generic_work?).to be false
+        expect(works_gfile.generic_work?).to be false
       end
 
       it 'returns that method is not available for a pcdm collection' do
-        expect(pcdm_coll).not_to respond_to(:works_generic_work?)
+        expect(pcdm_coll).not_to respond_to(:generic_work?)
       end
 
       it 'returns that method is not available for a pcdm object' do
-        expect(pcdm_obj).not_to respond_to(:works_generic_work?)
+        expect(pcdm_obj).not_to respond_to(:generic_work?)
       end
 
       it 'returns that method is not available for a pcdm file' do
-        expect(pcdm_file).not_to respond_to(:works_generic_work?)
+        expect(pcdm_file).not_to respond_to(:generic_work?)
       end
     end
 
-    describe '#works_generic_file?' do
+    describe '#generic_file?' do
       it 'returns false for a works collection' do
-        expect(works_coll.works_generic_file?).to be false
+        expect(works_coll.generic_file?).to be false
       end
 
       it 'returns false for a works generic work' do
-        expect(works_gwork.works_generic_file?).to be false
+        expect(works_gwork.generic_file?).to be false
       end
 
       it 'returns true for a works generic file' do
-        expect(works_gfile.works_generic_file?).to be true
+        expect(works_gfile.generic_file?).to be true
       end
 
       it 'returns that method is not available for a pcdm collection' do
-        expect(pcdm_coll).not_to respond_to(:works_generic_file?)
+        expect(pcdm_coll).not_to respond_to(:generic_file?)
       end
 
       it 'returns that method is not available for a pcdm object' do
-        expect(pcdm_obj).not_to respond_to(:works_generic_file?)
+        expect(pcdm_obj).not_to respond_to(:generic_file?)
       end
 
       it 'returns that method is not available for a pcdm file' do
-        expect(pcdm_file).not_to respond_to(:works_generic_file?)
+        expect(pcdm_file).not_to respond_to(:generic_file?)
       end
     end
   end

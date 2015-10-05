@@ -7,6 +7,6 @@ describe Hydra::Works::GenericFileBehavior do
   subject { IncludesGenericFileBehavior.new }
 
   it 'ensures that objects will be recognized as generic_files' do
-    expect(subject).to be_works_generic_file
+    expect(subject).to be_generic_file
   end
 end
