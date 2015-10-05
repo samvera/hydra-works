@@ -20,6 +20,7 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency 'hydra-pcdm', '~> 0.2'
   spec.add_dependency 'hydra-derivatives', '~> 3.0.0.alpha'
+  spec.add_dependency 'hydra-file_characterization', '~> 0.3'
   spec.add_dependency 'active-fedora', '>= 9.4.1'
   spec.add_dependency 'activefedora-aggregation', '~> 0.4'
 

@@ -25,6 +25,11 @@ Metrics/MethodLength:
   Exclude:
     - lib/hydra/works/services/generic_file/add_file_to_generic_file.rb
     - lib/hydra/works/models/concerns/generic_file/virus_check.rb
+    - lib/hydra/works/models/generic_file/characterization/fits_datastream.rb
+
+Metrics/ClassLength:
+  Exclude:
+    - lib/hydra/works/models/generic_file/characterization/fits_datastream.rb
 
 Metrics/AbcSize:
   Exclude:
@@ -70,3 +75,7 @@ RSpec/FilePath:
 
 RSpec/InstanceVariable:
   Enabled: false
+
+RSpec/DescribedClass:
+  Exclude:
+    - spec/hydra/works/models/concerns/generic_file/characterization_spec.rb

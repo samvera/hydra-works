@@ -32,6 +32,7 @@ module Hydra
       autoload :UploadFileToGenericFile
       autoload :PersistDerivative
       autoload :FullTextExtractionService
+      autoload :CharacterizationService
     end
 
     autoload_under 'errors' do
