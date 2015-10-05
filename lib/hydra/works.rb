@@ -22,9 +22,10 @@ module Hydra
 
     autoload_under 'models/concerns' do
       autoload :CollectionBehavior
-      autoload :GenericWorkBehavior
+      autoload :GenericWorkBehavior # Deprecated. Remove in 0.4.0
       autoload :GenericFileBehavior
       autoload :BlockChildObjects
+      autoload :WorkBehavior
     end
 
     autoload_under 'services/generic_file' do

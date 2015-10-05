@@ -33,11 +33,11 @@ module Hydra::Works
     deprecation_deprecate :works_collection?
 
     # @return [Boolean] whether this instance is a Hydra::Works Generic Work.
-    def generic_work?
+    def work?
       false
     end
 
-    alias_method :works_generic_work?, :generic_work?
+    alias_method :works_generic_work?, :work?
     deprecation_deprecate :works_generic_work?
 
     # @return [Boolean] whether this instance is a Hydra::Works Generic File.
@@ -53,17 +53,20 @@ module Hydra::Works
     end
 
     def parents
-      warn '[DEPRECATION] `parents` is deprecated in Hydra::Works.  Please use `member_of` instead.  This has a target date for removal of 10-31-2015'
+      Deprecation.warn GenericFileBehavior, '`parents` is deprecated in Hydra::Works.  Please use `member_of` instead.  This has a target date for removal of 10-31-2015'
       member_of
     end
 
-    def in_generic_works
-      aggregated_by.select { |parent| parent.class.included_modules.include?(Hydra::Works::GenericWorkBehavior) }
+    def in_works
+      aggregated_by.select { |parent| parent.class.included_modules.include?(Hydra::Works::WorkBehavior) }
     end
 
+    alias_method :in_generic_works, :in_works
+    deprecation_deprecate :in_generic_works
+
     def generic_works
-      warn '[DEPRECATION] `generic_works` is deprecated in Hydra::Works.  Please use `in_generic_works` instead.  This has a target date for removal of 10-31-2015'
-      in_generic_works
+      Deprecation.warn GenericFileBehavior, '`generic_works` is deprecated in Hydra::Works.  Please use `in_works` instead.  This has a target date for removal of 10-31-2015'
+      in_works
     end
   end
 end

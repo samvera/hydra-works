@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe Hydra::Works do
   let(:works_coll)   { Hydra::Works::Collection.new }
-  let(:works_gwork)  { Hydra::Works::GenericWork::Base.new }
+  let(:works_gwork)  { Hydra::Works::GenericWork.new }
   let(:works_gfile)  { Hydra::Works::GenericFile::Base.new }
 
   let(:pcdm_coll)  { Hydra::PCDM::Collection.new }
@@ -22,43 +22,19 @@ describe Hydra::Works do
       it 'returns false for a works generic file' do
         expect(works_gfile.collection?).to be false
       end
-
-      it 'returns that method is not available for pcdm a collection' do
-        expect(pcdm_coll).not_to respond_to(:collection?)
-      end
-
-      it 'returns that method is not available for a pcdm object' do
-        expect(pcdm_obj).not_to respond_to(:collection?)
-      end
-
-      it 'returns that method is not available for a pcdm file' do
-        expect(pcdm_file).not_to respond_to(:collection?)
-      end
     end
 
-    describe '#generic_work?' do
-      it 'returns false for a works collection' do
-        expect(works_coll.generic_work?).to be false
+    describe '#work?' do
+      it 'returns false for a collection' do
+        expect(works_coll.work?).to be false
       end
 
-      it 'returns true for a works generic work' do
-        expect(works_gwork.generic_work?).to be true
+      it 'returns true for a generic work' do
+        expect(works_gwork.work?).to be true
       end
 
-      it 'returns false for a works generic file' do
-        expect(works_gfile.generic_work?).to be false
-      end
-
-      it 'returns that method is not available for a pcdm collection' do
-        expect(pcdm_coll).not_to respond_to(:generic_work?)
-      end
-
-      it 'returns that method is not available for a pcdm object' do
-        expect(pcdm_obj).not_to respond_to(:generic_work?)
-      end
-
-      it 'returns that method is not available for a pcdm file' do
-        expect(pcdm_file).not_to respond_to(:generic_work?)
+      it 'returns false for a generic file' do
+        expect(works_gfile.work?).to be false
       end
     end
 
@@ -73,18 +49,6 @@ describe Hydra::Works do
 
       it 'returns true for a works generic file' do
         expect(works_gfile.generic_file?).to be true
-      end
-
-      it 'returns that method is not available for a pcdm collection' do
-        expect(pcdm_coll).not_to respond_to(:generic_file?)
-      end
-
-      it 'returns that method is not available for a pcdm object' do
-        expect(pcdm_obj).not_to respond_to(:generic_file?)
-      end
-
-      it 'returns that method is not available for a pcdm file' do
-        expect(pcdm_file).not_to respond_to(:generic_file?)
       end
     end
   end

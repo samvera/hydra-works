@@ -38,8 +38,8 @@ describe Hydra::Works::GenericFile::Base do
       context 'with acceptable related objects' do
         let(:object1) { Hydra::PCDM::Object.create }
         let(:object2) { Hydra::PCDM::Object.new }
-        let(:generic_work1) { Hydra::Works::GenericWork::Base.create }
-        let(:generic_work2) { Hydra::Works::GenericWork::Base.new }
+        let(:generic_work1) { Hydra::Works::GenericWork.create }
+        let(:generic_work2) { Hydra::Works::GenericWork.new }
         let(:generic_file1) { described_class.create }
 
         it 'adds various types of related objects to generic_file' do
@@ -135,7 +135,7 @@ describe Hydra::Works::GenericFile::Base do
     let(:object1) { Hydra::PCDM::Object.new }
     let(:object2) { Hydra::PCDM::Object.new }
 
-    let(:generic_work1) { Hydra::Works::GenericWork::Base.new }
+    let(:generic_work1) { Hydra::Works::GenericWork.new }
     let(:generic_file1) { described_class.new }
 
     context 'with generic files' do
@@ -167,10 +167,10 @@ describe Hydra::Works::GenericFile::Base do
     subject { described_class.new }
 
     let(:related_object1) { Hydra::PCDM::Object.new }
-    let(:related_work2)   { Hydra::Works::GenericWork::Base.new }
+    let(:related_work2)   { Hydra::Works::GenericWork.new }
     let(:related_file3)   { described_class.new }
     let(:related_object4) { Hydra::PCDM::Object.new }
-    let(:related_work5)   { Hydra::Works::GenericWork::Base.new }
+    let(:related_work5)   { Hydra::Works::GenericWork.new }
 
     let(:generic_file1) { described_class.new }
     let(:generic_file2) { described_class.new }
@@ -207,7 +207,7 @@ describe Hydra::Works::GenericFile::Base do
   end
 
   describe 'should have parent work accessors' do
-    let(:generic_work1) { Hydra::Works::GenericWork::Base.create }
+    let(:generic_work1) { Hydra::Works::GenericWork.create }
     before do
       generic_work1.generic_files << generic_file1
     end
@@ -216,19 +216,21 @@ describe Hydra::Works::GenericFile::Base do
       expect(generic_file1.member_of).to eq [generic_work1]
     end
     it 'has a parent work' do
-      expect(generic_file1.in_generic_works).to eq [generic_work1]
+      expect(generic_file1.in_works).to eq [generic_work1]
     end
   end
 
   describe 'make sure deprecated methods still work' do
-    let(:generic_work1) { Hydra::Works::GenericWork::Base.create }
+    let(:generic_work1) { Hydra::Works::GenericWork.create }
     before do
       generic_work1.generic_files << generic_file1
       generic_work1.save # required until issue AF-Agg-75 is fixed
     end
     it 'deprecated methods should pass' do
-      expect(generic_file1.generic_works).to eq [generic_work1]
-      expect(generic_file1.parents).to eq [generic_work1]
+      Deprecation.silence(Hydra::Works::GenericFileBehavior) do
+        expect(generic_file1.generic_works).to eq [generic_work1]
+        expect(generic_file1.parents).to eq [generic_work1]
+      end
     end
   end
 end
