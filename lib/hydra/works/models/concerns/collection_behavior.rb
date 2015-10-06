@@ -3,10 +3,10 @@ module Hydra::Works
   #
   # behavior:
   #   1) Hydra::Works::Collection can aggregate Hydra::Works::Collection
-  #   2) Hydra::Works::Collection can aggregate Hydra::Works::GenericWork
+  #   2) Hydra::Works::Collection can aggregate Hydra::Works::Work
 
   #   3) Hydra::Works::Collection can NOT aggregate Hydra::PCDM::Collection unless it is also a Hydra::Works::Collection
-  #   4) Hydra::Works::Collection can NOT aggregate Hydra::Works::GenericFile
+  #   4) Hydra::Works::Collection can NOT aggregate Hydra::Works::FileSet
   #   5) Hydra::Works::Collection can NOT aggregate non-PCDM object
   #   6) Hydra::Works::Collection can NOT contain Hydra::PCDM::File
   #   7) Hydra::Works::Collection can NOT contain
@@ -24,7 +24,11 @@ module Hydra::Works
       include Hydra::Works::BlockChildObjects
 
       filters_association :members, as: :collections, condition: :collection?
-      filters_association :members, as: :generic_works, condition: :generic_work?
+      filters_association :members, as: :works, condition: :work?
+
+      alias_method :generic_works, :works
+      alias_method :generic_works=, :works=
+      deprecation_deprecate :generic_works, :generic_works=
     end
 
     # @return [Boolean] whether this instance is a Hydra::Works Collection.
@@ -36,19 +40,19 @@ module Hydra::Works
     deprecation_deprecate :works_collection?
 
     # @return [Boolean] whether this instance is a Hydra::Works Generic Work.
-    def generic_work?
+    def work?
       false
     end
 
-    alias_method :works_generic_work?, :generic_work?
+    alias_method :works_generic_work?, :work?
     deprecation_deprecate :works_generic_work?
 
-    # @return [Boolean] whether this instance is a Hydra::Works Generic File.
-    def generic_file?
+    # @return [Boolean] whether this instance is a Hydra::Works::FileSet.
+    def file_set?
       false
     end
 
-    alias_method :works_generic_file?, :generic_file?
+    alias_method :works_generic_file?, :file_set?
     deprecation_deprecate :works_generic_file?
 
     def member_of
@@ -56,7 +60,7 @@ module Hydra::Works
     end
 
     def parents
-      warn '[DEPRECATION] `parents` is deprecated in Hydra::Works.  Please use `member_of` instead.  This has a target date for removal of 10-31-2015'
+      Deprecation.warn CollectionBehavior, '`parents` is deprecated in Hydra::Works.  Please use `member_of` instead.  This has a target date for removal of 10-31-2015'
       member_of
     end
 
@@ -65,38 +69,38 @@ module Hydra::Works
     end
 
     def parent_collections
-      warn '[DEPRECATION] `parent_collections` is deprecated in Hydra::Works.  Please use `in_collections` instead.  This has a target date for removal of 10-31-2015'
+      Deprecation.warn CollectionBehavior, '`parent_collections` is deprecated in Hydra::Works.  Please use `in_collections` instead.  This has a target date for removal of 10-31-2015'
       in_collections
     end
 
     def child_collections
-      warn '[DEPRECATION] `child_collections` is deprecated in Hydra::Works.  Please use `collections` instead.  This has a target date for removal of 10-31-2015'
+      Deprecation.warn CollectionBehavior, '`child_collections` is deprecated in Hydra::Works.  Please use `collections` instead.  This has a target date for removal of 10-31-2015'
       collections
     end
 
     def child_collections=(new_collections)
-      warn '[DEPRECATION] `child_collections=` is deprecated in Hydra::Works.  Please use `collections=` instead.  This has a target date for removal of 10-31-2015'
+      Deprecation.warn CollectionBehavior, '`child_collections=` is deprecated in Hydra::Works.  Please use `collections=` instead.  This has a target date for removal of 10-31-2015'
       self.collections = new_collections
     end
 
     def child_collection_ids
-      warn '[DEPRECATION] `child_collection_ids` is deprecated in Hydra::Works.  Please use `collection_ids` instead.  This has a target date for removal of 10-31-2015'
+      Deprecation.warn CollectionBehavior, '`child_collection_ids` is deprecated in Hydra::Works.  Please use `collection_ids` instead.  This has a target date for removal of 10-31-2015'
       collection_ids
     end
 
     def child_generic_works
-      warn '[DEPRECATION] `child_generic_works` is deprecated in Hydra::Works.  Please use `generic_works` instead.  This has a target date for removal of 10-31-2015'
-      generic_works
+      Deprecation.warn CollectionBehavior, '`child_generic_works` is deprecated in Hydra::Works.  Please use `works` instead.  This has a target date for removal of 10-31-2015'
+      works
     end
 
     def child_generic_works=(new_generic_works)
-      warn '[DEPRECATION] `child_generic_works=` is deprecated in Hydra::Works.  Please use `generic_works=` instead.  This has a target date for removal of 10-31-2015'
-      self.generic_works = new_generic_works
+      Deprecation.warn CollectionBehavior, '`child_generic_works=` is deprecated in Hydra::Works.  Please use `works=` instead.  This has a target date for removal of 10-31-2015'
+      self.works = new_generic_works
     end
 
     def child_generic_work_ids
-      warn '[DEPRECATION] `child_generic_work_ids` is deprecated in Hydra::Works.  Please use `generic_work_ids` instead.  This has a target date for removal of 10-31-2015'
-      generic_work_ids
+      Deprecation.warn CollectionBehavior, '`child_generic_work_ids` is deprecated in Hydra::Works.  Please use `work_ids` instead.  This has a target date for removal of 10-31-2015'
+      work_ids
     end
   end
 end

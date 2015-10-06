@@ -8,24 +8,24 @@ describe Hydra::Works::Collection do
   let(:collection3) { described_class.new }
   let(:collection4) { described_class.new }
 
-  let(:generic_work1) { Hydra::Works::GenericWork::Base.new }
-  let(:generic_work2) { Hydra::Works::GenericWork::Base.new }
-  let(:generic_work3) { Hydra::Works::GenericWork::Base.new }
-  let(:generic_work4) { Hydra::Works::GenericWork::Base.new }
+  let(:generic_work1) { Hydra::Works::GenericWork.new }
+  let(:generic_work2) { Hydra::Works::GenericWork.new }
+  let(:generic_work3) { Hydra::Works::GenericWork.new }
+  let(:generic_work4) { Hydra::Works::GenericWork.new }
 
   describe '#collections' do
-    it 'returns empty array when only generic_works are aggregated' do
-      subject.generic_works << generic_work1
-      subject.generic_works << generic_work2
+    it 'returns empty array when only works are aggregated' do
+      subject.works << generic_work1
+      subject.works << generic_work2
       expect(subject.collections).to eq []
     end
 
-    context 'with other collections & generic_works' do
+    context 'with other collections & works' do
       before do
         subject.collections << collection1
         subject.collections << collection2
-        subject.generic_works << generic_work1
-        subject.generic_works << generic_work2
+        subject.works << generic_work1
+        subject.works << generic_work2
       end
 
       it 'returns only collections' do
@@ -36,15 +36,15 @@ describe Hydra::Works::Collection do
 
   describe '#collections <<' do
     context 'with acceptable collections' do
-      context 'with collections and generic_works' do
+      context 'with collections and works' do
         before do
           subject.collections << collection1
           subject.collections << collection2
-          subject.generic_works << generic_work1
-          subject.generic_works << generic_work2
+          subject.works << generic_work1
+          subject.works << generic_work2
         end
 
-        it 'adds an generic_work to collection with collections and generic_works' do
+        it 'adds an generic_work to collection with collections and works' do
           subject.collections << collection3
           expect(subject.collections).to eq [collection1, collection2, collection3]
         end
@@ -93,8 +93,8 @@ describe Hydra::Works::Collection do
     context 'with unacceptable inputs' do
       before(:all) do
         @works_collection101  = described_class.new
-        @generic_work101      = Hydra::Works::GenericWork::Base.new
-        @generic_file101      = Hydra::Works::GenericFile::Base.new
+        @generic_work101      = Hydra::Works::GenericWork.new
+        @generic_file101      = Hydra::Works::FileSet.new
         @pcdm_collection101   = Hydra::PCDM::Collection.new
         @pcdm_object101       = Hydra::PCDM::Object.new
         @pcdm_file101         = Hydra::PCDM::File.new
@@ -104,7 +104,7 @@ describe Hydra::Works::Collection do
 
       context 'that are unacceptable child collections' do
         let(:error_type1)    { ArgumentError }
-        let(:error_message1) { /Hydra::Works::Generic(Work|File)::Base with ID:  was expected to collection\?, but it was false/ }
+        let(:error_message1) { /Hydra::Works::(GenericWork|FileSet) with ID:  was expected to collection\?, but it was false/ }
         let(:error_type2)    { NoMethodError }
         let(:error_message2) { /undefined method `collection\?' for .*/ }
 
@@ -112,7 +112,7 @@ describe Hydra::Works::Collection do
           expect { subject.collections << @generic_work101 }.to raise_error(error_type1, error_message1)
         end
 
-        it 'does not aggregate Hydra::Works::GenericFile in collections aggregation' do
+        it 'does not aggregate Hydra::Works::FileSet in collections aggregation' do
           expect { subject.collections << @generic_file101 }.to raise_error(error_type1, error_message1)
         end
 
@@ -144,95 +144,95 @@ describe Hydra::Works::Collection do
       before do
         subject.collections << collection1
         subject.collections << collection2
-        subject.generic_works << generic_work2
+        subject.works << generic_work2
         subject.collections << collection3
-        subject.generic_works << generic_work1
+        subject.works << generic_work1
         expect(subject.collections).to eq [collection1, collection2, collection3]
       end
 
       it 'removes first collection' do
         expect(subject.collections.delete collection1).to eq [collection1]
         expect(subject.collections).to eq [collection2, collection3]
-        expect(subject.generic_works).to eq [generic_work2, generic_work1]
+        expect(subject.works).to eq [generic_work2, generic_work1]
       end
 
       it 'removes last collection' do
         expect(subject.collections.delete collection3).to eq [collection3]
         expect(subject.collections).to eq [collection1, collection2]
-        expect(subject.generic_works). to eq [generic_work2, generic_work1]
+        expect(subject.works). to eq [generic_work2, generic_work1]
       end
 
       it 'removes middle collection' do
         expect(subject.collections.delete collection2).to eq [collection2]
         expect(subject.collections).to eq [collection1, collection3]
-        expect(subject.generic_works). to eq [generic_work2, generic_work1]
+        expect(subject.works). to eq [generic_work2, generic_work1]
       end
     end
   end
 
-  describe '#generic_works' do
+  describe '#works' do
     it 'returns empty array when only collections are aggregated' do
       subject.collections << collection1
       subject.collections << collection2
-      expect(subject.generic_works). to eq []
+      expect(subject.works). to eq []
     end
 
     context 'with collections and generic works' do
       before do
         subject.collections << collection1
         subject.collections << collection2
-        subject.generic_works << generic_work1
-        subject.generic_works << generic_work2
+        subject.works << generic_work1
+        subject.works << generic_work2
       end
 
       it 'returns only generic works' do
-        expect(subject.generic_works). to eq [generic_work1, generic_work2]
+        expect(subject.works). to eq [generic_work1, generic_work2]
       end
     end
   end
 
-  describe '#generic_works <<' do
-    context 'with acceptable generic_works' do
-      context 'with collections and generic_works' do
+  describe '#works <<' do
+    context 'with acceptable works' do
+      context 'with collections and works' do
         before do
           subject.collections << collection1
           subject.collections << collection2
-          subject.generic_works << generic_work1
-          subject.generic_works << generic_work2
+          subject.works << generic_work1
+          subject.works << generic_work2
         end
 
-        it 'adds generic_work to collection with collections and generic_works' do
-          subject.generic_works << generic_work3
-          expect(subject.generic_works).to eq [generic_work1, generic_work2, generic_work3]
+        it 'adds generic_work to collection with collections and works' do
+          subject.works << generic_work3
+          expect(subject.works).to eq [generic_work1, generic_work2, generic_work3]
         end
       end
 
-      describe 'aggregates generic_works that implement Hydra::Works' do
+      describe 'aggregates works that implement Hydra::Works' do
         before do
           class DummyIncWork < ActiveFedora::Base
-            include Hydra::Works::GenericWorkBehavior
+            include Hydra::Works::WorkBehavior
           end
         end
         after { Object.send(:remove_const, :DummyIncWork) }
         let(:iwork1) { DummyIncWork.new }
 
         it 'accepts implementing generic_work as a child' do
-          subject.generic_works << iwork1
-          expect(subject.generic_works).to eq [iwork1]
+          subject.works << iwork1
+          expect(subject.works).to eq [iwork1]
         end
       end
 
-      describe 'aggregates generic_works that extend Hydra::Works' do
+      describe 'aggregates works that extend Hydra::Works::Work' do
         before do
-          class DummyExtWork < Hydra::Works::GenericWork::Base
+          class DummyExtWork < Hydra::Works::GenericWork
           end
         end
         after { Object.send(:remove_const, :DummyExtWork) }
         let(:ework1) { DummyExtWork.new }
 
-        it 'accepts extending generic_work as a child' do
-          subject.generic_works << ework1
-          expect(subject.generic_works).to eq [ework1]
+        it 'accepts extending GenericWork as a child' do
+          subject.works << ework1
+          expect(subject.works).to eq [ework1]
         end
       end
     end
@@ -241,7 +241,7 @@ describe Hydra::Works::Collection do
       before(:all) do
         @works_collection101  = described_class.new
         @works_collection102  = described_class.new
-        @generic_file101      = Hydra::Works::GenericFile::Base.new
+        @generic_file101      = Hydra::Works::FileSet.new
         @pcdm_collection101   = Hydra::PCDM::Collection.new
         @pcdm_object101       = Hydra::PCDM::Object.new
         @pcdm_file101         = Hydra::PCDM::File.new
@@ -251,74 +251,74 @@ describe Hydra::Works::Collection do
 
       context 'that are unacceptable child generic works' do
         let(:error_type1)    { ArgumentError }
-        let(:error_message1) { /Hydra::Works::(GenericFile::Base|Collection) with ID:  was expected to generic_work\?, but it was false/ }
+        let(:error_message1) { /Hydra::Works::(FileSet|Collection) with ID:  was expected to work\?, but it was false/ }
         let(:error_type2)    { NoMethodError }
-        let(:error_message2) { /undefined method `generic_work\?' for .*/ }
+        let(:error_message2) { /undefined method `work\?' for .*/ }
 
         it 'does not aggregate Hydra::Works::Collection in generic works aggregation' do
-          expect { subject.generic_works << @works_collection101 }.to raise_error(error_type1, error_message1)
+          expect { subject.works << @works_collection101 }.to raise_error(error_type1, error_message1)
         end
 
-        it 'does not aggregate Hydra::Works::GenericFile in generic works aggregation' do
-          expect { subject.generic_works << @generic_file101 }.to raise_error(error_type1, error_message1)
+        it 'does not aggregate Hydra::Works::FileSet in generic works aggregation' do
+          expect { subject.works << @generic_file101 }.to raise_error(error_type1, error_message1)
         end
 
         it 'does not aggregate Hydra::PCDM::Collections in generic works aggregation' do
-          expect { subject.generic_works << @pcdm_collection101 }.to raise_error(error_type2, error_message2)
+          expect { subject.works << @pcdm_collection101 }.to raise_error(error_type2, error_message2)
         end
 
         it 'does not aggregate Hydra::PCDM::Objects in generic works aggregation' do
-          expect { subject.generic_works << @pcdm_object101 }.to raise_error(error_type2, error_message2)
+          expect { subject.works << @pcdm_object101 }.to raise_error(error_type2, error_message2)
         end
 
         it 'does not aggregate Hydra::PCDM::Files in generic works aggregation' do
-          expect { subject.generic_works << @pcdm_file101 }.to raise_error(error_type2, error_message2)
+          expect { subject.works << @pcdm_file101 }.to raise_error(error_type2, error_message2)
         end
 
         it 'does not aggregate non-PCDM objects in generic works aggregation' do
-          expect { subject.generic_works << @non_pcdm_object }.to raise_error(error_type2, error_message2)
+          expect { subject.works << @non_pcdm_object }.to raise_error(error_type2, error_message2)
         end
 
         it 'does not aggregate AF::Base objects in generic works aggregation' do
-          expect { subject.generic_works << @af_base_object }.to raise_error(error_type2, error_message2)
+          expect { subject.works << @af_base_object }.to raise_error(error_type2, error_message2)
         end
       end
     end
   end
 
-  describe '#generic_works.delete' do
+  describe '#works.delete' do
     context 'when multiple generic works' do
       before do
-        subject.generic_works << generic_work1
-        subject.generic_works << generic_work2
+        subject.works << generic_work1
+        subject.works << generic_work2
         subject.collections << collection2
-        subject.generic_works << generic_work3
+        subject.works << generic_work3
         subject.collections << collection1
-        expect(subject.generic_works). to eq [generic_work1, generic_work2, generic_work3]
+        expect(subject.works). to eq [generic_work1, generic_work2, generic_work3]
       end
 
       it 'removes first generic work' do
-        expect(subject.generic_works.delete generic_work1).to eq [generic_work1]
-        expect(subject.generic_works). to eq [generic_work2, generic_work3]
+        expect(subject.works.delete generic_work1).to eq [generic_work1]
+        expect(subject.works). to eq [generic_work2, generic_work3]
         expect(subject.collections).to eq [collection2, collection1]
       end
 
       it 'removes last generic work' do
-        expect(subject.generic_works.delete generic_work3).to eq [generic_work3]
-        expect(subject.generic_works). to eq [generic_work1, generic_work2]
+        expect(subject.works.delete generic_work3).to eq [generic_work3]
+        expect(subject.works). to eq [generic_work1, generic_work2]
         expect(subject.collections).to eq [collection2, collection1]
       end
 
       it 'removes middle generic work' do
-        expect(subject.generic_works.delete generic_work2).to eq [generic_work2]
-        expect(subject.generic_works). to eq [generic_work1, generic_work3]
+        expect(subject.works.delete generic_work2).to eq [generic_work2]
+        expect(subject.works). to eq [generic_work1, generic_work3]
         expect(subject.collections).to eq [collection2, collection1]
       end
     end
   end
 
   describe '#related_objects' do
-    let(:generic_file1) { Hydra::Works::GenericFile::Base.new }
+    let(:generic_file1) { Hydra::Works::FileSet.new }
     let(:object1) { Hydra::PCDM::Object.new }
     let(:object2) { Hydra::PCDM::Object.new }
 
@@ -326,7 +326,7 @@ describe Hydra::Works::Collection do
       before do
         subject.collections << collection1
         subject.collections << collection2
-        subject.generic_works << generic_work1
+        subject.works << generic_work1
       end
 
       it 'returns empty array when only collections and generic works are aggregated' do
@@ -356,7 +356,7 @@ describe Hydra::Works::Collection do
     context 'with acceptable related objects' do
       let(:object1) { Hydra::PCDM::Object.new }
       let(:object2) { Hydra::PCDM::Object.new }
-      let(:generic_file1) { Hydra::Works::GenericFile::Base.new }
+      let(:generic_file1) { Hydra::Works::FileSet.new }
 
       it 'adds various types of related objects to collection' do
         subject.related_objects << generic_work1
@@ -370,16 +370,16 @@ describe Hydra::Works::Collection do
         expect(subject.related_objects.size).to eq 3
       end
 
-      context 'with collections and generic_works' do
+      context 'with collections and works' do
         before do
           subject.collections << collection1
           subject.collections << collection2
-          subject.generic_works << generic_work1
-          subject.generic_works << generic_work2
+          subject.works << generic_work1
+          subject.works << generic_work2
           subject.related_objects << object1
         end
 
-        it 'adds a related object to collection with collections and generic_works' do
+        it 'adds a related object to collection with collections and works' do
           subject.related_objects << object2
           subject.save
           subject.reload
@@ -437,17 +437,17 @@ describe Hydra::Works::Collection do
 
   describe '#related_objects.delete' do
     let(:related_object1) { Hydra::PCDM::Object.new }
-    let(:related_work2)   { Hydra::Works::GenericWork::Base.new }
-    let(:related_file3)   { Hydra::Works::GenericFile::Base.new }
+    let(:related_work2)   { Hydra::Works::GenericWork.new }
+    let(:related_file3)   { Hydra::Works::FileSet.new }
     let(:related_object4) { Hydra::PCDM::Object.new }
-    let(:related_work5)   { Hydra::Works::GenericWork::Base.new }
+    let(:related_work5)   { Hydra::Works::GenericWork.new }
 
     context 'when multiple related objects' do
       before do
         subject.related_objects << related_object1
         subject.related_objects << related_work2
         subject.collections << collection2
-        subject.generic_works << generic_work1
+        subject.works << generic_work1
         subject.related_objects << related_file3
         subject.related_objects << related_object4
         subject.collections << collection1
@@ -459,21 +459,21 @@ describe Hydra::Works::Collection do
         expect(subject.related_objects.delete related_object1).to eq [related_object1]
         expect(subject.related_objects).to eq [related_work2, related_file3, related_object4, related_work5]
         expect(subject.collections).to eq [collection2, collection1]
-        expect(subject.generic_works). to eq [generic_work1]
+        expect(subject.works). to eq [generic_work1]
       end
 
       it 'removes last related object' do
         expect(subject.related_objects.delete related_work5).to eq [related_work5]
         expect(subject.related_objects).to eq [related_object1, related_work2, related_file3, related_object4]
         expect(subject.collections).to eq [collection2, collection1]
-        expect(subject.generic_works). to eq [generic_work1]
+        expect(subject.works). to eq [generic_work1]
       end
 
       it 'removes middle related object' do
         expect(subject.related_objects.delete related_file3).to eq [related_file3]
         expect(subject.related_objects).to eq [related_object1, related_work2, related_object4, related_work5]
         expect(subject.collections).to eq [collection2, collection1]
-        expect(subject.generic_works). to eq [generic_work1]
+        expect(subject.works). to eq [generic_work1]
       end
     end
   end
@@ -485,10 +485,10 @@ describe Hydra::Works::Collection do
     end
   end
 
-  describe '#generic_works=' do
-    it 'aggregates generic_works' do
-      collection1.generic_works = [generic_work1, generic_work2]
-      expect(collection1.generic_works).to eq [generic_work1, generic_work2]
+  describe '#works=' do
+    it 'aggregates works' do
+      collection1.works = [generic_work1, generic_work2]
+      expect(collection1.works).to eq [generic_work1, generic_work2]
     end
   end
 
@@ -521,16 +521,17 @@ describe Hydra::Works::Collection do
 
   describe 'make sure deprecated methods still work' do
     it 'deprecated methods should pass' do
-      expect(collection1.child_collections = [collection2]).to eq [collection2]
-      expect(collection1.child_collections << collection3).to eq [collection2, collection3]
-      expect(collection1.child_collections += [collection4]).to eq [collection2, collection3, collection4]
-      expect(collection1.child_generic_works = [generic_work1]).to eq [generic_work1]
-      expect(collection1.child_generic_works << generic_work2).to eq [generic_work1, generic_work2]
-      expect(collection1.child_generic_works += [generic_work3]).to eq [generic_work1, generic_work2, generic_work3]
-      collection1.save # required until issue AF-Agg-75 is fixed
-      expect(collection2.parent_collections).to eq [collection1]
-      expect(collection2.parents).to eq [collection1]
-      expect(collection2.parent_collection_ids).to eq [collection1.id]
+      Deprecation.silence(Hydra::Works::CollectionBehavior) do
+        expect(collection1.child_collections = [collection2]).to eq [collection2]
+        expect(collection1.child_collections << collection3).to eq [collection2, collection3]
+        expect(collection1.child_collections += [collection4]).to eq [collection2, collection3, collection4]
+        expect(collection1.child_generic_works = [generic_work1]).to eq [generic_work1]
+        expect(collection1.child_generic_works << generic_work2).to eq [generic_work1, generic_work2]
+        expect(collection1.child_generic_works += [generic_work3]).to eq [generic_work1, generic_work2, generic_work3]
+        collection1.save # required until issue AF-Agg-75 is fixed
+        expect(collection2.parent_collections).to eq [collection1]
+        expect(collection2.parents).to eq [collection1]
+      end
     end
   end
 end

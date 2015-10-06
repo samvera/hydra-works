@@ -1,12 +1,12 @@
 require 'spec_helper'
 
 describe Hydra::Works::FullTextExtractionService do
-  let(:generic_file) { Hydra::Works::GenericFile::Base.new }
+  let(:generic_file) { Hydra::Works::FileSet.new }
 
   describe 'integration test' do
     context "with a file in Fedora" do
       before do
-        Hydra::Works::UploadFileToGenericFile.call(generic_file, File.open(File.join(fixture_path, 'sample-file.pdf')))
+        Hydra::Works::UploadFileToFileSet.call(generic_file, File.open(File.join(fixture_path, 'sample-file.pdf')))
       end
       subject { described_class.run(generic_file) }
       it 'extracts fulltext and stores the results' do

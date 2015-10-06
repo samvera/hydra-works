@@ -1,5 +1,5 @@
-module Hydra::Works::GenericFile
-  # Allows a GenericFile to treat the version history of the original_file as the GenericFile's version history
+module Hydra::Works
+  # Allows a FileSet to treat the version history of the original_file as the FileSet's version history
   module VersionedContent
     def content_versions
       original_file.versions.all

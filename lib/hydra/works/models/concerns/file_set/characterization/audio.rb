@@ -1,8 +1,8 @@
-module Hydra::Works::GenericFile::Characterization
+module Hydra::Works::Characterization
   module Audio
     extend ActiveSupport::Concern
 
-    autoload :AudioSchema, 'hydra/works/models/generic_file/characterization/audio_schema.rb'
+    autoload :AudioSchema, 'hydra/works/models/characterization/audio_schema.rb'
 
     included do
       # Apply the audio schema. This will add properties defined in the schema.

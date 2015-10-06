@@ -3,8 +3,8 @@ require 'support/generic_file_helper'
 
 describe Hydra::Works::CharacterizationService do
   let(:demo_class) do
-    Class.new(Hydra::Works::GenericFile::Base) do
-      include Hydra::Works::GenericFile::Characterization
+    Class.new(Hydra::Works::FileSet) do
+      include Hydra::Works::Characterization
     end
   end
 
@@ -70,7 +70,7 @@ describe Hydra::Works::CharacterizationService do
     # Stub Hydra::FileCharacterization.characterize
     let(:characterization) { class_double("Hydra::FileCharacterization").as_stubbed_const }
     let(:bland_class) do
-      Class.new(Hydra::Works::GenericFile::Base) { include Hydra::Works::GenericFile::Characterization }
+      Class.new(Hydra::Works::FileSet) { include Hydra::Works::Characterization }
     end
     let(:fits_filename)      { 'fits_0.8.5_pdf.xml' }
     let(:fits_response)      { IO.read(File.join(fixture_path, fits_filename)) }

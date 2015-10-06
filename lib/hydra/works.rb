@@ -14,27 +14,40 @@ module Hydra
       end
     end
 
+    autoload_under 'models/concerns/file_set' do
+      autoload :Derivatives
+      autoload :MimeTypes
+      autoload :ContainedFiles
+      autoload :VersionedContent
+      autoload :VirusCheck
+      autoload :Characterization
+    end
+
     autoload_under 'models' do
       autoload :Collection
+      autoload :FileSet
       autoload :GenericWork
-      autoload :GenericFile
+      autoload :GenericFile # Deprecated. Remove in 0.4.0
     end
 
     autoload_under 'models/concerns' do
       autoload :CollectionBehavior
-      autoload :GenericWorkBehavior
-      autoload :GenericFileBehavior
+      autoload :FileSetBehavior
+      autoload :GenericWorkBehavior # Deprecated. Remove in 0.4.0
+      autoload :GenericFileBehavior # Deprecated. Remove in 0.4.0
       autoload :BlockChildObjects
+      autoload :WorkBehavior
     end
 
-    autoload_under 'services/generic_file' do
-      autoload :AddFileToGenericFile
-      autoload :UploadFileToGenericFile
+    autoload_under 'services' do
+      autoload :AddFileToFileSet
+      autoload :AddFileToGenericFile # Deprecated. Remove in 0.4.0
+      autoload :UploadFileToFileSet
+      autoload :UploadFileToGenericFile # Deprecated. Remove in 0.4.0
       autoload :PersistDerivative
       autoload :FullTextExtractionService
       autoload :CharacterizationService
     end
-
     autoload_under 'errors' do
       autoload :FullTextExtractionError
     end

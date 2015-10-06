@@ -1,7 +1,7 @@
 require 'spec_helper'
 
-describe Hydra::Works::GenericFile::MimeTypes do
-  subject { Hydra::Works::GenericFile::Base.new }
+describe Hydra::Works::MimeTypes do
+  subject { Hydra::Works::FileSet.new }
 
   describe '#pdf?' do
     before do

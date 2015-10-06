@@ -1,8 +1,8 @@
 require 'spec_helper'
 
-describe Hydra::Works::UploadFileToGenericFile do
-  let(:generic_work)        { Hydra::Works::GenericWork::Base.new }
-  let(:generic_file)        { Hydra::Works::GenericFile::Base.new }
+describe Hydra::Works::UploadFileToFileSet do
+  let(:generic_work)        { Hydra::Works::GenericWork.new }
+  let(:generic_file)        { Hydra::Works::FileSet.new }
   let(:file)                { File.open(File.join(fixture_path, 'sample-file.pdf')) }
   let(:updated_file)        { File.open(File.join(fixture_path, 'updated-file.txt')) }
   let(:mime_type)           { 'application/pdf' }
@@ -12,7 +12,7 @@ describe Hydra::Works::UploadFileToGenericFile do
 
   context 'when you provide mime_type and original_name, etc' do
     it 'uses the provided values' do
-      expect(Hydra::Works::AddFileToGenericFile).to receive(:call).with(generic_file, file, :original_file, update_existing: true, versioning: true)
+      expect(Hydra::Works::AddFileToFileSet).to receive(:call).with(generic_file, file, :original_file, update_existing: true, versioning: true)
       described_class.call(generic_file, file)
     end
   end

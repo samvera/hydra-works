@@ -4,8 +4,8 @@ module Hydra::Works
     class WorksTerms < RDF::Vocabulary('http://projecthydra.org/works/models#')
       # Class definitions
       term :Collection
-      term :GenericWork
-      term :GenericFile
+      term :Work
+      term :FileSet
       term :File
     end
   end
