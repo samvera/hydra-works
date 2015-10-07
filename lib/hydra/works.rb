@@ -45,11 +45,7 @@ module Hydra
       autoload :UploadFileToFileSet
       autoload :UploadFileToGenericFile # Deprecated. Remove in 0.4.0
       autoload :PersistDerivative
-      autoload :FullTextExtractionService
       autoload :CharacterizationService
-    end
-    autoload_under 'errors' do
-      autoload :FullTextExtractionError
     end
   end
 end
