@@ -1,6 +1,6 @@
 class DocumentSchema < ActiveTriples::Schema
-  property :title, predicate: RDF::DC11.title
-  property :author, predicate: RDF::DC11.creator
+  property :file_title, predicate: RDF::DC11.title
+  property :file_author, predicate: RDF::DC11.creator
   property :page_count, predicate: RDF::Vocab::NFO.pageCount
   property :file_language, predicate: RDF::DC11.language
   property :word_count, predicate: RDF::Vocab::NFO.wordCount
