@@ -17,7 +17,7 @@ describe Hydra::Works::CharacterizationService do
       skip 'external tools not installed for CI environment' if ENV['CI']
       described_class.run(generic_file, path_on_disk)
       expect(generic_file.file_size).to eq(["7618"])
-      expect(generic_file.title).to eq(["sample-file"])
+      expect(generic_file.file_title).to eq(["sample-file"])
       expect(generic_file.page_count).to eq(["1"])
     end
   end
@@ -108,7 +108,7 @@ describe Hydra::Works::CharacterizationService do
       end
 
       it 'assigns expected values to document properties.' do
-        expect(generic_file.title).to eq(["sample-file"])
+        expect(generic_file.file_title).to eq(["sample-file"])
         expect(generic_file.page_count).to eq(["1"])
       end
     end
