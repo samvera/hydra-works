@@ -23,12 +23,24 @@ module Hydra::Works
       type [Hydra::PCDM::Vocab::PCDMTerms.Collection, Vocab::WorksTerms.Collection]
       include Hydra::Works::BlockChildObjects
 
-      filters_association :members, as: :collections, condition: :collection?
-      filters_association :members, as: :works, condition: :work?
-
       alias_method :generic_works, :works
-      alias_method :generic_works=, :works=
-      deprecation_deprecate :generic_works, :generic_works=
+      deprecation_deprecate :generic_works
+    end
+
+    def works
+      members.select(&:work?)
+    end
+
+    def work_ids
+      works.map(&:id)
+    end
+
+    def collections
+      members.select(&:collection?)
+    end
+
+    def collection_ids
+      collections.map(&:id)
     end
 
     # @return [Boolean] whether this instance is a Hydra::Works Collection.
@@ -78,11 +90,6 @@ module Hydra::Works
       collections
     end
 
-    def child_collections=(new_collections)
-      Deprecation.warn CollectionBehavior, '`child_collections=` is deprecated in Hydra::Works.  Please use `collections=` instead.  This has a target date for removal of 10-31-2015'
-      self.collections = new_collections
-    end
-
     def child_collection_ids
       Deprecation.warn CollectionBehavior, '`child_collection_ids` is deprecated in Hydra::Works.  Please use `collection_ids` instead.  This has a target date for removal of 10-31-2015'
       collection_ids
@@ -91,11 +98,6 @@ module Hydra::Works
     def child_generic_works
       Deprecation.warn CollectionBehavior, '`child_generic_works` is deprecated in Hydra::Works.  Please use `works` instead.  This has a target date for removal of 10-31-2015'
       works
-    end
-
-    def child_generic_works=(new_generic_works)
-      Deprecation.warn CollectionBehavior, '`child_generic_works=` is deprecated in Hydra::Works.  Please use `works=` instead.  This has a target date for removal of 10-31-2015'
-      self.works = new_generic_works
     end
 
     def child_generic_work_ids

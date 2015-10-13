@@ -4,6 +4,7 @@ source 'https://rubygems.org'
 gemspec
 
 gem 'slop', '~> 3.6' # For byebug
+gem 'hydra-pcdm', github: 'projecthydra-labs/hydra-pcdm'
 
 group :development, :test do
   gem 'rubocop', require: false
