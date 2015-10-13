@@ -13,9 +13,19 @@ describe Hydra::Works::CharacterizationService do
     let(:path_on_disk)       { File.join(fixture_path, filename) }
     let(:file_set) { demo_class.new(id: 'inte/gr/at/ion') }
 
-    it 'sets expected properties on the object' do
+    before do
       skip 'external tools not installed for CI environment' if ENV['CI']
       described_class.run(file_set, path_on_disk)
+    end
+
+    it 'successfully sets and persists the property values' do
+      expect(file_set.file_size).to eq(["7618"])
+      expect(file_set.file_title).to eq(["sample-file"])
+      expect(file_set.page_count).to eq(["1"])
+      # Persist and reload from persistence layer
+      expect(file_set.save).to be true
+      expect(file_set.reload).to be file_set
+      # Re-check property values
       expect(file_set.file_size).to eq(["7618"])
       expect(file_set.file_title).to eq(["sample-file"])
       expect(file_set.page_count).to eq(["1"])
@@ -155,6 +165,34 @@ describe Hydra::Works::CharacterizationService do
         expect(file_set.mime_type).to eq("audio/mpeg")
         expect(file_set.duration).to eq(["0:0:15:261"])
         expect(file_set.sample_rate).to eq(["44100"])
+      end
+    end
+  end
+
+  describe 'assigned properties from fits 0.6.2' do
+    # Stub Hydra::FileCharacterization.characterize
+    let(:characterization) { class_double("Hydra::FileCharacterization").as_stubbed_const }
+    let(:file)               { Hydra::PCDM::File.new }
+    let(:file_set) { demo_class.new(id: 'old/pr/op/es') }
+
+    before do
+      mock_add_file_to_file_set(file_set, file)
+    end
+
+    context 'using image metadata' do
+      let(:fits_filename)      { 'fits_0.6.2_jpg.xml' }
+      let(:fits_response)      { IO.read(File.join(fixture_path, fits_filename)) }
+      before do
+        allow(characterization).to receive(:characterize).and_return(fits_response)
+        described_class.run(file_set)
+      end
+      it 'assigns expected values to image properties.' do
+        expect(file_set.file_size).to eq(["57639"])
+        expect(file_set.byte_order).to eq("big endian")
+        expect(file_set.compression).to eq("JPEG (old-style)")
+        expect(file_set.width).to eq(["600"])
+        expect(file_set.height).to eq(["381"])
+        expect(file_set.color_space).to eq("YCbCr")
       end
     end
   end
