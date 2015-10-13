@@ -111,12 +111,8 @@ module Hydra::Works
       end
 
       def append_property_value(property, value)
-        property_value = object.send(property)
-        if property_value.is_a? Array
-          property_value << value
-        else
-          object.send("#{property}=", value)
-        end
+        value = object[property] + [value] if object.class.multiple?(property)
+        object.send("#{property}=", value)
       end
   end
 end
