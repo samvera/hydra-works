@@ -20,17 +20,27 @@ module Hydra::Works
 
     included do
       type [Hydra::PCDM::Vocab::PCDMTerms.Object, Vocab::WorksTerms.Work]
-      include Hydra::Works::BlockChildObjects
-
-      filters_association :members, as: :works, condition: :work?
-      filters_association :members, as: :file_sets, condition: :file_set?
 
       alias_method :generic_works, :works
-      alias_method :generic_works=, :works=
-      deprecation_deprecate :generic_works, :generic_works=
+      deprecation_deprecate :generic_works
 
       alias_method :generic_files, :file_sets
-      alias_method :generic_files=, :file_sets=
+    end
+
+    def works
+      members.select(&:work?)
+    end
+
+    def work_ids
+      works.map(&:id)
+    end
+
+    def file_sets
+      members.select(&:file_set?)
+    end
+
+    def file_set_ids
+      file_sets.map(&:id)
     end
 
     # @return [Boolean] whether this instance is a Hydra::Works Collection.
@@ -90,11 +100,6 @@ module Hydra::Works
     def child_generic_works
       Deprecation.warn WorkBehavior, '`child_generic_works` is deprecated in Hydra::Works.  Please use `works` instead.  This has a target date for removal of 10-31-2015'
       works
-    end
-
-    def child_generic_works=(new_generic_works)
-      Deprecation.warn WorkBehavior, '`child_generic_works=` is deprecated in Hydra::Works.  Please use `works=` instead.  This has a target date for removal of 10-31-2015'
-      self.works = new_generic_works
     end
 
     def child_generic_work_ids
