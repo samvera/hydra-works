@@ -20,7 +20,6 @@ module Hydra::Works
 
     included do
       type [Hydra::PCDM::Vocab::PCDMTerms.Object, Vocab::WorksTerms.Work]
-      include Hydra::Works::BlockChildObjects
 
       alias_method :generic_works, :works
       deprecation_deprecate :generic_works

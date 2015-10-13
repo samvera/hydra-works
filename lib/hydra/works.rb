@@ -35,7 +35,6 @@ module Hydra
       autoload :FileSetBehavior
       autoload :GenericWorkBehavior # Deprecated. Remove in 0.4.0
       autoload :GenericFileBehavior # Deprecated. Remove in 0.4.0
-      autoload :BlockChildObjects
       autoload :WorkBehavior
     end
 

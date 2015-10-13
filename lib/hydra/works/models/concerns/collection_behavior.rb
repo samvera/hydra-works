@@ -21,7 +21,6 @@ module Hydra::Works
 
     included do
       type [Hydra::PCDM::Vocab::PCDMTerms.Collection, Vocab::WorksTerms.Collection]
-      include Hydra::Works::BlockChildObjects
 
       alias_method :generic_works, :works
       deprecation_deprecate :generic_works

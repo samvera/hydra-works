@@ -21,7 +21,6 @@ module Hydra::Works
       include Hydra::Works::Derivatives
       include Hydra::Works::MimeTypes
       include Hydra::Works::VersionedContent
-      include Hydra::Works::BlockChildObjects
     end
 
     # @return [Boolean] whether this instance is a Hydra::Works Collection.
