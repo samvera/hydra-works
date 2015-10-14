@@ -20,8 +20,9 @@ module Hydra
       autoload :ContainedFiles
       autoload :VersionedContent
       autoload :VirusCheck
-      autoload :Characterization
     end
+
+    autoload :Characterization
 
     autoload_under 'models' do
       autoload :Collection

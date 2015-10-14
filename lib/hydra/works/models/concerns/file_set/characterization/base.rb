@@ -1,12 +1,6 @@
-require 'hydra-file_characterization'
-
 module Hydra::Works::Characterization
   module Base
     extend ActiveSupport::Concern
-
-    autoload :FitsDatastream, 'hydra/works/models/characterization/fits_datastream.rb'
-    autoload :AlreadyThereStrategy, 'hydra/works/models/characterization/already_there_strategy.rb'
-    autoload :BaseSchema, 'hydra/works/models/characterization/base_schema.rb'
 
     included do
       # Apply the base schema. This will add properties defined in the schema.
