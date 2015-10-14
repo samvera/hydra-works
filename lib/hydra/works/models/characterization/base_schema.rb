@@ -8,7 +8,7 @@ class BaseSchema < ActiveTriples::Schema
   property :last_modified, predicate: RDF::Vocab::EBUCore.dateModified
   property :fits_version, predicate: RDF::Vocab::PREMIS.hasCreatingApplicationVersion
   property :exif_version, predicate: RDF::Vocab::EXIF.exifVersion
-  property :original_checksum, predicate: RDF::Vocab::PREMIS.hasMessageDigest
+  property :original_checksum, predicate: RDF::URI.new("http://projecthydra.org/ns/fits/checksum")
   property :mime_type, predicate: RDF::Vocab::EBUCore.hasMimeType, multiple: false do |index|
     index.as :stored_searchable
   end
