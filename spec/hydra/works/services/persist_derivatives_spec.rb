@@ -1,92 +1,119 @@
 require 'spec_helper'
+require 'support/file_set_helper'
 
 describe Hydra::Works::PersistDerivative do
+  describe 'integration test' do
+    let(:file_set) { Hydra::Works::FileSet.new }
+    before do
+      skip 'external tools not installed for CI environment' if ENV['CI']
+
+      allow(file_set).to receive(:mime_type).and_return('video/x-msvideo')
+      file_name = 'countdown.avi'
+      original = File.new(File.join(fixture_path, file_name))
+      Hydra::Works::UploadFileToFileSet.call(file_set, original)
+      file_set.save!
+    end
+
+    it 'creates a thumbnail from original stored in fedora and persists to fedora' do
+      file_set.create_derivatives
+      expect(file_set.thumbnail).to have_content
+      expect(file_set.thumbnail.mime_type).to eq('image/jpeg')
+      expect(file_set.thumbnail.persisted?).to be true
+    end
+  end
+
   describe 'thumbnail generation' do
     before do
-      file = File.open(File.join(fixture_path, file_name), 'r')
-      Hydra::Works::UploadFileToFileSet.call(generic_file, file)
+      file_content = IO.read(File.join(fixture_path, file_name))
+      file = Hydra::PCDM::File.new do |f|
+        f.content = file_content
+        f.mime_type = mime_type
+      end
+
+      mock_add_file_to_file_set(file_set, file)
       allow_any_instance_of(Hydra::Works::FileSet).to receive(:mime_type).and_return(mime_type)
-      generic_file.save!
+      # Mock .save to permit tests to run without hitting fedora persistence layer
+      allow(file_set).to receive(:save).and_return(file_set)
     end
 
     context 'with a video (.avi) file' do
-      let(:mime_type) { 'video/avi' }
+      let(:mime_type) { 'video/x-msvideo' }
       let(:file_name) { 'countdown.avi' }
-      let(:generic_file) { Hydra::Works::FileSet.new }
+      let(:file_set) { Hydra::Works::FileSet.new(id: '01/00') }
 
       it 'lacks a thumbnail' do
-        expect(generic_file.thumbnail).to be_nil
+        expect(file_set.thumbnail).to be_nil
       end
 
       it 'generates a thumbnail derivative', unless: ENV['CI'] do
-        generic_file.create_derivatives
-        expect(generic_file.thumbnail).to have_content
-        expect(generic_file.thumbnail.mime_type).to eq('image/jpeg')
+        file_set.create_derivatives
+        expect(file_set.thumbnail).to have_content
+        expect(file_set.thumbnail.mime_type).to eq('image/jpeg')
       end
     end
 
     context 'with an image file' do
       let(:mime_type) { 'image/png' }
       let(:file_name) { 'world.png' }
-      let(:generic_file) { Hydra::Works::FileSet.new }
+      let(:file_set) { Hydra::Works::FileSet.new(id: '01/01') }
 
       it 'lacks a thumbnail' do
-        expect(generic_file.thumbnail).to be_nil
+        expect(file_set.thumbnail).to be_nil
       end
 
       it 'uses PersistDerivative service to generate a thumbnail derivative' do
-        generic_file.create_derivatives
+        file_set.create_derivatives
         expect(Hydra::Derivatives.output_file_service).to eq(described_class)
-        expect(generic_file.thumbnail).to have_content
-        expect(generic_file.thumbnail.mime_type).to eq('image/jpeg')
+        expect(file_set.thumbnail).to have_content
+        expect(file_set.thumbnail.mime_type).to eq('image/jpeg')
       end
     end
 
     context 'with an audio (.wav) file' do
       let(:mime_type) { 'audio/wav' }
       let(:file_name) { 'piano_note.wav' }
-      let(:generic_file) { Hydra::Works::FileSet.new }
+      let(:file_set) { Hydra::Works::FileSet.new(id: '01/02') }
 
       it 'lacks a thumbnail' do
-        expect(generic_file.thumbnail).to be_nil
+        expect(file_set.thumbnail).to be_nil
       end
 
       it 'does not generate a thumbnail when derivatives are created', unless: ENV['CI'] do
-        generic_file.create_derivatives
-        expect(generic_file.thumbnail).to be_nil
+        file_set.create_derivatives
+        expect(file_set.thumbnail).to be_nil
       end
     end
 
     context 'with an image (.jp2) file' do
       let(:mime_type) { 'image/jp2' }
       let(:file_name) { 'image.jp2' }
-      let(:generic_file) { Hydra::Works::FileSet.new }
+      let(:file_set) { Hydra::Works::FileSet.new(id: '01/03') }
 
       it 'lacks a thumbnail' do
-        expect(generic_file.thumbnail).to be_nil
+        expect(file_set.thumbnail).to be_nil
       end
 
       it 'generates a thumbnail on job run' do
-        generic_file.create_derivatives
-        expect(generic_file.thumbnail).to have_content
-        expect(generic_file.thumbnail.mime_type).to eq('image/jpeg')
+        file_set.create_derivatives
+        expect(file_set.thumbnail).to have_content
+        expect(file_set.thumbnail.mime_type).to eq('image/jpeg')
       end
     end
 
     context 'with an office document (.docx) file' do
       let(:mime_type) { 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' }
       let(:file_name) { 'charter.docx' }
-      let(:generic_file) { Hydra::Works::FileSet.new }
+      let(:file_set) { Hydra::Works::FileSet.new(id: '01/04') }
 
       it 'lacks a thumbnail' do
-        expect(generic_file.thumbnail).to be_nil
+        expect(file_set.thumbnail).to be_nil
       end
 
       it 'generates a thumbnail on job run', unless: ENV['CI'] do
         pending 'regression: investigate updates to Hydra::Derivatives and refactor where appropriate.'
-        generic_file.create_derivatives
-        expect(generic_file.thumbnail).to have_content
-        expect(generic_file.thumbnail.mime_type).to eq('image/jpeg')
+        file_set.create_derivatives
+        expect(file_set.thumbnail).to have_content
+        expect(file_set.thumbnail.mime_type).to eq('image/jpeg')
       end
     end
   end
