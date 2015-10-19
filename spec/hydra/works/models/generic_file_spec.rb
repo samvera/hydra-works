@@ -209,7 +209,8 @@ describe Hydra::Works::FileSet do
   describe 'should have parent work accessors' do
     let(:generic_work1) { Hydra::Works::GenericWork.create }
     before do
-      generic_work1.members << generic_file1
+      generic_work1.ordered_members << generic_file1
+      generic_work1.save
     end
 
     it 'has parents' do
@@ -223,7 +224,7 @@ describe Hydra::Works::FileSet do
   describe 'make sure deprecated methods still work' do
     let(:generic_work1) { Hydra::Works::GenericWork.create }
     before do
-      generic_work1.members << generic_file1
+      generic_work1.ordered_members << generic_file1
       generic_work1.save # required until issue AF-Agg-75 is fixed
     end
     it 'deprecated methods should pass' do
