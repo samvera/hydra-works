@@ -17,10 +17,48 @@ describe Hydra::Works::GenericWork do
 
   let(:pcdm_file1) { Hydra::PCDM::File.new }
 
-  describe '#file_set_ids' do
-    it 'lists file_set ids' do
-      generic_work1.members = [file_set1, file_set2]
+  describe "#file_set_ids" do
+    it "returns non-ordered file set IDs" do
+      generic_work1.members << file_set1
+      generic_work1.ordered_members << file_set2
+
       expect(generic_work1.file_set_ids).to eq [file_set1.id, file_set2.id]
+      expect(generic_work1.ordered_file_set_ids).to eq [file_set2.id]
+    end
+  end
+
+  describe "#file_sets" do
+    it "returns non-ordered file sets" do
+      generic_work1.members << file_set1
+      generic_work1.ordered_members << file_set2
+
+      expect(generic_work1.file_sets).to eq [file_set1, file_set2]
+    end
+  end
+
+  describe "#work_ids" do
+    it "returns non-ordered file set IDs" do
+      generic_work1.members << generic_work2
+      generic_work1.ordered_members << generic_work3
+
+      expect(generic_work1.work_ids).to eq [generic_work2.id, generic_work3.id]
+      expect(generic_work1.ordered_work_ids).to eq [generic_work3.id]
+    end
+  end
+
+  describe "#works" do
+    it "returns non-ordered file sets" do
+      generic_work1.members << generic_work2
+      generic_work1.ordered_members << generic_work3
+
+      expect(generic_work1.works).to eq [generic_work2, generic_work3]
+    end
+  end
+
+  describe '#ordered_file_set_ids' do
+    it 'lists file_set ids' do
+      generic_work1.ordered_members = [file_set1, file_set2]
+      expect(generic_work1.ordered_file_set_ids).to eq [file_set1.id, file_set2.id]
     end
   end
 
@@ -30,10 +68,10 @@ describe Hydra::Works::GenericWork do
       end
     end
 
-    subject { TestWork.new(members: [file_set1]) }
+    subject { TestWork.new(ordered_members: [file_set1]) }
 
     it 'has many generic files' do
-      expect(subject.file_sets).to eq [file_set1]
+      expect(subject.ordered_file_sets).to eq [file_set1]
     end
   end
 
@@ -50,19 +88,19 @@ describe Hydra::Works::GenericWork do
     end
   end
 
-  describe '#works' do
+  describe '#ordered_works' do
     context 'with acceptable works' do
       context 'with file_sets and works' do
         before do
-          subject.members << file_set1
-          subject.members << file_set2
-          subject.members << generic_work1
-          subject.members << generic_work2
+          subject.ordered_members << file_set1
+          subject.ordered_members << file_set2
+          subject.ordered_members << generic_work1
+          subject.ordered_members << generic_work2
         end
 
         it 'adds generic_work to generic_work with file_sets and works' do
-          subject.members << generic_work3
-          expect(subject.works).to eq [generic_work1, generic_work2, generic_work3]
+          subject.ordered_members << generic_work3
+          expect(subject.ordered_works).to eq [generic_work1, generic_work2, generic_work3]
         end
       end
 
@@ -76,8 +114,8 @@ describe Hydra::Works::GenericWork do
         let(:iwork1) { DummyIncWork.new }
 
         it 'accepts implementing generic_work as a child' do
-          subject.members << iwork1
-          expect(subject.works).to eq [iwork1]
+          subject.ordered_members << iwork1
+          expect(subject.ordered_works).to eq [iwork1]
         end
       end
 
@@ -90,8 +128,8 @@ describe Hydra::Works::GenericWork do
         let(:ework1) { DummyExtWork.new }
 
         it 'accepts extending generic_work as a child' do
-          subject.members << ework1
-          expect(subject.works).to eq [ework1]
+          subject.ordered_members << ework1
+          expect(subject.ordered_works).to eq [ework1]
         end
       end
     end
@@ -99,35 +137,36 @@ describe Hydra::Works::GenericWork do
 
   context 'move generic file' do
     before do
-      subject.members << file_set1
-      subject.members << file_set2
+      subject.ordered_members << file_set1
+      subject.ordered_members << file_set2
     end
     it 'moves file from one work to another' do
-      expect(subject.file_sets).to eq([file_set1, file_set2])
-      expect(generic_work1.file_sets).to eq([])
-      generic_work1.members << subject.members.delete(file_set1)
-      expect(subject.file_sets).to eq([file_set2])
-      expect(generic_work1.file_sets).to eq([file_set1])
+      expect(subject.ordered_file_sets).to eq([file_set1, file_set2])
+      expect(generic_work1.ordered_file_sets).to eq([])
+      subject.ordered_member_proxies.delete_at(0)
+      generic_work1.ordered_members << file_set1
+      expect(subject.ordered_file_sets).to eq([file_set2])
+      expect(generic_work1.ordered_file_sets).to eq([file_set1])
     end
   end
 
   describe '#file_sets' do
     it 'returns empty array when only works are aggregated' do
-      subject.members << generic_work1
-      subject.members << generic_work2
-      expect(subject.file_sets).to eq []
+      subject.ordered_members << generic_work1
+      subject.ordered_members << generic_work2
+      expect(subject.ordered_file_sets).to eq []
     end
 
     context 'with file_sets and works' do
       before do
-        subject.members << file_set1
-        subject.members << file_set2
-        subject.members << generic_work1
-        subject.members << generic_work2
+        subject.ordered_members << file_set1
+        subject.ordered_members << file_set2
+        subject.ordered_members << generic_work1
+        subject.ordered_members << generic_work2
       end
 
       it 'returns only file_sets' do
-        expect(subject.file_sets).to eq [file_set1, file_set2]
+        expect(subject.ordered_file_sets).to eq [file_set1, file_set2]
       end
     end
   end
@@ -138,32 +177,32 @@ describe Hydra::Works::GenericWork do
       let(:file_set4) { Hydra::Works::FileSet.new }
       let(:file_set5) { Hydra::Works::FileSet.new }
       before do
-        subject.members << file_set1
-        subject.members << file_set2
-        subject.members << generic_work2
-        subject.members << file_set3
-        subject.members << file_set4
-        subject.members << generic_work1
-        subject.members << file_set5
-        expect(subject.file_sets).to eq [file_set1, file_set2, file_set3, file_set4, file_set5]
+        subject.ordered_members << file_set1
+        subject.ordered_members << file_set2
+        subject.ordered_members << generic_work2
+        subject.ordered_members << file_set3
+        subject.ordered_members << file_set4
+        subject.ordered_members << generic_work1
+        subject.ordered_members << file_set5
+        expect(subject.ordered_file_sets).to eq [file_set1, file_set2, file_set3, file_set4, file_set5]
       end
 
       it 'removes first collection' do
-        expect(subject.members.delete file_set1).to eq [file_set1]
-        expect(subject.file_sets).to eq [file_set2, file_set3, file_set4, file_set5]
-        expect(subject.works).to eq [generic_work2, generic_work1]
+        subject.ordered_member_proxies.delete_at(0)
+        expect(subject.ordered_file_sets).to eq [file_set2, file_set3, file_set4, file_set5]
+        expect(subject.ordered_works).to eq [generic_work2, generic_work1]
       end
 
       it 'removes last collection' do
-        expect(subject.members.delete file_set5).to eq [file_set5]
-        expect(subject.file_sets).to eq [file_set1, file_set2, file_set3, file_set4]
-        expect(subject.works).to eq [generic_work2, generic_work1]
+        subject.ordered_member_proxies.delete_at(6)
+        expect(subject.ordered_file_sets).to eq [file_set1, file_set2, file_set3, file_set4]
+        expect(subject.ordered_works).to eq [generic_work2, generic_work1]
       end
 
       it 'removes middle collection' do
-        expect(subject.members.delete file_set3).to eq [file_set3]
-        expect(subject.file_sets).to eq [file_set1, file_set2, file_set4, file_set5]
-        expect(subject.works).to eq [generic_work2, generic_work1]
+        subject.ordered_member_proxies.delete_at(3)
+        expect(subject.ordered_file_sets).to eq [file_set1, file_set2, file_set4, file_set5]
+        expect(subject.ordered_works).to eq [generic_work2, generic_work1]
       end
     end
   end
@@ -184,10 +223,10 @@ describe Hydra::Works::GenericWork do
 
       context 'with works and file_sets' do
         before do
-          subject.file_sets << file_set1
-          subject.file_sets << file_set2
-          subject.works << generic_work1
-          subject.works << generic_work2
+          subject.ordered_file_sets << file_set1
+          subject.ordered_file_sets << file_set2
+          subject.ordered_works << generic_work1
+          subject.ordered_works << generic_work2
           subject.related_objects << object1
         end
 
@@ -249,9 +288,9 @@ describe Hydra::Works::GenericWork do
   describe '#related_objects <<' do
     context 'with file sets and works' do
       before do
-        subject.members << generic_work1
-        subject.members << generic_work1
-        subject.members << file_set1
+        subject.ordered_members << generic_work1
+        subject.ordered_members << generic_work1
+        subject.ordered_members << file_set1
       end
 
       it 'returns empty array when only generic files and generic works are aggregated' do
@@ -283,11 +322,11 @@ describe Hydra::Works::GenericWork do
       before do
         subject.related_objects << related_object1
         subject.related_objects << related_work2
-        subject.members << generic_work2
-        subject.members << file_set1
+        subject.ordered_members << generic_work2
+        subject.ordered_members << file_set1
         subject.related_objects << related_file3
         subject.related_objects << related_object4
-        subject.members << generic_work1
+        subject.ordered_members << generic_work1
         subject.related_objects << related_work5
         expect(subject.related_objects).to eq [related_object1, related_work2, related_file3, related_object4, related_work5]
       end
@@ -295,22 +334,22 @@ describe Hydra::Works::GenericWork do
       it 'removes first related object' do
         expect(subject.related_objects.delete related_object1).to eq [related_object1]
         expect(subject.related_objects).to eq [related_work2, related_file3, related_object4, related_work5]
-        expect(subject.works).to eq [generic_work2, generic_work1]
-        expect(subject.file_sets).to eq [file_set1]
+        expect(subject.ordered_works).to eq [generic_work2, generic_work1]
+        expect(subject.ordered_file_sets).to eq [file_set1]
       end
 
       it 'removes last related object' do
         expect(subject.related_objects.delete related_work5).to eq [related_work5]
         expect(subject.related_objects).to eq [related_object1, related_work2, related_file3, related_object4]
-        expect(subject.works).to eq [generic_work2, generic_work1]
-        expect(subject.file_sets).to eq [file_set1]
+        expect(subject.ordered_works).to eq [generic_work2, generic_work1]
+        expect(subject.ordered_file_sets).to eq [file_set1]
       end
 
       it 'removes middle related object' do
         expect(subject.related_objects.delete related_file3).to eq [related_file3]
         expect(subject.related_objects).to eq [related_object1, related_work2, related_object4, related_work5]
-        expect(subject.works).to eq [generic_work2, generic_work1]
-        expect(subject.file_sets).to eq [file_set1]
+        expect(subject.ordered_works).to eq [generic_work2, generic_work1]
+        expect(subject.ordered_file_sets).to eq [file_set1]
       end
     end
   end
@@ -318,8 +357,8 @@ describe Hydra::Works::GenericWork do
   describe 'should have parent work and collection accessors' do
     let(:collection1) { Hydra::Works::Collection.new }
     before do
-      collection1.members << generic_work2
-      generic_work1.members << generic_work2
+      collection1.ordered_members << generic_work2
+      generic_work1.ordered_members << generic_work2
       collection1.save
       generic_work1.save
       generic_work2.save
@@ -340,8 +379,8 @@ describe Hydra::Works::GenericWork do
     let(:collection1) { Hydra::Works::Collection.new }
     it 'deprecated methods should pass' do
       Deprecation.silence(Hydra::Works::WorkBehavior) do
-        collection1.members << generic_work1
-        generic_work1.members << generic_work2
+        collection1.ordered_members << generic_work1
+        generic_work1.ordered_members << generic_work2
         expect(generic_work1.child_generic_works).to eq [generic_work2]
         expect(generic_work1.child_generic_work_ids).to eq [generic_work2.id]
         generic_work1.save # required until issue AF-Agg-75 is fixed
