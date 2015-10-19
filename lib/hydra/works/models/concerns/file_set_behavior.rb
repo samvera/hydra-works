@@ -48,7 +48,7 @@ module Hydra::Works
     deprecation_deprecate :works_generic_file?
 
     def member_of
-      aggregated_by
+      ordered_by.to_a
     end
 
     def parents
@@ -57,7 +57,7 @@ module Hydra::Works
     end
 
     def in_works
-      aggregated_by.select { |parent| parent.class.included_modules.include?(Hydra::Works::WorkBehavior) }
+      ordered_by.select { |parent| parent.class.included_modules.include?(Hydra::Works::WorkBehavior) }.to_a
     end
 
     alias_method :in_generic_works, :in_works

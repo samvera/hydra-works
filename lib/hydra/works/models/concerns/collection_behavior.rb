@@ -26,20 +26,20 @@ module Hydra::Works
       deprecation_deprecate :generic_works
     end
 
+    def ordered_works
+      ordered_members.to_a.select(&:work?)
+    end
+
+    def ordered_work_ids
+      ordered_works.map(&:id)
+    end
+
     def works
       members.select(&:work?)
     end
 
     def work_ids
       works.map(&:id)
-    end
-
-    def collections
-      members.select(&:collection?)
-    end
-
-    def collection_ids
-      collections.map(&:id)
     end
 
     # @return [Boolean] whether this instance is a Hydra::Works Collection.
@@ -67,16 +67,12 @@ module Hydra::Works
     deprecation_deprecate :works_generic_file?
 
     def member_of
-      aggregated_by
+      ordered_by.to_a
     end
 
     def parents
       Deprecation.warn CollectionBehavior, '`parents` is deprecated in Hydra::Works.  Please use `member_of` instead.  This has a target date for removal of 10-31-2015'
       member_of
-    end
-
-    def in_collections
-      aggregated_by.select { |parent| parent.class.included_modules.include?(Hydra::Works::CollectionBehavior) }
     end
 
     def parent_collections

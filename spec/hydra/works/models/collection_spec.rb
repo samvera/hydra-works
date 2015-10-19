@@ -15,43 +15,50 @@ describe Hydra::Works::Collection do
 
   describe '#collections' do
     it 'returns empty array when only works are aggregated' do
-      subject.members << generic_work1
-      subject.members << generic_work2
+      subject.ordered_members << generic_work1
+      subject.ordered_members << generic_work2
       expect(subject.collections).to eq []
     end
 
     context 'with other collections & works' do
       before do
-        subject.members << collection1
-        subject.members << collection2
-        subject.members << generic_work1
-        subject.members << generic_work2
+        subject.ordered_members << collection1
+        subject.ordered_members << collection2
+        subject.ordered_members << generic_work1
+        subject.ordered_members << generic_work2
       end
 
       it 'returns only collections' do
-        expect(subject.collections).to eq [collection1, collection2]
+        expect(subject.ordered_collections).to eq [collection1, collection2]
       end
     end
   end
 
   describe '#works' do
     it 'returns empty array when only collections are aggregated' do
-      subject.members << collection1
-      subject.members << collection2
-      expect(subject.works). to eq []
+      subject.ordered_members << collection1
+      subject.ordered_members << collection2
+      expect(subject.ordered_works). to eq []
     end
 
     context 'with collections and generic works' do
       before do
-        subject.members << collection1
-        subject.members << collection2
-        subject.members << generic_work1
-        subject.members << generic_work2
+        subject.ordered_members << collection1
+        subject.ordered_members << collection2
+        subject.ordered_members << generic_work1
+        subject.ordered_members << generic_work2
       end
 
       it 'returns only generic works' do
-        expect(subject.works). to eq [generic_work1, generic_work2]
+        expect(subject.ordered_works). to eq [generic_work1, generic_work2]
       end
+    end
+  end
+
+  describe "#ordered_work_ids" do
+    it "returns IDs of ordered works" do
+      subject.ordered_members << generic_work1
+      expect(subject.ordered_work_ids).to eq [generic_work1.id]
     end
   end
 
@@ -62,9 +69,9 @@ describe Hydra::Works::Collection do
 
     context 'with collections and generic works' do
       before do
-        subject.members << collection1
-        subject.members << collection2
-        subject.members << generic_work1
+        subject.ordered_members << collection1
+        subject.ordered_members << collection2
+        subject.ordered_members << generic_work1
       end
 
       it 'returns empty array when only collections and generic works are aggregated' do
@@ -110,10 +117,10 @@ describe Hydra::Works::Collection do
 
       context 'with collections and works' do
         before do
-          subject.collections << collection1
-          subject.collections << collection2
-          subject.works << generic_work1
-          subject.works << generic_work2
+          subject.ordered_members << collection1
+          subject.ordered_members << collection2
+          subject.ordered_members << generic_work1
+          subject.ordered_members << generic_work2
           subject.related_objects << object1
         end
 
@@ -231,7 +238,7 @@ describe Hydra::Works::Collection do
 
   describe 'should have parent collection accessors' do
     before do
-      collection1.members << collection2
+      collection1.ordered_members << collection2
       collection1.save
     end
 
@@ -246,8 +253,8 @@ describe Hydra::Works::Collection do
   describe 'make sure deprecated methods still work' do
     it 'deprecated methods should pass' do
       Deprecation.silence(Hydra::Works::CollectionBehavior) do
-        collection1.members << collection2
-        collection1.members << generic_work1
+        collection1.ordered_members << collection2
+        collection1.ordered_members << generic_work1
         expect(collection1.child_collections).to eq [collection2]
         expect(collection1.child_collection_ids).to eq [collection2.id]
         expect(collection1.child_generic_works).to eq [generic_work1]

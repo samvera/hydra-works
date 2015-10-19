@@ -21,10 +21,10 @@ module Hydra::Works
     included do
       type [Hydra::PCDM::Vocab::PCDMTerms.Object, Vocab::WorksTerms.Work]
 
-      alias_method :generic_works, :works
+      alias_method :generic_works, :ordered_works
       deprecation_deprecate :generic_works
 
-      alias_method :generic_files, :file_sets
+      alias_method :generic_files, :ordered_file_sets
     end
 
     def works
@@ -35,12 +35,28 @@ module Hydra::Works
       works.map(&:id)
     end
 
+    def ordered_works
+      ordered_members.to_a.select(&:work?)
+    end
+
+    def ordered_work_ids
+      ordered_works.map(&:id)
+    end
+
     def file_sets
       members.select(&:file_set?)
     end
 
     def file_set_ids
       file_sets.map(&:id)
+    end
+
+    def ordered_file_sets
+      ordered_members.to_a.select(&:file_set?)
+    end
+
+    def ordered_file_set_ids
+      ordered_file_sets.map(&:id)
     end
 
     # @return [Boolean] whether this instance is a Hydra::Works Collection.
@@ -68,7 +84,7 @@ module Hydra::Works
     deprecation_deprecate :works_generic_file?
 
     def member_of
-      aggregated_by
+      ordered_by.to_a
     end
 
     def parents
@@ -77,7 +93,7 @@ module Hydra::Works
     end
 
     def in_works
-      aggregated_by.select { |parent| parent.class.included_modules.include?(Hydra::Works::WorkBehavior) }
+      ordered_by.select { |parent| parent.class.included_modules.include?(Hydra::Works::WorkBehavior) }.to_a
     end
 
     alias_method :in_generic_works, :in_works
@@ -89,7 +105,7 @@ module Hydra::Works
     end
 
     def in_collections
-      aggregated_by.select { |parent| parent.class.included_modules.include?(Hydra::Works::CollectionBehavior) }
+      ordered_by.select { |parent| parent.class.included_modules.include?(Hydra::Works::CollectionBehavior) }.to_a
     end
 
     def parent_collections
@@ -98,13 +114,13 @@ module Hydra::Works
     end
 
     def child_generic_works
-      Deprecation.warn WorkBehavior, '`child_generic_works` is deprecated in Hydra::Works.  Please use `works` instead.  This has a target date for removal of 10-31-2015'
-      works
+      Deprecation.warn WorkBehavior, '`child_generic_works` is deprecated in Hydra::Works.  Please use `ordered_works` instead.  This has a target date for removal of 10-31-2015'
+      ordered_works
     end
 
     def child_generic_work_ids
-      Deprecation.warn WorkBehavior, '`child_generic_work_ids` is deprecated in Hydra::Works.  Please use `work_ids` instead.  This has a target date for removal of 10-31-2015'
-      work_ids
+      Deprecation.warn WorkBehavior, '`child_generic_work_ids` is deprecated in Hydra::Works.  Please use `ordered_work_ids` instead.  This has a target date for removal of 10-31-2015'
+      ordered_work_ids
     end
   end
 end
