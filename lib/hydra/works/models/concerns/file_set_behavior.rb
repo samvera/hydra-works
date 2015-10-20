@@ -47,10 +47,6 @@ module Hydra::Works
     alias_method :works_generic_file?, :file_set?
     deprecation_deprecate :works_generic_file?
 
-    def member_of
-      ordered_by.to_a
-    end
-
     def parents
       Deprecation.warn GenericFileBehavior, '`parents` is deprecated in Hydra::Works.  Please use `member_of` instead.  This has a target date for removal of 10-31-2015'
       member_of
