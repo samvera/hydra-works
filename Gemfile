@@ -4,8 +4,6 @@ source 'https://rubygems.org'
 gemspec
 
 gem 'slop', '~> 3.6' # For byebug
-gem 'hydra-pcdm', github: 'projecthydra-labs/hydra-pcdm'
-gem 'activefedora-aggregation', github: 'projecthydra-labs/activefedora-aggregation'
 
 group :development, :test do
   gem 'rubocop', require: false
