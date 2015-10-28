@@ -249,20 +249,4 @@ describe Hydra::Works::Collection do
       expect(collection2.in_collections).to eq [collection1]
     end
   end
-
-  describe 'make sure deprecated methods still work' do
-    it 'deprecated methods should pass' do
-      Deprecation.silence(Hydra::Works::CollectionBehavior) do
-        collection1.ordered_members << collection2
-        collection1.ordered_members << generic_work1
-        expect(collection1.child_collections).to eq [collection2]
-        expect(collection1.child_collection_ids).to eq [collection2.id]
-        expect(collection1.child_generic_works).to eq [generic_work1]
-        expect(collection1.child_generic_work_ids).to eq [generic_work1.id]
-        collection1.save # required until issue AF-Agg-75 is fixed
-        expect(collection2.parent_collections).to eq [collection1]
-        expect(collection2.parents).to eq [collection1]
-      end
-    end
-  end
 end

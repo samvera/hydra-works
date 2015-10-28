@@ -47,21 +47,11 @@ module Hydra::Works
     alias_method :works_generic_file?, :file_set?
     deprecation_deprecate :works_generic_file?
 
-    def parents
-      Deprecation.warn GenericFileBehavior, '`parents` is deprecated in Hydra::Works.  Please use `member_of` instead.  This has a target date for removal of 10-31-2015'
-      member_of
-    end
-
     def in_works
       ordered_by.select { |parent| parent.class.included_modules.include?(Hydra::Works::WorkBehavior) }.to_a
     end
 
     alias_method :in_generic_works, :in_works
     deprecation_deprecate :in_generic_works
-
-    def generic_works
-      Deprecation.warn GenericFileBehavior, '`generic_works` is deprecated in Hydra::Works.  Please use `in_works` instead.  This has a target date for removal of 10-31-2015'
-      in_works
-    end
   end
 end

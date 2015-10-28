@@ -83,36 +83,11 @@ module Hydra::Works
     alias_method :works_generic_file?, :file_set?
     deprecation_deprecate :works_generic_file?
 
-    def parents
-      Deprecation.warn WorkBehavior, '`parents` is deprecated in Hydra::Works.  Please use `member_of` instead.  This has a target date for removal of 10-31-2015'
-      member_of
-    end
-
     def in_works
       ordered_by.select { |parent| parent.class.included_modules.include?(Hydra::Works::WorkBehavior) }.to_a
     end
 
     alias_method :in_generic_works, :in_works
     deprecation_deprecate :in_generic_works
-
-    def parent_generic_works
-      Deprecation.warn WorkBehavior, '`parent_generic_works` is deprecated in Hydra::Works.  Please use `in_works` instead.  This has a target date for removal of 10-31-2015'
-      in_works
-    end
-
-    def parent_collections
-      Deprecation.warn WorkBehavior, '`parent_collections` is deprecated in Hydra::Works.  Please use `in_collections` instead.  This has a target date for removal of 10-31-2015'
-      in_collections
-    end
-
-    def child_generic_works
-      Deprecation.warn WorkBehavior, '`child_generic_works` is deprecated in Hydra::Works.  Please use `ordered_works` instead.  This has a target date for removal of 10-31-2015'
-      ordered_works
-    end
-
-    def child_generic_work_ids
-      Deprecation.warn WorkBehavior, '`child_generic_work_ids` is deprecated in Hydra::Works.  Please use `ordered_work_ids` instead.  This has a target date for removal of 10-31-2015'
-      ordered_work_ids
-    end
   end
 end
