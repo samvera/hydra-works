@@ -12,7 +12,7 @@ module Hydra::Works
 
       path = original_file.is_a?(String) ? original_file : local_path_for_file(original_file)
       unless defined?(ClamAV)
-        warn "Virus checking disabled, #{path} not checked"
+        warning "Virus checking disabled, #{path} not checked"
         return
       end
 
@@ -21,13 +21,17 @@ module Hydra::Works
         true
       else
         virus_message = "A virus was found in #{path}: #{scan_result}"
-        warn(virus_message)
+        warning(virus_message)
         errors.add(:base, virus_message)
         false
       end
     end
 
     private
+
+      def warning(msg)
+        ActiveFedora::Base.logger.warn msg if ActiveFedora::Base.logger
+      end
 
       # Returns a path for reading the content of +file+
       # @param [File] file object to retrieve a path for
