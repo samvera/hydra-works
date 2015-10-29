@@ -1,9 +1,9 @@
 module Hydra::Works::Characterization
   class DocumentSchema < ActiveTriples::Schema
-    property :file_title, predicate: RDF::DC11.title
-    property :file_author, predicate: RDF::DC11.creator
+    property :file_title, predicate: RDF::Vocab::DC11.title
+    property :file_author, predicate: RDF::Vocab::DC11.creator
     property :page_count, predicate: RDF::Vocab::NFO.pageCount
-    property :file_language, predicate: RDF::DC11.language
+    property :file_language, predicate: RDF::Vocab::DC11.language
     property :word_count, predicate: RDF::Vocab::NFO.wordCount
     property :character_count, predicate: RDF::Vocab::NFO.characterCount
     property :line_count, predicate: RDF::Vocab::NFO.lineCount
