@@ -28,22 +28,17 @@ module Hydra
       autoload :Collection
       autoload :FileSet
       autoload :GenericWork
-      autoload :GenericFile # Deprecated. Remove in 0.4.0
     end
 
     autoload_under 'models/concerns' do
       autoload :CollectionBehavior
       autoload :FileSetBehavior
-      autoload :GenericWorkBehavior # Deprecated. Remove in 0.4.0
-      autoload :GenericFileBehavior # Deprecated. Remove in 0.4.0
       autoload :WorkBehavior
     end
 
     autoload_under 'services' do
       autoload :AddFileToFileSet
-      autoload :AddFileToGenericFile # Deprecated. Remove in 0.4.0
       autoload :UploadFileToFileSet
-      autoload :UploadFileToGenericFile # Deprecated. Remove in 0.4.0
       autoload :PersistDerivative
       autoload :CharacterizationService
     end

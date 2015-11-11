@@ -15,15 +15,10 @@ module Hydra::Works
   #   9) Hydra::Works::Collection can have access metadata
   module CollectionBehavior
     extend ActiveSupport::Concern
-    extend Deprecation
-    self.deprecation_horizon = "Hydra::Works 0.4.0"
     include Hydra::PCDM::CollectionBehavior
 
     included do
       type [Hydra::PCDM::Vocab::PCDMTerms.Collection, Vocab::WorksTerms.Collection]
-
-      alias_method :generic_works, :works
-      deprecation_deprecate :generic_works
     end
 
     def ordered_works
@@ -47,23 +42,14 @@ module Hydra::Works
       true
     end
 
-    alias_method :works_collection?, :collection?
-    deprecation_deprecate :works_collection?
-
     # @return [Boolean] whether this instance is a Hydra::Works Generic Work.
     def work?
       false
     end
 
-    alias_method :works_generic_work?, :work?
-    deprecation_deprecate :works_generic_work?
-
     # @return [Boolean] whether this instance is a Hydra::Works::FileSet.
     def file_set?
       false
     end
-
-    alias_method :works_generic_file?, :file_set?
-    deprecation_deprecate :works_generic_file?
   end
 end
