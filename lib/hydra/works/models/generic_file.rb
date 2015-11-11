@@ -10,7 +10,7 @@ module Hydra::Works
       after_initialize :deprecation_warning
 
       def deprecation_warning
-        Deprecation.warn Base, "Hydra::Works::FileSet is deprecated and will be removed in 0.4.0. Use Hydra::Works::FileSet instead"
+        Deprecation.warn Base, "Hydra::Works::GenericFile is deprecated and will be removed in 0.4.0. Use Hydra::Works::FileSet instead"
       end
     end
   end
