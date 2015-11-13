@@ -10,8 +10,6 @@ module Hydra::Works
   #   6) Hydra::Works::FileSet can have access metadata
   module FileSetBehavior
     extend ActiveSupport::Concern
-    extend Deprecation
-    self.deprecation_horizon = "Hydra::Works 0.4.0"
     include Hydra::PCDM::ObjectBehavior
 
     included do
@@ -28,30 +26,18 @@ module Hydra::Works
       false
     end
 
-    alias_method :works_collection?, :collection?
-    deprecation_deprecate :works_collection?
-
     # @return [Boolean] whether this instance is a Hydra::Works Generic Work.
     def work?
       false
     end
-
-    alias_method :works_generic_work?, :work?
-    deprecation_deprecate :works_generic_work?
 
     # @return [Boolean] whether this instance is a Hydra::Works::FileSet.
     def file_set?
       true
     end
 
-    alias_method :works_generic_file?, :file_set?
-    deprecation_deprecate :works_generic_file?
-
     def in_works
       ordered_by.select { |parent| parent.class.included_modules.include?(Hydra::Works::WorkBehavior) }.to_a
     end
-
-    alias_method :in_generic_works, :in_works
-    deprecation_deprecate :in_generic_works
   end
 end
