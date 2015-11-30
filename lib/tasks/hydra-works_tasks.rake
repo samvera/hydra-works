@@ -38,17 +38,26 @@ namespace :hydra_works do
       )
 
     desc 'Configure jetty with full-text indexing'
-    task config: :download_jars do
+    task config: [:generate_config, :download_jars] do
       Rake::Task['jetty:config'].invoke
+    end
+
+    desc 'Generate a Solr config with full-text extraction'
+    task :generate_config do
+      puts "Generating a solrconfig.xml configured for full-text extraction"
+      source = File.join(File.dirname(__FILE__), '..', '..', 'config', 'solrconfig.xml')
+      dest = File.join('solr_conf','conf')
+      FileUtils.mkdir_p(dest) unless File.directory?(dest)
+      dest_file = File.join(dest, 'solrconfig.xml')
+      if File.exist?(dest_file)
+        puts "Skipping. #{dest_file} already exists."
+      else
+        cp source, dest
+      end
     end
 
     desc 'Download Solr full-text extraction jars'
     task :download_jars do
-      puts "Copying new solrconfig.xml"
-      source = File.join(File.dirname(__FILE__), '..', '..', 'config', 'solrconfig.xml')
-      dest = File.join('solr_conf','conf')
-      FileUtils.mkdir_p(dest) unless File.directory?(dest)
-      cp source, dest
       puts "Downloading full-text jars from maven.org ..."
       fulltext_dir = 'jetty/solr/lib/contrib/extraction/lib'
       FileUtils.mkdir_p(fulltext_dir) unless File.directory?(fulltext_dir)
