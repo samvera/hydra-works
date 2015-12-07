@@ -53,22 +53,4 @@ describe Hydra::Works::MimeTypes do
       expect(subject.collection?).to be false
     end
   end
-
-  describe '#file_format?' do
-    it 'handles both mime and format_label' do
-      allow(subject).to receive(:mime_type).and_return('image/png')
-      allow(subject).to receive(:format_label).and_return(['Portable Network Graphics'])
-      expect(subject.file_format).to eq 'png (Portable Network Graphics)'
-    end
-    it 'handles just mime type' do
-      allow(subject).to receive(:mime_type).and_return('image/png')
-      allow(subject).to receive(:format_label).and_return([])
-      expect(subject.file_format).to eq 'png'
-    end
-    it 'handles just format_label' do
-      allow(subject).to receive(:mime_type).and_return('')
-      allow(subject).to receive(:format_label).and_return(['Portable Network Graphics'])
-      expect(subject.file_format).to eq ['Portable Network Graphics']
-    end
-  end
 end
