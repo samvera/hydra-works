@@ -28,16 +28,6 @@ module Hydra::Works
       false
     end
 
-    def file_format
-      if mime_type.present? && format_label.present?
-        "#{mime_type.split('/').last} (#{format_label.join(', ')})"
-      elsif mime_type.present?
-        mime_type.split('/').last
-      elsif format_label.present?
-        format_label
-      end
-    end
-
     module ClassMethods
       def image_mime_types
         ['image/png', 'image/jpeg', 'image/jpg', 'image/jp2', 'image/bmp', 'image/gif', 'image/tiff']
