@@ -19,6 +19,8 @@ module Hydra::Works
       include Hydra::Works::Derivatives
       include Hydra::Works::MimeTypes
       include Hydra::Works::VersionedContent
+
+      before_destroy :remove_from_works
     end
 
     # @return [Boolean] whether this instance is a Hydra::Works Collection.
@@ -39,5 +41,15 @@ module Hydra::Works
     def in_works
       ordered_by.select { |parent| parent.class.included_modules.include?(Hydra::Works::WorkBehavior) }.to_a
     end
+
+    private
+
+      def remove_from_works
+        in_works.each do |parent|
+          parent.ordered_members.delete(self) # Delete the list node
+          parent.members.delete(self) # Delete the indirect container Proxy
+          parent.save! # record the changes to the ordered members
+        end
+      end
   end
 end
