@@ -56,53 +56,53 @@ describe Hydra::Works do
   describe 'Hydra::PCDM' do
     describe '#collection?' do
       it 'returns true for a works collection' do
-        expect(Hydra::PCDM.collection? works_coll).to be true
+        expect(Hydra::PCDM.collection?(works_coll)).to be true
       end
 
       it 'returns false for a works generic work' do
-        expect(Hydra::PCDM.collection? works_gwork).to be false
+        expect(Hydra::PCDM.collection?(works_gwork)).to be false
       end
 
       it 'returns false for a works file set' do
-        expect(Hydra::PCDM.collection? file_set).to be false
+        expect(Hydra::PCDM.collection?(file_set)).to be false
       end
 
       it 'returns true for a pcdm collection' do
-        expect(Hydra::PCDM.collection? pcdm_coll).to be true
+        expect(Hydra::PCDM.collection?(pcdm_coll)).to be true
       end
 
       it 'returns false for a pcdm object' do
-        expect(Hydra::PCDM.collection? pcdm_obj).to be false
+        expect(Hydra::PCDM.collection?(pcdm_obj)).to be false
       end
 
       it 'returns false for a pcdm file' do
-        expect(Hydra::PCDM.collection? pcdm_file).to be false
+        expect(Hydra::PCDM.collection?(pcdm_file)).to be false
       end
     end
 
     describe '#object?' do
       it 'returns false for a works collection' do
-        expect(Hydra::PCDM.object? works_coll).to be false
+        expect(Hydra::PCDM.object?(works_coll)).to be false
       end
 
       it 'returns true for a works generic work' do
-        expect(Hydra::PCDM.object? works_gwork).to be true
+        expect(Hydra::PCDM.object?(works_gwork)).to be true
       end
 
       it 'returns true for a works file set' do
-        expect(Hydra::PCDM.object? file_set).to be true
+        expect(Hydra::PCDM.object?(file_set)).to be true
       end
 
       it 'returns false for a pcdm collection' do
-        expect(Hydra::PCDM.object? pcdm_coll).to be false
+        expect(Hydra::PCDM.object?(pcdm_coll)).to be false
       end
 
       it 'returns true for a pcdm object' do
-        expect(Hydra::PCDM.object? pcdm_obj).to be true
+        expect(Hydra::PCDM.object?(pcdm_obj)).to be true
       end
 
       it 'returns false for a pcdm file' do
-        expect(Hydra::PCDM.object? pcdm_file).to be false
+        expect(Hydra::PCDM.object?(pcdm_file)).to be false
       end
     end
   end

@@ -105,8 +105,8 @@ module Hydra::Works
       def property_for(term)
         if mapping.key?(term) && object.respond_to?(mapping[term])
           mapping[term]
-        else
-          term if object.respond_to?(term)
+        elsif object.respond_to?(term)
+          term
         end
       end
 

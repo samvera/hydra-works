@@ -71,13 +71,13 @@ module Hydra::Works
         # @param object for original name to be determined. Attempts to use methods: :original_name, :original_filename, and :path.
         def determine_original_name(file)
           if file.respond_to? :original_name
-            return file.original_name
+            file.original_name
           elsif file.respond_to? :original_filename
-            return file.original_filename
+            file.original_filename
           elsif file.respond_to? :path
-            return ::File.basename(file.path)
+            ::File.basename(file.path)
           else
-            return ''
+            ''
           end
         end
 
