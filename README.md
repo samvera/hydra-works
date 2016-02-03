@@ -12,7 +12,7 @@
 The Hydra::Works gem provides a set of [Portland Common Data Model](https://github.com/duraspace/pcdm/wiki)-compliant ActiveFedora models and associated behaviors around the broad concept of multi-file "works", the need for which was expressed by a variety of [community use cases](https://github.com/projecthydra-labs/hydra-works/tree/master/use-cases). The Hydra::Works domain model includes:
 
  * **FileSet**: a *Hydra::PCDM::Object* that encapsulates one or more directly related *Hydra::PCDM::File*s, such as a PDF document, its derivatives, and extracted full-text
- * **GenericWork**: a *Hydra::PCDM::Object* that holds zero or more **FileSets**s and zero or more **Work**s (often you won't use GenericWork, but instead write your own Work class)
+ * **GenericWork**: a *Hydra::PCDM::Object* that holds zero or more **FileSet**s and zero or more **Work**s (often you won't use GenericWork, but instead write your own Work class)
  * **Collection**: a *Hydra::PCDM::Collection* that indirectly contains zero or more **Work**s and zero or more **Collection**s
 
 View [a diagram of the domain model](https://docs.google.com/drawings/d/1-NkkRPpGpZGoTimEpYTaGM1uUPRaT0SamuWDITvtG_8/edit).
