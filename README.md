@@ -51,11 +51,12 @@ class Page < ActiveFedora::Base
 end
 
 collection = Collection.create
-book = BookWork.create
+book = Book.create
 page = Page.create
 
-collection.works << book
+collection.members << book
 collection.save
+
 book.members << page
 book.save
 
@@ -73,7 +74,7 @@ To turn on virus detection, install clamav on your system and add the `clamav` g
 Then include the `VirusCheck` module in your `FileSet` class:
 
 ```ruby
-class BookFiles < ActiveFedora::Base
+class Page < ActiveFedora::Base
   include Hydra::Works::FileSetBehavior
   include Hydra::Works::VirusCheck
 end
