@@ -54,10 +54,10 @@ collection = Collection.create
 book = Book.create
 page = Page.create
 
-collection.members << book
+collection.ordered_members << book
 collection.save
 
-book.members << page
+book.ordered_members << page
 book.save
 
 file = page.files.build
