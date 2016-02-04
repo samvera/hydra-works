@@ -33,25 +33,25 @@ describe Hydra::Works::FileSet do
 
   describe '#in_works' do
     subject { file_set.in_works }
-    let(:generic_work) { Hydra::Works::GenericWork.create }
+    let(:work) { Hydra::Works::Work.create }
     before do
-      generic_work.ordered_members << file_set
-      generic_work.save
+      work.ordered_members << file_set
+      work.save
     end
 
-    it { is_expected.to eq [generic_work] }
+    it { is_expected.to eq [work] }
   end
 
   describe '#destroy' do
-    let(:generic_work) { Hydra::Works::GenericWork.create }
+    let(:work) { Hydra::Works::Work.create }
     before do
-      generic_work.ordered_members << file_set
-      generic_work.save
+      work.ordered_members << file_set
+      work.save
     end
 
     it "Removes the proxy, the list_node and the FileSet" do
       expect { file_set.destroy }.to change { ActiveFedora::Aggregation::Proxy.count }.by(-1)
-        .and change { generic_work.reload.ordered_member_proxies.to_a.length }.by(-1)
+        .and change { work.reload.ordered_member_proxies.to_a.length }.by(-1)
     end
   end
 end

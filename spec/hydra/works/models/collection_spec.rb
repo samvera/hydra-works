@@ -4,11 +4,11 @@ describe Hydra::Works::Collection do
   let(:collection) { described_class.new }
 
   let(:collection1) { described_class.new }
-  let(:generic_work1) { Hydra::Works::GenericWork.new }
+  let(:work1) { Hydra::Works::Work.new }
 
   describe '#collections' do
     it 'returns empty array when only works are aggregated' do
-      collection.ordered_members << generic_work1
+      collection.ordered_members << work1
       expect(collection.collections).to eq []
     end
 
@@ -17,7 +17,7 @@ describe Hydra::Works::Collection do
       before do
         collection.ordered_members << collection1
         collection.ordered_members << collection2
-        collection.ordered_members << generic_work1
+        collection.ordered_members << work1
       end
 
       it 'returns only collections' do
@@ -35,16 +35,16 @@ describe Hydra::Works::Collection do
       end
     end
 
-    context 'with collections and generic works' do
-      let(:generic_work2) { Hydra::Works::GenericWork.new }
+    context 'with collections and works' do
+      let(:work2) { Hydra::Works::Work.new }
       before do
         collection.ordered_members << collection1
-        collection.ordered_members << generic_work1
-        collection.ordered_members << generic_work2
+        collection.ordered_members << work1
+        collection.ordered_members << work2
       end
 
-      it 'returns only generic works' do
-        expect(subject).to eq [generic_work1, generic_work2]
+      it 'returns only works' do
+        expect(subject).to eq [work1, work2]
       end
     end
   end
@@ -58,16 +58,16 @@ describe Hydra::Works::Collection do
       end
     end
 
-    context 'with collections and generic works' do
-      let(:generic_work2) { Hydra::Works::GenericWork.new }
+    context 'with collections and works' do
+      let(:work2) { Hydra::Works::Work.new }
       before do
         collection.ordered_members << collection1
-        collection.ordered_members << generic_work1
-        collection.ordered_members << generic_work2
+        collection.ordered_members << work1
+        collection.ordered_members << work2
       end
 
-      it 'returns only generic works' do
-        expect(subject).to eq [generic_work1, generic_work2]
+      it 'returns only works' do
+        expect(subject).to eq [work1, work2]
       end
     end
   end
@@ -75,8 +75,8 @@ describe Hydra::Works::Collection do
   describe "#ordered_work_ids" do
     subject { collection.ordered_work_ids }
     it "returns IDs of ordered works" do
-      collection.ordered_members << generic_work1
-      expect(subject).to eq [generic_work1.id]
+      collection.ordered_members << work1
+      expect(subject).to eq [work1.id]
     end
   end
 

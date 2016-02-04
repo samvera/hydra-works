@@ -27,7 +27,7 @@ module Hydra
     autoload_under 'models' do
       autoload :Collection
       autoload :FileSet
-      autoload :GenericWork
+      autoload :Work
     end
 
     autoload_under 'models/concerns' do

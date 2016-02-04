@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe Hydra::Works do
   let(:works_coll)   { Hydra::Works::Collection.new }
-  let(:works_gwork)  { Hydra::Works::GenericWork.new }
+  let(:works_gwork)  { Hydra::Works::Work.new }
   let(:file_set)     { Hydra::Works::FileSet.new }
 
   let(:pcdm_coll)  { Hydra::PCDM::Collection.new }
@@ -15,7 +15,7 @@ describe Hydra::Works do
         expect(works_coll.collection?).to be true
       end
 
-      it 'returns false for a works generic work' do
+      it 'returns false for a works work' do
         expect(works_gwork.collection?).to be false
       end
 
@@ -29,7 +29,7 @@ describe Hydra::Works do
         expect(works_coll.work?).to be false
       end
 
-      it 'returns true for a generic work' do
+      it 'returns true for a work' do
         expect(works_gwork.work?).to be true
       end
 
@@ -43,7 +43,7 @@ describe Hydra::Works do
         expect(works_coll.file_set?).to be false
       end
 
-      it 'returns false for a works generic work' do
+      it 'returns false for a works work' do
         expect(works_gwork.file_set?).to be false
       end
 
@@ -59,7 +59,7 @@ describe Hydra::Works do
         expect(Hydra::PCDM.collection?(works_coll)).to be true
       end
 
-      it 'returns false for a works generic work' do
+      it 'returns false for a works work' do
         expect(Hydra::PCDM.collection?(works_gwork)).to be false
       end
 
@@ -85,7 +85,7 @@ describe Hydra::Works do
         expect(Hydra::PCDM.object?(works_coll)).to be false
       end
 
-      it 'returns true for a works generic work' do
+      it 'returns true for a works work' do
         expect(Hydra::PCDM.object?(works_gwork)).to be true
       end
 
