@@ -8,7 +8,7 @@ module Hydra::Works
     # @param [Boolean] versioning whether to create new version entries (only applicable if +type+ corresponds to a versionable file)
 
     def self.call(file_set, file, type, update_existing: true, versioning: true)
-      fail ArgumentError, 'supplied object must be a generic file' unless file_set.file_set?
+      fail ArgumentError, 'supplied object must be a file set' unless file_set.file_set?
       fail ArgumentError, 'supplied file must respond to read' unless file.respond_to? :read
 
       # TODO: required as a workaround for https://github.com/projecthydra/active_fedora/pull/858

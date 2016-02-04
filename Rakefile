@@ -2,7 +2,6 @@ require 'bundler/gem_tasks'
 require 'jettywrapper'
 require 'rspec/core'
 require 'rspec/core/rake_task'
-require 'engine_cart/rake_task'
 require 'rubocop/rake_task'
 
 Dir.glob('lib/tasks/*.rake').each { |r| import r }
