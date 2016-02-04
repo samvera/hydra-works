@@ -92,10 +92,9 @@ If you'd like to contribute to this effort, please check out the [contributing g
 To set up for running the test suite, you need a copy of jetty
 
     $ rake jetty:clean
-    $ rake jetty:config
+    $ rake hydra_works:jetty:config
 
 To run the test suite, generate the test app (which goes into spec/internal) and start jetty (if it's not already running)
 
-    $ rails engine_cart:generate
     $ rake jetty:start
     $ rake spec
