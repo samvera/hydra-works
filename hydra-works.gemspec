@@ -18,7 +18,7 @@ Gem::Specification.new do |spec|
   spec.test_files    = spec.files.grep(%r{^(test|spec|features)/})
   spec.require_paths = ['lib']
 
-  spec.add_dependency 'hydra-pcdm', '~> 0.3'
+  spec.add_dependency 'hydra-pcdm', '~> 0.4'
   spec.add_dependency 'hydra-derivatives', '~> 3.0'
   spec.add_dependency 'hydra-file_characterization', '~> 0.3', '>= 0.3.3'
 
@@ -26,7 +26,8 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'rake', '~> 10.0'
   spec.add_development_dependency 'rspec-rails', '~> 3.1'
   spec.add_development_dependency 'sqlite3'
-  spec.add_development_dependency 'jettywrapper', '>= 2.0.0'
+  spec.add_development_dependency 'solr_wrapper', '~> 0.4'
+  spec.add_development_dependency 'fcrepo_wrapper', '~> 0.1'
   spec.add_development_dependency 'coveralls'
   spec.add_development_dependency 'rspec'
 end
