@@ -15,6 +15,7 @@ spec/internal
 *.a
 mkmf.log
 jetty
+fcrepo4-data
 .DS_Store
 .ruby-gemset
 .ruby-version
