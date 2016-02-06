@@ -56,15 +56,10 @@ module Hydra::Works
         # Return mime_type based on methods available to file
         # @param object for mimetype to be determined. Attempts to use methods: :mime_type, :content_type, and :path.
         def determine_mime_type(file)
-          if file.respond_to? :mime_type
-            file.mime_type
-          elsif file.respond_to? :content_type
-            file.content_type
-          elsif file.respond_to? :path
-            Hydra::PCDM::GetMimeTypeForFile.call(file.path)
-          else
-            'application/octet-stream'
-          end
+          return file.mime_type if file.respond_to? :mime_type
+          return file.content_type if file.respond_to? :content_type
+          return Hydra::PCDM::GetMimeTypeForFile.call(file.path) if file.respond_to? :path
+          'application/octet-stream'
         end
 
         # Return original_name based on methods available to file

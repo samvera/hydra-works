@@ -15,10 +15,16 @@ module Hydra::Works
   #   9) Hydra::Works::Collection can have access metadata
   module CollectionBehavior
     extend ActiveSupport::Concern
-    include Hydra::PCDM::CollectionBehavior
 
     included do
+      def self.type_validator
+        Hydra::PCDM::Validators::CompositeValidator.new(
+          super,
+          Hydra::Works::NotFileSetValidator
+        )
+      end
       type [Hydra::PCDM::Vocab::PCDMTerms.Collection, Vocab::WorksTerms.Collection]
+      include Hydra::PCDM::CollectionBehavior
     end
 
     def ordered_works

@@ -2,7 +2,6 @@ require 'spec_helper'
 
 describe Hydra::Works::Collection do
   let(:collection) { described_class.new }
-
   let(:collection1) { described_class.new }
   let(:work1) { Hydra::Works::Work.new }
 
@@ -109,5 +108,24 @@ describe Hydra::Works::Collection do
 
     subject { collection.in_collections }
     it { is_expected.to eq [collection1] }
+  end
+
+  describe 'adding file_sets to collections' do
+    let(:file_set) { Hydra::Works::FileSet.new }
+    let(:exception) { ActiveFedora::AssociationTypeMismatch }
+    context 'with ordered members' do
+      it 'raises AssociationTypeMismatch' do
+        expect { collection.ordered_members = [file_set] }.to raise_error(exception)
+        expect { collection.ordered_members += [file_set] }.to raise_error(exception)
+        expect { collection.ordered_members << file_set }.to raise_error(exception)
+      end
+    end
+    context 'with unordered members' do
+      it 'raises AssociationTypeMismatch' do
+        expect { collection.members = [file_set] }.to raise_error(exception)
+        expect { collection.members += [file_set] }.to raise_error(exception)
+        expect { collection.members << file_set }.to raise_error(exception)
+      end
+    end
   end
 end
