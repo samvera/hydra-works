@@ -93,8 +93,8 @@ describe Hydra::Works::CharacterizationService do
       allow(characterization).to receive(:characterize).and_return(fits_response)
     end
 
-    it 'does not explode with an error.' do
-      expect { described_class.run(file_set) }.to_not raise_error
+    it 'does not explode with an error' do
+      expect { described_class.run(file_set) }.not_to raise_error
     end
   end
 
