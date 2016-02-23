@@ -18,6 +18,7 @@ module Hydra::Works
 
     included do
       type [Hydra::PCDM::Vocab::PCDMTerms.Object, Vocab::WorksTerms.Work]
+      before_destroy :remove_from_parents
     end
 
     def works
@@ -70,5 +71,16 @@ module Hydra::Works
     def in_works
       ordered_by.select { |parent| parent.class.included_modules.include?(Hydra::Works::WorkBehavior) }.to_a
     end
+
+    private
+
+      # Remove this object from parent works or collections
+      def remove_from_parents
+        ordered_by.each do |parent|
+          parent.ordered_members.delete(self) # Delete the list node
+          parent.members.delete(self) # Delete the indirect container Proxy
+          parent.save! # record the changes to the ordered members
+        end
+      end
   end
 end

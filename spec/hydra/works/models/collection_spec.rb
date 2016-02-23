@@ -69,6 +69,15 @@ describe Hydra::Works::Collection do
       it 'returns only works' do
         expect(subject).to eq [work1, work2]
       end
+
+      context "after deleting a member" do
+        before do
+          collection.save
+          work1.destroy
+          collection.reload
+        end
+        it { is_expected.to eq [work2] }
+      end
     end
   end
 
