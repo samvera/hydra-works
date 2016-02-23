@@ -78,3 +78,7 @@ RSpec/InstanceVariable:
 RSpec/DescribedClass:
   Exclude:
     - spec/hydra/works/models/concerns/generic_file/characterization_spec.rb
+
+RSpec/AnyInstance:
+  Exclude:
+    - spec/hydra/works/services/persist_derivatives_spec.rb
