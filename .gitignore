@@ -16,6 +16,7 @@ spec/internal
 mkmf.log
 jetty
 fcrepo4-data
+fcrepo4-test-data/
 .DS_Store
 .ruby-gemset
 .ruby-version

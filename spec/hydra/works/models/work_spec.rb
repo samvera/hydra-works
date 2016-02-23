@@ -207,7 +207,7 @@ describe Hydra::Works::Work do
     end
   end
 
-  describe 'should have parent work and collection accessors' do
+  describe 'parent work and collection accessors' do
     let(:collection1) { Hydra::Works::Collection.new }
     before do
       collection1.ordered_members << work2
