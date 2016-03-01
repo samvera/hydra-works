@@ -31,7 +31,7 @@ describe Hydra::Works::PersistDerivative do
       end
 
       mock_add_file_to_file_set(file_set, file)
-      allow_any_instance_of(Hydra::Works::FileSet).to receive(:mime_type).and_return(mime_type)
+      allow(file).to receive(:mime_type).and_return(mime_type)
       # Mock .save to permit tests to run without hitting fedora persistence layer
       allow(file_set).to receive(:save).and_return(file_set)
     end

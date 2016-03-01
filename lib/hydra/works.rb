@@ -23,6 +23,7 @@ module Hydra
     end
 
     autoload :Characterization
+    autoload :NotFileSetValidator
 
     autoload_under 'models' do
       autoload :Collection
