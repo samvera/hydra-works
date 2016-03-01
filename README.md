@@ -90,12 +90,33 @@ If you'd like to contribute to this effort, please check out the [contributing g
 
 ## Development
 
-To set up for running the test suite, you need a copy of jetty
+### Testing with the continuous integration server
 
-    $ rake jetty:clean
-    $ rake hydra_works:jetty:config
+You can test Hydra::Works using the same process as our continuous
+integration server. To do that, run the default rake task which will download Solr and Fedora, start them,
+and run the tests for you.
 
-To run the test suite, generate the test app (which goes into spec/internal) and start jetty (if it's not already running)
+```bash
+rake
+```
 
-    $ rake jetty:start
-    $ rake spec
+### Testing manually
+
+If you want to run the tests manually, follow these instructions:
+
+```bash
+solr_wrapper -d solr/config/
+```
+
+To start FCRepo, open another shell and run:
+
+```bash
+fcrepo_wrapper -p 8984
+```
+
+Now you’re ready to run the tests. In the directory where hydra-works
+is installed, run:
+
+```bash
+rake spec
+```
