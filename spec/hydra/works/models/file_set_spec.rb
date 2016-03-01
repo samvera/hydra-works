@@ -54,4 +54,24 @@ describe Hydra::Works::FileSet do
         .and change { work.reload.ordered_member_proxies.to_a.length }.by(-1)
     end
   end
+
+  describe 'adding collections to file sets' do
+    let(:collection) { Hydra::Works::Collection.new }
+    let(:exception) { ActiveFedora::AssociationTypeMismatch }
+    let(:error_regex) { /is a Collection and may not be a member of the association/ }
+    context 'with ordered members' do
+      it 'raises AssociationTypeMismatch with a helpful error message' do
+        expect { file_set.ordered_members = [collection] }.to raise_error(exception, error_regex)
+        expect { file_set.ordered_members += [collection] }.to raise_error(exception, error_regex)
+        expect { file_set.ordered_members << collection }.to raise_error(exception, error_regex)
+      end
+    end
+    context 'with unordered members' do
+      it 'raises AssociationTypeMismatch with a helpful error message' do
+        expect { file_set.members = [collection] }.to raise_error(exception, error_regex)
+        expect { file_set.members += [collection] }.to raise_error(exception, error_regex)
+        expect { file_set.members << collection }.to raise_error(exception, error_regex)
+      end
+    end
+  end
 end

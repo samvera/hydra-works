@@ -14,10 +14,16 @@ module Hydra::Works
   #   10) Hydra::Works::Work can have access metadata
   module WorkBehavior
     extend ActiveSupport::Concern
-    include Hydra::PCDM::ObjectBehavior
 
     included do
+      def self.type_validator
+        Hydra::PCDM::Validators::CompositeValidator.new(
+          Hydra::Works::NotCollectionValidator,
+          super
+        )
+      end
       type [Hydra::PCDM::Vocab::PCDMTerms.Object, Vocab::WorksTerms.Work]
+      include Hydra::PCDM::ObjectBehavior
       before_destroy :remove_from_parents
     end
 
