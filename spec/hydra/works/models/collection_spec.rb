@@ -88,6 +88,14 @@ describe Hydra::Works::Collection do
     end
   end
 
+  describe "#work_ids" do
+    subject { collection.work_ids }
+    it "returns IDs of works" do
+      collection.members = [work1]
+      expect(subject).to eq [work1.id]
+    end
+  end
+
   describe '#related_objects' do
     subject { collection.related_objects }
     let(:object) { Hydra::PCDM::Object.new }
