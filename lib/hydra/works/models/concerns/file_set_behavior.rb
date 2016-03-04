@@ -10,16 +10,20 @@ module Hydra::Works
   #   6) Hydra::Works::FileSet can have access metadata
   module FileSetBehavior
     extend ActiveSupport::Concern
-    include Hydra::PCDM::ObjectBehavior
 
     included do
+      def self.type_validator
+        Hydra::PCDM::Validators::CompositeValidator.new(
+          Hydra::Works::NotCollectionValidator,
+          super
+        )
+      end
       type [Hydra::PCDM::Vocab::PCDMTerms.Object, Vocab::WorksTerms.FileSet]
-
+      include Hydra::PCDM::ObjectBehavior
       include Hydra::Works::ContainedFiles
       include Hydra::Works::Derivatives
       include Hydra::Works::MimeTypes
       include Hydra::Works::VersionedContent
-
       before_destroy :remove_from_works
     end
 

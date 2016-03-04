@@ -207,6 +207,26 @@ describe Hydra::Works::Work do
     end
   end
 
+  describe 'adding collections to works' do
+    let(:collection) { Hydra::Works::Collection.new }
+    let(:exception) { ActiveFedora::AssociationTypeMismatch }
+    let(:error_regex) { /is a Collection and may not be a member of the association/ }
+    context 'with ordered members' do
+      it 'raises AssociationTypeMismatch with a helpful error message' do
+        expect { subject.ordered_members = [collection] }.to raise_error(exception, error_regex)
+        expect { subject.ordered_members += [collection] }.to raise_error(exception, error_regex)
+        expect { subject.ordered_members << collection }.to raise_error(exception, error_regex)
+      end
+    end
+    context 'with unordered members' do
+      it 'raises AssociationTypeMismatch with a helpful error message' do
+        expect { subject.members = [collection] }.to raise_error(exception, error_regex)
+        expect { subject.members += [collection] }.to raise_error(exception, error_regex)
+        expect { subject.members << collection }.to raise_error(exception, error_regex)
+      end
+    end
+  end
+
   describe 'parent work and collection accessors' do
     let(:collection1) { Hydra::Works::Collection.new }
     before do

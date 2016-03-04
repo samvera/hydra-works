@@ -24,6 +24,7 @@ module Hydra
 
     autoload :Characterization
     autoload :NotFileSetValidator
+    autoload :NotCollectionValidator
 
     autoload_under 'models' do
       autoload :Collection
