@@ -5,7 +5,9 @@ module Hydra::Works
     ##
     # Persists a derivative to a FileSet
     # This Service conforms to the signature of `Hydra::Derivatives::PersistOutputFileService`.
-    # The purpose of this Service is for use as an alternative to the default Hydra::Derivatives::PersistOutputFileService.  It's necessary because the default behavior in Hydra::Derivatives assumes that you're using LDP Basic Containment. Hydra::Works::FileSets use IndirectContainment.  This Service handles that case.
+    # The purpose of this Service is for use as an alternative to the default Hydra::Derivatives::PersistOutputFileService.
+    # It's necessary because the default behavior in Hydra::Derivatives assumes that you're using LDP Basic Containment.
+    # Hydra::Works::FileSets use IndirectContainment.  This Service handles that case.
     # This service will always update existing and does not do versioning of persisted files.
     #
     # @param [#read] stream the derivative filestream
