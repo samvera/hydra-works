@@ -23,7 +23,9 @@ describe Hydra::Works::Work do
       work1.ordered_members << file_set2
 
       expect(work1.file_set_ids).to eq [file_set1.id, file_set2.id]
-      expect(work1.ordered_file_set_ids).to eq [file_set2.id]
+      Deprecation.silence Hydra::Works::WorkBehavior do
+        expect(work1.ordered_file_set_ids).to eq [file_set2.id]
+      end
     end
   end
 
@@ -58,7 +60,9 @@ describe Hydra::Works::Work do
   describe '#ordered_file_set_ids' do
     it 'lists file_set ids' do
       work1.ordered_members = [file_set1, file_set2]
-      expect(work1.ordered_file_set_ids).to eq [file_set1.id, file_set2.id]
+      Deprecation.silence Hydra::Works::WorkBehavior do
+        expect(work1.ordered_file_set_ids).to eq [file_set1.id, file_set2.id]
+      end
     end
   end
 
@@ -71,7 +75,9 @@ describe Hydra::Works::Work do
     subject { TestWork.new(ordered_members: [file_set1]) }
 
     it 'has many file sets' do
-      expect(subject.ordered_file_sets).to eq [file_set1]
+      Deprecation.silence Hydra::Works::WorkBehavior do
+        expect(subject.ordered_file_sets).to eq [file_set1]
+      end
     end
   end
 
@@ -141,12 +147,14 @@ describe Hydra::Works::Work do
       subject.ordered_members << file_set2
     end
     it 'moves file from one work to another' do
-      expect(subject.ordered_file_sets).to eq([file_set1, file_set2])
-      expect(work1.ordered_file_sets).to eq([])
-      subject.ordered_member_proxies.delete_at(0)
-      work1.ordered_members << file_set1
-      expect(subject.ordered_file_sets).to eq([file_set2])
-      expect(work1.ordered_file_sets).to eq([file_set1])
+      Deprecation.silence Hydra::Works::WorkBehavior do
+        expect(subject.ordered_file_sets).to eq([file_set1, file_set2])
+        expect(work1.ordered_file_sets).to eq([])
+        subject.ordered_member_proxies.delete_at(0)
+        work1.ordered_members << file_set1
+        expect(subject.ordered_file_sets).to eq([file_set2])
+        expect(work1.ordered_file_sets).to eq([file_set1])
+      end
     end
   end
 
@@ -154,7 +162,9 @@ describe Hydra::Works::Work do
     it 'returns empty array when only works are aggregated' do
       subject.ordered_members << work1
       subject.ordered_members << work2
-      expect(subject.ordered_file_sets).to eq []
+      Deprecation.silence Hydra::Works::WorkBehavior do
+        expect(subject.ordered_file_sets).to eq []
+      end
     end
 
     context 'with file_sets and works' do
@@ -166,7 +176,9 @@ describe Hydra::Works::Work do
       end
 
       it 'returns only file_sets' do
-        expect(subject.ordered_file_sets).to eq [file_set1, file_set2]
+        Deprecation.silence Hydra::Works::WorkBehavior do
+          expect(subject.ordered_file_sets).to eq [file_set1, file_set2]
+        end
       end
     end
   end
@@ -184,24 +196,32 @@ describe Hydra::Works::Work do
         subject.ordered_members << file_set4
         subject.ordered_members << work1
         subject.ordered_members << file_set5
-        expect(subject.ordered_file_sets).to eq [file_set1, file_set2, file_set3, file_set4, file_set5]
+        Deprecation.silence Hydra::Works::WorkBehavior do
+          expect(subject.ordered_file_sets).to eq [file_set1, file_set2, file_set3, file_set4, file_set5]
+        end
       end
 
       it 'removes first collection' do
         subject.ordered_member_proxies.delete_at(0)
-        expect(subject.ordered_file_sets).to eq [file_set2, file_set3, file_set4, file_set5]
+        Deprecation.silence Hydra::Works::WorkBehavior do
+          expect(subject.ordered_file_sets).to eq [file_set2, file_set3, file_set4, file_set5]
+        end
         expect(subject.ordered_works).to eq [work2, work1]
       end
 
       it 'removes last collection' do
         subject.ordered_member_proxies.delete_at(6)
-        expect(subject.ordered_file_sets).to eq [file_set1, file_set2, file_set3, file_set4]
+        Deprecation.silence Hydra::Works::WorkBehavior do
+          expect(subject.ordered_file_sets).to eq [file_set1, file_set2, file_set3, file_set4]
+        end
         expect(subject.ordered_works).to eq [work2, work1]
       end
 
       it 'removes middle collection' do
         subject.ordered_member_proxies.delete_at(3)
-        expect(subject.ordered_file_sets).to eq [file_set1, file_set2, file_set4, file_set5]
+        Deprecation.silence Hydra::Works::WorkBehavior do
+          expect(subject.ordered_file_sets).to eq [file_set1, file_set2, file_set4, file_set5]
+        end
         expect(subject.ordered_works).to eq [work2, work1]
       end
     end
