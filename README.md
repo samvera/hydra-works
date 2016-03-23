@@ -9,15 +9,20 @@
 [![API Docs](http://img.shields.io/badge/API-docs-blue.svg)](http://rubydoc.info/gems/hydra-works)
 [![Stories in Ready](https://badge.waffle.io/projecthydra-labs/hydra-works.png?source=projecthydra-labs%2Fhydra-works&label=ready&title=Ready)](https://waffle.io/projecthydra-labs/hydra-works?source=projecthydra-labs%2Fhydra-works)
 
-The Hydra::Works gem provides a set of [Portland Common Data Model](https://github.com/duraspace/pcdm/wiki)-compliant ActiveFedora models and associated behaviors around the broad concept of multi-file "works", the need for which was expressed by a variety of [community use cases](https://github.com/projecthydra-labs/hydra-works/tree/master/use-cases). The Hydra::Works domain model includes:
+The Hydra::Works gem implements the [PCDM](https://github.com/duraspace/pcdm/wiki) [Works](https://github.com/duraspace/pcdm/blob/master/pcdm-ext/works.rdf) data model using ActiveFedora-based models. In addition to the models, Hydra::Works includes associated behaviors around the broad concept of describable "works" or intellectual entities, the need for which was expressed by a variety of [Hydra community use cases](https://github.com/projecthydra-labs/hydra-works/tree/master/use-cases). The PCDM Works domain model includes the following high-level entities:
 
- * **FileSet**: a *Hydra::PCDM::Object* that encapsulates one or more directly related *Hydra::PCDM::Files*, such as a PDF document, its derivatives, and extracted full-text
- * **Work**: a *Hydra::PCDM::Object* that holds zero or more **FileSets** and zero or more **Works** (often you won't use Work directly, but instead write your own class that mixes in `Hydra::Works::WorkBehavior`)
- * **Collection**: a *Hydra::PCDM::Collection* that indirectly contains zero or more **Works** and zero or more **Collection**s
+ * **Collection**: a *pcdm:Collection* that indirectly contains zero or more **Works** and zero or more **Collection**s
+ * **Work**: a *pcdm:Object* that holds zero or more **FileSets** and zero or more **Works**
+ * **FileSet**: a *pcdm:Object* that groups one or more related *pcdm:Files*, such as an original file (e.g., PDF document), its derivatives (e.g., a thumbnail), and extracted full-text
 
-View [a diagram of the domain model](https://docs.google.com/drawings/d/1-NkkRPpGpZGoTimEpYTaGM1uUPRaT0SamuWDITvtG_8/edit).
+Behaviors included in the model include:
 
-Checkout the readme for [hydra-derivatives](https://github.com/projecthydra/hydra-derivatives#dependencies) for additional dependencies.
+ * Characterization of original files within FileSets
+ * Generation of derivatives from original files
+ * Virus checking of original files
+ * Full-text extraction from original files
+
+Check out the [Hydra::Derivatives README](https://github.com/projecthydra/hydra-derivatives#dependencies) for additional dependencies.
 
 ## Installation
 
