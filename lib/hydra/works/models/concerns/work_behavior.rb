@@ -14,6 +14,7 @@ module Hydra::Works
   #   10) Hydra::Works::Work can have access metadata
   module WorkBehavior
     extend ActiveSupport::Concern
+    extend Deprecation
 
     included do
       def self.type_validator
@@ -52,10 +53,12 @@ module Hydra::Works
     end
 
     def ordered_file_sets
+      Deprecation.warn WorkBehavior, "ordered_file_sets is deprecated and will be removed in Hydra::Works 1.0. If you need order, use an interstitial work node."
       ordered_members.to_a.select(&:file_set?)
     end
 
     def ordered_file_set_ids
+      Deprecation.warn WorkBehavior, "ordered_file_set_ids is deprecated and will be removed in Hydra::Works 1.0. If you need order, use an interstitial work node."
       ordered_file_sets.map(&:id)
     end
 
