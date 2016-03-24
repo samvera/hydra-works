@@ -42,6 +42,31 @@ describe Hydra::Works::AddFileToFileSet do
     end
   end
 
+  context 'fall back on :original_filename and application/octet-stream' do
+    before do
+      allow(file).to receive(:original_filename).and_return('original_filename.tif')
+      described_class.call(file_set, file, type)
+    end
+    subject { file_set.filter_files_by_type(type).first }
+    it 'falls back on original_filename' do
+      expect(subject.original_name).to eq('original_filename.tif')
+    end
+  end
+
+  context 'when the file does not support any of the methods' do
+    let(:file3) { double('file') }
+    before do
+      allow(file3).to receive(:read).and_return('')
+      allow(file3).to receive(:size).and_return(0)
+      described_class.call(file_set, file3, type)
+    end
+    subject { file_set.filter_files_by_type(type).first }
+    it 'falls back on "" and "application/octet-stream"' do
+      expect(subject.mime_type).to eq('application/octet-stream')
+      expect(subject.original_name).to eq('')
+    end
+  end
+
   context 'file responds to :path but not to :mime_type nor :original_name' do
     it 'defaults to Hydra::PCDM for mimetype and ::File for basename.' do
       expect(Hydra::PCDM::GetMimeTypeForFile).to receive(:call).with(file.path)
@@ -103,6 +128,10 @@ describe Hydra::Works::AddFileToFileSet do
     subject { Hydra::Works::AddFileToFileSet::Updater.allocate }
     it 'converts URI strings to RDF::URI' do
       expect(subject.send(:type_to_uri, 'http://example.com/CustomURI')).to eq(::RDF::URI('http://example.com/CustomURI'))
+    end
+
+    it 'returns an error for an invalid type' do
+      expect(-> { subject.send(:type_to_uri, 0) }).to raise_error(ArgumentError, 'Invalid file type.  You must submit a URI or a symbol.')
     end
   end
 end

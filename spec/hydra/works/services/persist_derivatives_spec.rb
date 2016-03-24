@@ -116,5 +116,28 @@ describe Hydra::Works::PersistDerivative do
         expect(file_set.thumbnail.mime_type).to eq('image/jpeg')
       end
     end
+
+    context 'with a pdf document (.pdf) file' do
+      let(:mime_type) { 'application/pdf' }
+      let(:file_name) { 'sample-file.pdf' }
+      let(:file_set) { Hydra::Works::FileSet.new(id: '01/05') }
+
+      it 'lacks a thumbnail' do
+        expect(file_set.thumbnail).to be_nil
+      end
+
+      it 'generates a thumbnail on job run', unless: ENV['CI'] do
+        file_set.create_derivatives
+        expect(file_set.thumbnail).to have_content
+        expect(file_set.thumbnail.mime_type).to eq('image/jpeg')
+      end
+    end
+  end
+
+  describe 'mime type guessing' do
+    it 'has hard-coded mime types for mp4 and webm' do
+      expect(described_class.new_mime_type('mp4')).to eq('video/mp4')
+      expect(described_class.new_mime_type('webm')).to eq('video/webm')
+    end
   end
 end

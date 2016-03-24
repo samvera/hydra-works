@@ -74,4 +74,10 @@ describe Hydra::Works::FileSet do
       end
     end
   end
+
+  describe '#collection?' do
+    it 'is not a collection' do
+      expect(file_set.collection?).to be false
+    end
+  end
 end

@@ -60,6 +60,21 @@ describe Hydra::Works::UploadFileToFileSet do
     end
   end
 
+  context 'with additional services' do
+    let(:dummy_service) { double('service') }
+    before do
+      allow(file).to receive(:mime_type).and_return(mime_type)
+      allow(file).to receive(:original_name).and_return(original_name)
+    end
+
+    describe 'additional services' do
+      it 'gets called' do
+        expect(dummy_service).to receive(:call)
+        described_class.call(file_set, file, additional_services: [dummy_service])
+      end
+    end
+  end
+
   context 'when updating an existing file' do
     let(:additional_services) { [] }
     before do

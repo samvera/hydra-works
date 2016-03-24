@@ -23,11 +23,6 @@ module Hydra::Works
       self.class.office_document_mime_types.include? mime_type
     end
 
-    # TODO: remove?
-    def collection?
-      false
-    end
-
     module ClassMethods
       def image_mime_types
         ['image/png', 'image/jpeg', 'image/jpg', 'image/jp2', 'image/bmp', 'image/gif', 'image/tiff']
