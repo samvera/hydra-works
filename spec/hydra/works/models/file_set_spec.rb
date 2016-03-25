@@ -15,6 +15,12 @@ describe Hydra::Works::FileSet do
     end
   end
 
+  describe "#type" do
+    it "returns Object and FileSet" do
+      expect(subject.type).to eq [Hydra::PCDM::Vocab::PCDMTerms.Object, Hydra::Works::Vocab::WorksTerms.FileSet]
+    end
+  end
+
   describe '#files' do
     let(:file1) { file_set.files.build }
     let(:file2) { file_set.files.build }
