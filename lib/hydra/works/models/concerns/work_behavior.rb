@@ -23,9 +23,10 @@ module Hydra::Works
           super
         )
       end
-      type [Hydra::PCDM::Vocab::PCDMTerms.Object, Vocab::WorksTerms.Work]
       include Hydra::PCDM::ObjectBehavior
       before_destroy :remove_from_parents
+
+      type [Hydra::PCDM::Vocab::PCDMTerms.Object, Vocab::WorksTerms.Work]
     end
 
     def works

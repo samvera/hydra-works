@@ -23,8 +23,9 @@ module Hydra::Works
           Hydra::Works::NotFileSetValidator
         )
       end
-      type [Hydra::PCDM::Vocab::PCDMTerms.Collection, Vocab::WorksTerms.Collection]
       include Hydra::PCDM::CollectionBehavior
+
+      type [Hydra::PCDM::Vocab::PCDMTerms.Collection, Vocab::WorksTerms.Collection]
     end
 
     def ordered_works

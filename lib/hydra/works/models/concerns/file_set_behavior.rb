@@ -18,13 +18,14 @@ module Hydra::Works
           super
         )
       end
-      type [Hydra::PCDM::Vocab::PCDMTerms.Object, Vocab::WorksTerms.FileSet]
       include Hydra::PCDM::ObjectBehavior
       include Hydra::Works::ContainedFiles
       include Hydra::Works::Derivatives
       include Hydra::Works::MimeTypes
       include Hydra::Works::VersionedContent
       before_destroy :remove_from_works
+
+      type [Hydra::PCDM::Vocab::PCDMTerms.Object, Vocab::WorksTerms.FileSet]
     end
 
     # @return [Boolean] whether this instance is a Hydra::Works Collection.
