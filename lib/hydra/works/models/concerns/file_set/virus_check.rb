@@ -41,7 +41,8 @@ module Hydra::Works
         else
           Tempfile.open('') do |t|
             t.binmode
-            t.write(file)
+            t.write(file.content.read)
+            file.content.rewind
             t.close
             t.path
           end

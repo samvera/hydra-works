@@ -23,7 +23,7 @@ describe Hydra::Works::VirusCheck do
     end
 
     subject { FileWithVirusCheck.new }
-    let(:file) { Hydra::PCDM::File.new File.join(fixture_path, 'sample-file.pdf') }
+    let(:file) { Hydra::PCDM::File.new { |f| f.content = File.new(File.join(fixture_path, 'sample-file.pdf')) } }
 
     before do
       allow(subject).to receive(:original_file) { file }
@@ -61,6 +61,18 @@ describe Hydra::Works::VirusCheck do
         expect(subject.send(:local_path_for_file, file)).to eq('/tmp/file.pdf')
       end
     end
+
+    context 'original file does not respond to path' do
+      before do
+        allow(file).to receive(:respond_to?).and_call_original
+        allow(file).to receive(:respond_to?).with(:path).and_return(false)
+      end
+
+      it 'reads the content of the original_file' do
+        expect(file.content).to receive(:read)
+        subject.detect_viruses
+      end
+    end
   end
 
   context "Without ClamAV" do
@@ -73,7 +85,7 @@ describe Hydra::Works::VirusCheck do
     end
 
     subject { FileWithVirusCheck.new }
-    let(:file) { Hydra::PCDM::File.new File.join(fixture_path, 'sample-file.pdf') }
+    let(:file) { Hydra::PCDM::File.new { |f| f.content = File.new(File.join(fixture_path, 'sample-file.pdf')) } }
 
     before do
       allow(subject).to receive(:original_file) { file }
