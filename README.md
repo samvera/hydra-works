@@ -15,6 +15,8 @@ The Hydra::Works gem implements the [PCDM](https://github.com/duraspace/pcdm/wik
  * **Work**: a *pcdm:Object* that holds zero or more **FileSets** and zero or more **Works**
  * **FileSet**: a *pcdm:Object* that groups one or more related *pcdm:Files*, such as an original file (e.g., PDF document), its derivatives (e.g., a thumbnail), and extracted full-text
 
+View [a diagram of the Hydra::Works domain model](https://docs.google.com/drawings/d/1if47TYgEhqDLPh3D0026B_cBLa0BEAOpWPs8AqoQMZE/edit).
+
 Behaviors included in the model include:
 
  * Characterization of original files within FileSets
