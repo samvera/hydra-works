@@ -1,10 +1,22 @@
 module Hydra::Works
   module Characterization
-    extend ActiveSupport::Concern
     extend ActiveSupport::Autoload
 
-    autoload :FitsDatastream, 'hydra/works/models/characterization/fits_datastream.rb'
-    autoload :AlreadyThereStrategy, 'hydra/works/models/characterization/already_there_strategy.rb'
+    class << self
+      attr_accessor :mapper
+      def mapper
+        @mapper ||= mapper_defaults
+      end
+
+      def mapper_defaults
+        { audio_duration: :duration, audio_sample_rate: :sample_rate, exif_tool_version: :exif_version,
+          file_author: :creator, file_language: :language, file_mime_type: :has_mime_type,
+          video_audio_sample_rate: :sample_rate, video_duration: :duration, video_height: :height,
+          video_sample_rate: :sample_rate, video_width: :width }
+      end
+    end
+
+    autoload :FitsDatastream, 'hydra/works/characterization/fits_datastream.rb'
 
     autoload_under 'schema' do
       autoload :AudioSchema
@@ -12,20 +24,6 @@ module Hydra::Works
       autoload :DocumentSchema
       autoload :ImageSchema
       autoload :VideoSchema
-    end
-
-    autoload :Base, 'hydra/works/models/concerns/file_set/characterization/base.rb'
-    autoload :Image, 'hydra/works/models/concerns/file_set/characterization/image.rb'
-    autoload :Document, 'hydra/works/models/concerns/file_set/characterization/document.rb'
-    autoload :Video, 'hydra/works/models/concerns/file_set/characterization/video.rb'
-    autoload :Audio, 'hydra/works/models/concerns/file_set/characterization/audio.rb'
-
-    included do
-      include Base
-      include Image
-      include Audio
-      include Video
-      include Document
     end
   end
 end

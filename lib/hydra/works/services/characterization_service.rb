@@ -2,20 +2,22 @@ require 'hydra-file_characterization'
 
 module Hydra::Works
   class CharacterizationService
-    # @param [ActiveFedora::Base] object which has properties to recieve characterization values.
-    # @param [Symbol, String, File] source for characterization to be run on.  File object, path on disk, or symbol.
-    #   A symbol should be the name of the method call to get object that responds to content? or is the content.
+    # @param [Hydra::PCDM::File] object which has properties to recieve characterization values.
+    # @param [String, File] source for characterization to be run on.  File object or path on disk.
+    #   If none is provided, it will assume the binary content already present on the object.
     # @param [Hash] options to be passed to characterization.  parser_mapping:, parser_class:, tools:
-    def self.run(object, source = :original_file, options = {})
+    def self.run(object, source = nil, options = {})
       new(object, source, options).characterize
     end
 
     attr_accessor :object, :source, :mapping, :parser_class, :tools
 
     def initialize(object, source, options)
-      @object = object
-      @source = source
-      @mapping, @parser_class, @tools = extract_options(options)
+      @object       = object
+      @source       = source
+      @mapping      = options.fetch(:parser_mapping, Hydra::Works::Characterization.mapper)
+      @parser_class = options.fetch(:parser_class, Hydra::Works::Characterization::FitsDatastream)
+      @tools        = options.fetch(:ch12n_tool, :fits)
     end
 
     # Get given source into form that can be passed to Hydra::FileCharacterization
@@ -31,41 +33,27 @@ module Hydra::Works
 
     protected
 
-      # Get value from opts hash, object, or use default
-      def extract_options(opts)
-        parser_mapping = fetch_or_respond(opts, :parser_mapping) || {}
-        parser_class = fetch_or_respond(opts, :parser_class) || FitsDatastream
-        ch12n_tool = opts.fetch(:ch12n_tool) { :fits }
-
-        [parser_mapping, parser_class, ch12n_tool]
-      end
-
-      def fetch_or_respond(opts, key)
-        opts.fetch(key) { object.send(key) if object.respond_to? key }
-      end
-
-      # @param [String,Symbol,File]
-      # @return content if source is a symbol, File if source is string
+      # @return content of object if source is nil; otherwise, return a File or the source
       def source_to_content
-        if source.is_a? String
-          File.open(source)
-        elsif source.is_a? Symbol
-          s = object.send(source)
-          s.respond_to?(:content) ? s.content : s
-        else
-          source
-        end
+        return object.content if source.nil?
+        return File.open(source).read if source.is_a? String
+        source.read
       end
 
       def extract_metadata(content)
-        Hydra::FileCharacterization.characterize(content, temp_file_name, tools) do |cfg|
+        Hydra::FileCharacterization.characterize(content, file_name, tools) do |cfg|
           cfg[:fits] = Hydra::Derivatives.fits_path
         end
       end
 
-      def temp_file_name
-        m = %r{/([^/]*)$} .match(object.uri)
-        "#{m[1]}-content.tmp"
+      # Determine the filename to send to Hydra::FileCharacterization. If no source is present,
+      # use the name of the file from the object; otherwise, use the supplied source.
+      def file_name
+        if source
+          source.is_a?(File) ? File.basename(source.path) : File.basename(source)
+        else
+          object.original_name.nil? ? "original_file" : object.original_name
+        end
       end
 
       # Use OM to parse metadata
@@ -111,8 +99,8 @@ module Hydra::Works
       end
 
       def append_property_value(property, value)
-        value = object[property] + [value] if object.class.multiple?(property)
-        object.send("#{property}=", value)
+        value = object.send(property) + [value]
+        object.send("#{property}=", value.uniq)
       end
   end
 end
