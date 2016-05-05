@@ -80,18 +80,25 @@ module Hydra::Works
         # @param [true, false] update_existing when true, try to retrieve existing element before building one
         def find_or_create_file(type, update_existing)
           if type.instance_of? Symbol
-            association = file_set.association(type)
-            fail ArgumentError, "you're attempting to add a file to a file_set using '#{type}' association but the file_set does not have an association called '#{type}''" unless association
-
-            current_file = association.reader if update_existing
-            current_file || association.build
+            find_or_create_file_for_symbol(type, update_existing)
           else
-            current_file = file_set.filter_files_by_type(type_to_uri(type)).first if update_existing
-            unless current_file
-              file_set.files.build
-              current_file = file_set.files.last
-              Hydra::PCDM::AddTypeToFile.call(current_file, type_to_uri(type))
-            end
+            find_or_create_file_for_rdf_uri(type, update_existing)
+          end
+        end
+
+        def find_or_create_file_for_symbol(type, update_existing)
+          association = file_set.association(type)
+          fail ArgumentError, "you're attempting to add a file to a file_set using '#{type}' association but the file_set does not have an association called '#{type}''" unless association
+          current_file = association.reader if update_existing
+          current_file || association.build
+        end
+
+        def find_or_create_file_for_rdf_uri(type, update_existing)
+          current_file = file_set.filter_files_by_type(type_to_uri(type)).first if update_existing
+          unless current_file
+            file_set.files.build
+            current_file = file_set.files.last
+            Hydra::PCDM::AddTypeToFile.call(current_file, type_to_uri(type))
           end
         end
 

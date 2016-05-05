@@ -12,30 +12,9 @@ AllCops:
 Metrics/LineLength:
   Enabled: false
 
-Metrics/CyclomaticComplexity:
-  Exclude:
-    - lib/hydra/works/services/add_file_to_file_set.rb
-
-Metrics/PerceivedComplexity:
-  Exclude:
-    - lib/hydra/works/services/add_file_to_file_set.rb
-
-Metrics/MethodLength:
-  Exclude:
-    - lib/hydra/works/services/add_file_to_file_set.rb
-    - lib/hydra/works/models/concerns/file_set/virus_check.rb
-    - lib/hydra/works/models/characterization/fits_datastream.rb
-
 Metrics/ClassLength:
   Exclude:
     - lib/hydra/works/models/characterization/fits_datastream.rb
-
-Metrics/AbcSize:
-  Exclude:
-    - lib/hydra/works/services/add_file_to_file_set.rb
-    - lib/hydra/works/services/full_text_extraction_service.rb
-    - lib/hydra/works/models/concerns/file_set/mime_types.rb
-    - lib/hydra/works/models/concerns/file_set/virus_check.rb
 
 Style/CollectionMethods:
   PreferredMethods:
