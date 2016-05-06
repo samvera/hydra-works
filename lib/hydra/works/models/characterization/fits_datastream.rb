@@ -148,11 +148,9 @@ module Hydra::Works::Characterization
       builder = Nokogiri::XML::Builder.new do |xml|
         xml.fits(xmlns: 'http://hul.harvard.edu/ois/xml/ns/fits/fits_output',
                  'xmlns:xsi' => 'http://www.w3.org/2001/XMLSchema-instance',
-                 'xsi:schemaLocation' =>
-      "http://hul.harvard.edu/ois/xml/ns/fits/fits_output
-      http://hul.harvard.edu/ois/xml/xsd/fits/fits_output.xsd",
-                 version: '0.6.0',
-                 timestamp: '1/25/12 11:04 AM') do
+                 'xsi:schemaLocation' => "http://hul.harvard.edu/ois/xml/ns/fits/fits_output
+                 http://hul.harvard.edu/ois/xml/xsd/fits/fits_output.xsd",
+                 version: '0.6.0', timestamp: '1/25/12 11:04 AM') do
           xml.identification { xml.identity(toolname: 'FITS') }
         end
       end
