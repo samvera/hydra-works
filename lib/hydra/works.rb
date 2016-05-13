@@ -44,5 +44,14 @@ module Hydra
       autoload :PersistDerivative
       autoload :CharacterizationService
     end
+
+    ActiveFedora::WithMetadata::DefaultMetadataClassFactory.file_metadata_schemas +=
+      [
+        Characterization::AudioSchema,
+        Characterization::BaseSchema,
+        Characterization::DocumentSchema,
+        Characterization::ImageSchema,
+        Characterization::VideoSchema
+      ]
   end
 end
