@@ -106,4 +106,9 @@ describe Hydra::Works do
       end
     end
   end
+
+  describe '::default_system_virus_scanner' do
+    subject { described_class.default_system_virus_scanner }
+    it { is_expected.to eq(Hydra::Works::VirusScanner) }
+  end
 end

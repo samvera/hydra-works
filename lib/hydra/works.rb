@@ -6,6 +6,13 @@ module Hydra
   module Works
     extend ActiveSupport::Autoload
 
+    autoload :VirusScanner
+
+    class << self
+      class_attribute :default_system_virus_scanner
+      self.default_system_virus_scanner = VirusScanner
+    end
+
     module Vocab
       extend ActiveSupport::Autoload
       eager_autoload do
