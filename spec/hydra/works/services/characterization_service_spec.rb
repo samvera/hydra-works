@@ -16,9 +16,10 @@ describe Hydra::Works::CharacterizationService do
       expect(file.file_size).to eq(["7618"])
       expect(file.file_title).to eq(["sample-file"])
       expect(file.page_count).to eq(["1"])
-      # Persist and reload from persistence layer
-      expect(file.save).to be nil
-      expect(file.reload).to be nil
+      # Persist our file with some content and reload
+      file.content = "junk"
+      expect(file.save).to be true
+      expect(file.reload).to eq({})
       # Re-check property values
       expect(file.file_size).to eq(["7618"])
       expect(file.file_title).to eq(["sample-file"])
@@ -73,6 +74,7 @@ describe Hydra::Works::CharacterizationService do
       it 'passes the File to FileCharacterization.' do
         file_inst = File.new(File.join(fixture_path, filename))
         expect(Hydra::FileCharacterization).to receive(:characterize).with(file_content, filename, :fits)
+        expect(file_inst).to receive(:rewind)
         described_class.run(file, file_inst)
       end
     end
@@ -151,7 +153,7 @@ describe Hydra::Works::CharacterizationService do
       let(:fits_response) { IO.read(File.join(fixture_path, fits_filename)) }
 
       it 'assigns expected values to audio properties.' do
-        expect(file.has_mime_type).to eq(["audio/mpeg"])
+        expect(file.mime_type).to eq("audio/mpeg")
         expect(file.duration).to eq(["0:0:15:261"])
         expect(file.sample_rate).to eq(["44100"])
       end

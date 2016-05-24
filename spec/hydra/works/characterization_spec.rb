@@ -10,7 +10,7 @@ describe Hydra::Works::Characterization do
       it { is_expected.to respond_to(:file_name) }
       it { is_expected.to respond_to(:file_size) }
       it { is_expected.to respond_to(:date_created) }
-      it { is_expected.to respond_to(:has_mime_type) }
+      it { is_expected.to respond_to(:mime_type) }
       it { is_expected.to respond_to(:date_modified) }
       it { is_expected.to respond_to(:byte_order) }
     end
@@ -23,7 +23,6 @@ describe Hydra::Works::Characterization do
       it { is_expected.to respond_to(:fits_version) }
       it { is_expected.to respond_to(:exif_version) }
       it { is_expected.to respond_to(:original_checksum) }
-      it { is_expected.to respond_to(:mime_type) }
     end
     context "with Image schema" do
       it { is_expected.to respond_to(:byte_order) }

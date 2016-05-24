@@ -10,7 +10,7 @@ module Hydra::Works
 
       def mapper_defaults
         { audio_duration: :duration, audio_sample_rate: :sample_rate, exif_tool_version: :exif_version,
-          file_author: :creator, file_language: :language, file_mime_type: :has_mime_type,
+          file_author: :creator, file_language: :language, file_mime_type: :mime_type,
           video_audio_sample_rate: :sample_rate, video_duration: :duration, video_height: :height,
           video_sample_rate: :sample_rate, video_width: :width }
       end
