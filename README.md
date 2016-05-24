@@ -1,7 +1,7 @@
 # Hydra::Works
 
 [![Version](https://badge.fury.io/rb/hydra-works.png)](http://badge.fury.io/rb/hydra-works)
-[![Build Status](https://travis-ci.org/projecthydra-labs/hydra-works.svg?branch=master)](https://travis-ci.org/projecthydra-labs/hydra-works)
+[![Build Status](https://travis-ci.org/projecthydra/hydra-works.svg?branch=master)](https://travis-ci.org/projecthydra/hydra-works)
 [![Coverage Status](https://coveralls.io/repos/projecthydra-labs/hydra-works/badge.svg?branch=master)](https://coveralls.io/r/projecthydra-labs/hydra-works?branch=master)
 [![Code Climate](https://codeclimate.com/github/projecthydra-labs/hydra-works/badges/gpa.svg)](https://codeclimate.com/github/projecthydra-labs/hydra-works)
 [![Apache 2.0 License](http://img.shields.io/badge/APACHE2-license-blue.svg)](./LICENSE)
@@ -9,7 +9,7 @@
 [![API Docs](http://img.shields.io/badge/API-docs-blue.svg)](http://rubydoc.info/gems/hydra-works)
 [![Stories in Ready](https://badge.waffle.io/projecthydra-labs/hydra-works.png?source=projecthydra-labs%2Fhydra-works&label=ready&title=Ready)](https://waffle.io/projecthydra-labs/hydra-works?source=projecthydra-labs%2Fhydra-works)
 
-The Hydra::Works gem implements the [PCDM](https://github.com/duraspace/pcdm/wiki) [Works](https://github.com/duraspace/pcdm/blob/master/pcdm-ext/works.rdf) data model using ActiveFedora-based models. In addition to the models, Hydra::Works includes associated behaviors around the broad concept of describable "works" or intellectual entities, the need for which was expressed by a variety of [Hydra community use cases](https://github.com/projecthydra-labs/hydra-works/tree/master/use-cases). The PCDM Works domain model includes the following high-level entities:
+The Hydra::Works gem implements the [PCDM](https://github.com/duraspace/pcdm/wiki) [Works](https://github.com/duraspace/pcdm/blob/master/pcdm-ext/works.rdf) data model using ActiveFedora-based models. In addition to the models, Hydra::Works includes associated behaviors around the broad concept of describable "works" or intellectual entities, the need for which was expressed by a variety of [Hydra community use cases](https://github.com/projecthydra/hydra-works/tree/master/use-cases). The PCDM Works domain model includes the following high-level entities:
 
  * **Collection**: a *pcdm:Collection* that indirectly contains zero or more **Works** and zero or more **Collection**s
  * **Work**: a *pcdm:Object* that holds zero or more **FileSets** and zero or more **Works**
