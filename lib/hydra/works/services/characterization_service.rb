@@ -37,6 +37,7 @@ module Hydra::Works
       def source_to_content
         return object.content if source.nil?
         return File.open(source).read if source.is_a? String
+        source.rewind
         source.read
       end
 
@@ -99,8 +100,8 @@ module Hydra::Works
       end
 
       def append_property_value(property, value)
-        value = object.send(property) + [value]
-        object.send("#{property}=", value.uniq)
+        value = object.send(property) + [value] unless property == :mime_type
+        object.send("#{property}=", value)
       end
   end
 end

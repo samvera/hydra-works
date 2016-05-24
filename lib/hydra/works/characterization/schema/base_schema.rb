@@ -8,6 +8,5 @@ module Hydra::Works::Characterization
     property :fits_version, predicate: RDF::Vocab::PREMIS.hasCreatingApplicationVersion
     property :exif_version, predicate: RDF::Vocab::EXIF.exifVersion
     property :original_checksum, predicate: RDF::Vocab::NFO.hashValue
-    property :mime_type, predicate: RDF::Vocab::EBUCore.hasMimeType
   end
 end
