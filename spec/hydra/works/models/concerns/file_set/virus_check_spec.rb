@@ -34,7 +34,7 @@ describe Hydra::Works::VirusCheck do
 
       it 'does not detect viruses' do
         expect(Hydra::Works::VirusCheckerService).to receive(:file_has_virus?).and_return(false)
-        subject.detect_viruses
+        expect(subject).not_to be_viruses
       end
     end
   end
