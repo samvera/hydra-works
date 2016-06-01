@@ -3,10 +3,15 @@ module Hydra::Works
     extend ActiveSupport::Concern
 
     included do
-      validate :detect_viruses
-      def detect_viruses
-        return true unless original_file && original_file.new_record? # We have a new file to check
-        return true unless VirusCheckerService.file_has_virus?(original_file)
+      validate :must_not_detect_viruses
+
+      def viruses?
+        return false unless original_file && original_file.new_record? # We have a new file to check
+        VirusCheckerService.file_has_virus?(original_file)
+      end
+
+      def must_not_detect_viruses
+        return true unless viruses?
         errors.add(:base, "Failed to verify uploaded file is not a virus")
         false
       end
