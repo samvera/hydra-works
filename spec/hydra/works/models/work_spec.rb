@@ -22,7 +22,7 @@ describe Hydra::Works::Work do
       work1.members << file_set1
       work1.ordered_members << file_set2
 
-      expect(work1.file_set_ids).to eq [file_set1.id, file_set2.id]
+      expect(work1.file_set_ids).to match_array [file_set1.id, file_set2.id]
       Deprecation.silence Hydra::Works::WorkBehavior do
         expect(work1.ordered_file_set_ids).to eq [file_set2.id]
       end
@@ -34,7 +34,7 @@ describe Hydra::Works::Work do
       work1.members << file_set1
       work1.ordered_members << file_set2
 
-      expect(work1.file_sets).to eq [file_set1, file_set2]
+      expect(work1.file_sets).to match_array [file_set1, file_set2]
     end
   end
 
@@ -43,7 +43,7 @@ describe Hydra::Works::Work do
       work1.members << work2
       work1.ordered_members << work3
 
-      expect(work1.work_ids).to eq [work2.id, work3.id]
+      expect(work1.work_ids).to match_array [work2.id, work3.id]
       expect(work1.ordered_work_ids).to eq [work3.id]
     end
   end
@@ -53,7 +53,7 @@ describe Hydra::Works::Work do
       work1.members << work2
       work1.ordered_members << work3
 
-      expect(work1.works).to eq [work2, work3]
+      expect(work1.works).to match_array [work2, work3]
     end
   end
 
@@ -258,7 +258,7 @@ describe Hydra::Works::Work do
     end
 
     it 'has parents' do
-      expect(work2.member_of).to eq [collection1, work1]
+      expect(work2.member_of).to match_array [collection1, work1]
     end
     it 'has a parent collection' do
       expect(work2.in_collections).to eq [collection1]
