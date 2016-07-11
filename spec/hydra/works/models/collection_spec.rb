@@ -43,7 +43,7 @@ describe Hydra::Works::Collection do
       end
 
       it 'returns only works' do
-        expect(subject).to eq [work1, work2]
+        expect(subject).to match_array [work1, work2]
       end
     end
   end

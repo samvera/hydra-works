@@ -130,7 +130,7 @@ describe Hydra::Works::CharacterizationService do
       it 'assigns expected values to image properties.' do
         expect(file.file_size).to eq(["11043"])
         expect(file.byte_order).to eq(["big endian"])
-        expect(file.compression).to eq(["JPEG 2000 Lossless", "JPEG 2000"])
+        expect(file.compression).to match_array(["JPEG 2000 Lossless", "JPEG 2000"])
         expect(file.width).to eq(["512"])
         expect(file.height).to eq(["465"])
         expect(file.color_space).to eq(["sRGB"])

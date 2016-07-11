@@ -11,3 +11,6 @@ group :development, :test do
   gem 'pry' unless ENV['CI']
   gem 'pry-byebug' unless ENV['CI']
 end
+
+gem 'active-fedora', github: 'projecthydra/active_fedora', branch: 'master'
+gem 'hydra-pcdm', github: 'projecthydra/hydra-pcdm', branch: 'new_at'
