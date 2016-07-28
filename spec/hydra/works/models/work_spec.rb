@@ -267,4 +267,16 @@ describe Hydra::Works::Work do
       expect(work2.in_works).to eq [work1]
     end
   end
+
+  describe 'member_of_collections' do
+    let(:collection1) { Hydra::Works::Collection.create }
+    before do
+      work1.member_of_collections = [collection1]
+    end
+
+    it 'is a member of the collection' do
+      expect(work1.member_of_collections).to eq [collection1]
+      expect(work1.member_of_collection_ids).to eq [collection1.id]
+    end
+  end
 end
