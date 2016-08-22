@@ -17,7 +17,7 @@ describe Hydra::Works::FileSet do
 
   describe "#type" do
     it "returns Object and FileSet" do
-      expect(subject.type).to eq [Hydra::PCDM::Vocab::PCDMTerms.Object, Hydra::Works::Vocab::WorksTerms.FileSet]
+      expect(subject.type).to match_array [Hydra::PCDM::Vocab::PCDMTerms.Object, Hydra::Works::Vocab::WorksTerms.FileSet]
     end
   end
 
@@ -34,7 +34,7 @@ describe Hydra::Works::FileSet do
 
     subject { described_class.find(file_set.id).files }
 
-    it { is_expected.to eq [file1, file2] }
+    it { is_expected.to match_array [file1, file2] }
   end
 
   describe '#in_works' do
