@@ -1,6 +1,7 @@
 require 'hydra/works/version'
 require 'hydra/pcdm'
 require 'hydra/derivatives'
+require 'rdf/vocab'
 
 module Hydra
   module Works
