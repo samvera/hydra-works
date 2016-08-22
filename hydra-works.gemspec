@@ -21,6 +21,8 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'hydra-pcdm', '>= 0.8'
   spec.add_dependency 'hydra-derivatives', '~> 3.0'
   spec.add_dependency 'hydra-file_characterization', '~> 0.3', '>= 0.3.3'
+  spec.add_dependency 'active-fedora', '~> 11.0.0.rc7'
+  spec.add_dependency 'active_fedora-datastreams', '~> 0.1'
 
   spec.add_development_dependency 'bundler', '~> 1.7'
   spec.add_development_dependency 'rake', '~> 10.0'

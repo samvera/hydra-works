@@ -1,6 +1,8 @@
 require 'hydra/works/version'
 require 'hydra/pcdm'
 require 'hydra/derivatives'
+require 'active_fedora/datastreams'
+require 'rdf/vocab'
 
 module Hydra
   module Works
