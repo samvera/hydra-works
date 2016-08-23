@@ -6,6 +6,7 @@ env:
   global:
     - NOKOGIRI_USE_SYSTEM_LIBRARIES=true
 rvm:
-  - 2.2
+  - 2.2.5
+  - 2.3.1
 before_script:
   - jdk_switcher use oraclejdk8

@@ -16,12 +16,12 @@ module Hydra::Works
       @object       = object
       @source       = source
       @mapping      = options.fetch(:parser_mapping, Hydra::Works::Characterization.mapper)
-      @parser_class = options.fetch(:parser_class, Hydra::Works::Characterization::FitsDatastream)
+      @parser_class = options.fetch(:parser_class, Hydra::Works::Characterization::FitsDocument)
       @tools        = options.fetch(:ch12n_tool, :fits)
     end
 
     # Get given source into form that can be passed to Hydra::FileCharacterization
-    # Use Hydra::FileCharacterization to extract metadata (an OM Datastream)
+    # Use Hydra::FileCharacterization to extract metadata (an OM XML document)
     # Get the terms (and their values) from the extracted metadata
     # Assign the values of the terms to the properties of the object
     def characterize
@@ -59,19 +59,19 @@ module Hydra::Works
 
       # Use OM to parse metadata
       def parse_metadata(metadata)
-        datastream = parser_class.new
-        datastream.ng_xml = metadata if metadata.present?
-        characterization_terms(datastream)
+        omdoc = parser_class.new
+        omdoc.ng_xml = Nokogiri::XML(metadata) if metadata.present?
+        characterization_terms(omdoc)
       end
 
       # Get proxy terms and values from the parser
-      def characterization_terms(datastream)
+      def characterization_terms(omdoc)
         h = {}
-        datastream.class.terminology.terms.each_pair do |key, target|
+        omdoc.class.terminology.terms.each_pair do |key, target|
           # a key is a proxy if its target responds to proxied_term
           next unless target.respond_to? :proxied_term
           begin
-            h[key] = datastream.send(key)
+            h[key] = omdoc.send(key)
           rescue NoMethodError
             next
           end

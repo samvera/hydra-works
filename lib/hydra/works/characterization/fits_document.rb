@@ -1,5 +1,7 @@
+require 'om'
+
 module Hydra::Works::Characterization
-  class FitsDatastream < ActiveFedora::OmDatastream
+  class FitsDocument
     include OM::XML::Document
 
     set_terminology do |t|
@@ -87,7 +89,7 @@ module Hydra::Works::Characterization
       # fits_version needs a different name than it's target node since they're at the same level
       t.fits_version(proxy: [:fits, :fits_v])
       t.format_label(proxy: [:identification, :identity, :format_label])
-      # Can't use .mime_type because it's already defined for datastream so method missing won't work.
+      # Can't use .mime_type because it's already defined for this dcoument so method missing won't work.
       t.file_mime_type(proxy: [:identification, :identity, :mime_type])
       t.exif_tool_version(proxy: [:identification, :identity, :tool, :exif_tool_version])
       t.file_size(proxy: [:fileinfo, :file_size])

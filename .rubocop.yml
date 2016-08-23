@@ -14,7 +14,7 @@ Metrics/LineLength:
 
 Metrics/ClassLength:
   Exclude:
-    - lib/hydra/works/characterization/fits_datastream.rb
+    - lib/hydra/works/characterization/fits_document.rb
 
 Style/CollectionMethods:
   PreferredMethods:

@@ -16,7 +16,7 @@ module Hydra::Works
       end
     end
 
-    autoload :FitsDatastream, 'hydra/works/characterization/fits_datastream.rb'
+    autoload :FitsDocument, 'hydra/works/characterization/fits_document.rb'
 
     autoload_under 'schema' do
       autoload :AudioSchema
