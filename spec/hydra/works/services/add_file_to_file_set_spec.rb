@@ -54,7 +54,7 @@ describe Hydra::Works::AddFileToFileSet do
   end
 
   context 'when the file does not support any of the methods' do
-    let(:file3) { double('file') }
+    let(:file3) { instance_double(File) }
     before do
       allow(file3).to receive(:read).and_return('')
       allow(file3).to receive(:size).and_return(0)
