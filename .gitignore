@@ -20,3 +20,4 @@ fcrepo4-test-data/
 .DS_Store
 .ruby-gemset
 .ruby-version
+/spec/examples.txt

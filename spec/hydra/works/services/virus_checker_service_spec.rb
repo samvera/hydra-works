@@ -7,7 +7,7 @@ describe Hydra::Works::VirusCheckerService do
 
   context '.file_has_virus?' do
     it 'is a convenience method' do
-      mock_object = double(file_has_virus?: true)
+      mock_object = instance_double(described_class, file_has_virus?: true)
       allow(described_class).to receive(:new).and_return(mock_object)
       described_class.file_has_virus?(file)
       expect(mock_object).to have_received(:file_has_virus?)
