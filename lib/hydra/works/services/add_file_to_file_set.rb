@@ -37,43 +37,19 @@ module Hydra::Works
 
       private
 
+        # Persist a new file with its containing file set; otherwise, just save the file itself
         def persist
           if current_file.new_record?
-            # persist current_file and its membership in file_set.files container
             file_set.save
           else
-            # we updated the content of an existing file, so we need to save the file explicitly
             current_file.save
           end
         end
 
         def attach_attributes(file)
           current_file.content = file
-          current_file.original_name = determine_original_name(file)
-          current_file.mime_type = determine_mime_type(file)
-        end
-
-        # Return mime_type based on methods available to file
-        # @param object for mimetype to be determined. Attempts to use methods: :mime_type, :content_type, and :path.
-        def determine_mime_type(file)
-          return file.mime_type if file.respond_to? :mime_type
-          return file.content_type if file.respond_to? :content_type
-          return Hydra::PCDM::GetMimeTypeForFile.call(file.path) if file.respond_to? :path
-          'application/octet-stream'
-        end
-
-        # Return original_name based on methods available to file
-        # @param object for original name to be determined. Attempts to use methods: :original_name, :original_filename, and :path.
-        def determine_original_name(file)
-          if file.respond_to? :original_name
-            file.original_name
-          elsif file.respond_to? :original_filename
-            file.original_filename
-          elsif file.respond_to? :path
-            ::File.basename(file.path)
-          else
-            ''
-          end
+          current_file.original_name = DetermineOriginalName.call(file)
+          current_file.mime_type = DetermineMimeType.call(file, current_file.original_name)
         end
 
         # @param [Symbol, RDF::URI] the type of association or filter to use

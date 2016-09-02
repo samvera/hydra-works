@@ -51,6 +51,8 @@ module Hydra
       autoload :UploadFileToFileSet
       autoload :PersistDerivative
       autoload :CharacterizationService
+      autoload :DetermineMimeType
+      autoload :DetermineOriginalName
     end
 
     ActiveFedora::WithMetadata::DefaultMetadataClassFactory.file_metadata_schemas +=
