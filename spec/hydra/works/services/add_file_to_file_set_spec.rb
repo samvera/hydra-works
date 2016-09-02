@@ -67,10 +67,10 @@ describe Hydra::Works::AddFileToFileSet do
     end
   end
 
-  context 'file responds to :path but not to :mime_type nor :original_name' do
-    it 'defaults to Hydra::PCDM for mimetype and ::File for basename.' do
-      expect(Hydra::PCDM::GetMimeTypeForFile).to receive(:call).with(file.path)
-      expect(::File).to receive(:basename).with(file.path)
+  context 'when determining mime type and name' do
+    it 'uses services to assign the values' do
+      expect(Hydra::Works::DetermineOriginalName).to receive(:call).with(file)
+      expect(Hydra::Works::DetermineMimeType).to receive(:call).with(file, nil)
       described_class.call(file_set, file, type)
     end
   end
