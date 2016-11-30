@@ -29,7 +29,7 @@ Check out the [Hydra::Derivatives README](https://github.com/projecthydra/hydra-
 
 Add these lines to your application's Gemfile:
 
-    gem 'hydra-works', '~> 0.1'
+    gem 'hydra-works', '~> 0.15'
 
 And then execute:
 
