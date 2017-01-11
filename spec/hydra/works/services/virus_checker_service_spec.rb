@@ -2,8 +2,14 @@ require 'spec_helper'
 
 describe Hydra::Works::VirusCheckerService do
   let(:system_virus_scanner) { double }
-  let(:file) { Hydra::PCDM::File.new { |f| f.content = File.new(File.join(fixture_path, 'sample-file.pdf')) } }
+  let(:file) { Hydra::PCDM::File.new }
   let(:virus_checker) { described_class.new(file, system_virus_scanner) }
+  let(:datastream) { instance_double "ActiveFedora::File::Streaming::FileBody" }
+
+  before do
+    allow(file).to receive(:stream).and_return(datastream)
+    allow(datastream).to receive(:each)
+  end
 
   context '.file_has_virus?' do
     it 'is a convenience method' do
