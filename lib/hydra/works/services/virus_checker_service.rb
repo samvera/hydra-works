@@ -30,8 +30,9 @@ module Hydra::Works
         return file.path if file.respond_to?(:path)
         Tempfile.open('') do |t|
           t.binmode
-          t.write(file.content.read)
-          file.content.rewind
+          file.stream.each do |chunk|
+            t.write(chunk)
+          end
           t.close
           t.path
         end
