@@ -2,6 +2,7 @@ require 'hydra/works/version'
 require 'hydra/pcdm'
 require 'hydra/derivatives'
 require 'rdf/vocab'
+require 'hydra/works/railtie' if defined?(Rails)
 
 module Hydra
   module Works

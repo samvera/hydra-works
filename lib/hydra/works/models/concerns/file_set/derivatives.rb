@@ -3,11 +3,6 @@ module Hydra::Works
     extend ActiveSupport::Concern
     include Hydra::Derivatives
 
-    included do
-      # Sets output_file_service to PersistDerivative instead of default Hydra::Derivatives::PersistBasicContainedOutputFileService
-      Hydra::Derivatives.output_file_service = Hydra::Works::PersistDerivative
-    end
-
     # Note, these derivatives are being fetched from Fedora, so there may be more
     # network traffic than necessary.  If you want to avoid this, set up a
     # source_file_service that fetches the files locally, as is done in CurationConcerns.
