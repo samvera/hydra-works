@@ -1,4 +1,5 @@
 require: rubocop-rspec
+inherit_from: .rubocop_todo.yml
 
 AllCops:
   DisplayCopNames: true
@@ -8,6 +9,17 @@ AllCops:
     - 'vendor/**/*'
     - 'spec/internal/bin/*'
     - 'spec/internal/db/schema.rb'
+
+Metrics/BlockLength:
+  Exclude:
+    - 'spec/**/*.rb'
+
+# By default RSpec/MessageSpies has the following:
+#   Prefer have_received for setting message expectations. Setup form as a spy using allow or instance_spy.
+# The default assumes EnforcedStyle is 'have_received'. Most of our specs are 'receive'
+RSpec/MessageSpies:
+  Enabled: true
+  EnforcedStyle: receive
 
 Metrics/LineLength:
   Enabled: false
