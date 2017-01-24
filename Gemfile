@@ -6,7 +6,7 @@ gemspec
 gem 'slop', '~> 3.6' # For byebug
 
 group :development, :test do
-  gem 'rubocop', '~> 0.37.2', require: false
+  gem 'rubocop', '~> 0.47.0', require: false
   gem 'rubocop-rspec', require: false
   gem 'pry' unless ENV['CI']
   gem 'pry-byebug' unless ENV['CI']
