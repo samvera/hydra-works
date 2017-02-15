@@ -48,6 +48,7 @@ module Hydra
     autoload_under 'services' do
       autoload :VirusCheckerService
       autoload :AddFileToFileSet
+      autoload :AddExternalFileToFileSet
       autoload :UploadFileToFileSet
       autoload :PersistDerivative
       autoload :CharacterizationService
