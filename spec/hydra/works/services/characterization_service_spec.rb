@@ -65,7 +65,7 @@ describe Hydra::Works::CharacterizationService do
     context "using a string path as the source." do
       it 'passes a file with the string as a path to FileCharacterization.' do
         path_on_disk = File.join(fixture_path, filename)
-        expect(Hydra::FileCharacterization).to receive(:characterize).with(file_content, filename, :fits)
+        expect(Hydra::FileCharacterization).to receive(:characterize).with(kind_of(File), filename, :fits)
         described_class.run(file, path_on_disk)
       end
     end
