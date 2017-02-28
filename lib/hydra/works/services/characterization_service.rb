@@ -36,7 +36,8 @@ module Hydra::Works
       # @return content of object if source is nil; otherwise, return a File or the source
       def source_to_content
         return object.content if source.nil?
-        return File.open(source).read if source.is_a? String
+        # do not read the file into memory It could be huge...
+        return File.open(source) if source.is_a? String
         source.rewind
         source.read
       end
