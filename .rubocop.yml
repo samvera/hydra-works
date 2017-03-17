@@ -7,8 +7,6 @@ AllCops:
     - '**/Rakefile'
   Exclude:
     - 'vendor/**/*'
-    - 'spec/internal/bin/*'
-    - 'spec/internal/db/schema.rb'
 
 Metrics/BlockLength:
   Exclude:
@@ -65,10 +63,6 @@ RSpec/FilePath:
 
 RSpec/InstanceVariable:
   Enabled: false
-
-RSpec/DescribedClass:
-  Exclude:
-    - spec/hydra/works/models/concerns/generic_file/characterization_spec.rb
 
 RSpec/AnyInstance:
   Exclude:
