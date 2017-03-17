@@ -7,7 +7,6 @@ AllCops:
     - '**/Rakefile'
   Exclude:
     - 'vendor/**/*'
-    - 'spec/internal/bin/*'
 
 Metrics/BlockLength:
   Exclude:
