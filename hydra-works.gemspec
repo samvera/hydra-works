@@ -2,6 +2,7 @@
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require 'hydra/works/version'
+DO_NOT_SHIP          = ['spec/fixtures/eicar.txt']
 
 Gem::Specification.new do |spec|
   spec.name          = 'hydra-works'
@@ -13,7 +14,7 @@ Gem::Specification.new do |spec|
   spec.homepage      = 'https://github.com/projecthydra-labs/hydra-works'
   spec.license       = 'APACHE2'
 
-  spec.files         = `git ls-files -z`.split("\x0")
+  spec.files         = `git ls-files -z`.split("\x0") - DO_NOT_SHIP    
   spec.executables   = spec.files.grep(%r{^bin/}) { |f| File.basename(f) }
   spec.test_files    = spec.files.grep(%r{^(test|spec|features)/})
   spec.require_paths = ['lib']
