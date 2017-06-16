@@ -1,7 +1,7 @@
 module Hydra::Works
   class DetermineOriginalName
     # Determines the original name for a given file
-    # @param [IO, File, Rack::Multipart::UploadedFile, #read] file
+    # @param [IO, File, Rack::Multipart::UploadedFile] file
     # @return [String]
     def self.call(file)
       return file.original_name if file.respond_to?(:original_name)
