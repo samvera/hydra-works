@@ -158,6 +158,16 @@ describe Hydra::Works::CharacterizationService do
         expect(file.sample_rate).to eq(["44100"])
       end
     end
+
+    context 'using multi-layer tiff metadata' do
+      let(:fits_filename) { 'fits_0.8.5_tiff.xml' }
+      let(:fits_response) { IO.read(File.join(fixture_path, fits_filename)) }
+
+      it 'assigns single largest value to width, height' do
+        expect(file.width).to eq(["2226"])
+        expect(file.height).to eq(["1650"])
+      end
+    end
   end
 
   describe 'assigned properties from fits 0.6.2' do
