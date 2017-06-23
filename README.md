@@ -1,14 +1,14 @@
 # Hydra::Works
 
 [![Version](https://badge.fury.io/rb/hydra-works.png)](http://badge.fury.io/rb/hydra-works)
-[![Build Status](https://travis-ci.org/projecthydra/hydra-works.svg?branch=master)](https://travis-ci.org/projecthydra/hydra-works)
-[![Coverage Status](https://coveralls.io/repos/projecthydra/hydra-works/badge.svg?branch=master)](https://coveralls.io/r/projecthydra/hydra-works?branch=master)
-[![Code Climate](https://codeclimate.com/github/projecthydra/hydra-works/badges/gpa.svg)](https://codeclimate.com/github/projecthydra/hydra-works)
+[![Build Status](https://travis-ci.org/samvera/hydra-works.svg?branch=master)](https://travis-ci.org/samvera/hydra-works)
+[![Coverage Status](https://coveralls.io/repos/samvera/hydra-works/badge.svg?branch=master)](https://coveralls.io/r/samvera/hydra-works?branch=master)
+[![Code Climate](https://codeclimate.com/github/samvera/hydra-works/badges/gpa.svg)](https://codeclimate.com/github/samvera/hydra-works)
 [![Apache 2.0 License](http://img.shields.io/badge/APACHE2-license-blue.svg)](./LICENSE)
 [![Contribution Guidelines](http://img.shields.io/badge/CONTRIBUTING-Guidelines-blue.svg)](./CONTRIBUTING.md)
 [![API Docs](http://img.shields.io/badge/API-docs-blue.svg)](http://rubydoc.info/gems/hydra-works)
 
-The Hydra::Works gem implements the [PCDM](https://github.com/duraspace/pcdm/wiki) [Works](https://github.com/duraspace/pcdm/blob/master/pcdm-ext/works.rdf) data model using ActiveFedora-based models. In addition to the models, Hydra::Works includes associated behaviors around the broad concept of describable "works" or intellectual entities, the need for which was expressed by a variety of [Hydra community use cases](https://github.com/projecthydra/hydra-works/tree/master/use-cases). The PCDM Works domain model includes the following high-level entities:
+The Hydra::Works gem implements the [PCDM](https://github.com/duraspace/pcdm/wiki) [Works](https://github.com/duraspace/pcdm/blob/master/pcdm-ext/works.rdf) data model using ActiveFedora-based models. In addition to the models, Hydra::Works includes associated behaviors around the broad concept of describable "works" or intellectual entities, the need for which was expressed by a variety of [Hydra community use cases](https://github.com/samvera/hydra-works/tree/master/use-cases). The PCDM Works domain model includes the following high-level entities:
 
  * **Collection**: a *pcdm:Collection* that indirectly contains zero or more **Works** and zero or more **Collection**s
  * **Work**: a *pcdm:Object* that holds zero or more **FileSets** and zero or more **Works**
@@ -23,7 +23,7 @@ Behaviors included in the model include:
  * Virus checking of original files
  * Full-text extraction from original files
 
-Check out the [Hydra::Derivatives README](https://github.com/projecthydra/hydra-derivatives#dependencies) for additional dependencies.
+Check out the [Hydra::Derivatives README](https://github.com/samvera/hydra-derivatives#dependencies) for additional dependencies.
 
 ## Installation
 
@@ -88,7 +88,7 @@ end
 
 ## Access controls
 
-We are using [Web ACL](http://www.w3.org/wiki/WebAccessControl) as implemented by [hydra-access-controls](https://github.com/projecthydra/hydra-head/tree/master/hydra-access-controls).
+We are using [Web ACL](http://www.w3.org/wiki/WebAccessControl) as implemented by [hydra-access-controls](https://github.com/samvera/hydra-head/tree/master/hydra-access-controls).
 
 ## How to contribute
 
