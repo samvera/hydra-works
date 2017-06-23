@@ -108,21 +108,22 @@ rake
 
 ### Testing manually
 
-If you want to run the tests manually, follow these instructions:
+If you want to run the tests manually, first run solr and FCRepo. To start solr:
 
 ```bash
-solr_wrapper -d solr/config/
+solr_wrapper -v -d solr/config/ -n hydra-test -p 8985
 ```
 
 To start FCRepo, open another shell and run:
 
 ```bash
-fcrepo_wrapper -p 8984
+fcrepo_wrapper -v -p 8986 --no-jms
 ```
+Note you won't find these ports mentioned in this codebase, as testing behavior is inherited from ActiveFedora.
 
 Now you’re ready to run the tests. In the directory where hydra-works
 is installed, run:
 
 ```bash
-rake spec
+rake works:spec
 ```
