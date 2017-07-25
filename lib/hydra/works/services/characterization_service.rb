@@ -101,7 +101,10 @@ module Hydra::Works
       end
 
       def append_property_value(property, value)
+        # We don't want multiple mime_types; this overwrites each time to accept last value
         value = object.send(property) + [value] unless property == :mime_type
+        # We don't want multiple heights / widths, pick the max
+        value = value.map(&:to_i).max.to_s if property == :height || property == :width
         object.send("#{property}=", value)
       end
   end

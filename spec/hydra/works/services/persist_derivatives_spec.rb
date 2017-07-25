@@ -39,7 +39,7 @@ describe Hydra::Works::PersistDerivative do
     context 'with a video (.avi) file' do
       let(:mime_type) { 'video/x-msvideo' }
       let(:file_name) { 'countdown.avi' }
-      let(:file_set) { Hydra::Works::FileSet.new(id: '01/00') }
+      let(:file_set) { Hydra::Works::FileSet.create(id: '01/00') }
 
       it 'lacks a thumbnail' do
         expect(file_set.thumbnail).to be_nil
@@ -55,7 +55,7 @@ describe Hydra::Works::PersistDerivative do
     context 'with an image file' do
       let(:mime_type) { 'image/png' }
       let(:file_name) { 'world.png' }
-      let(:file_set) { Hydra::Works::FileSet.new(id: '01/01') }
+      let(:file_set) { Hydra::Works::FileSet.create(id: '01/01') }
 
       it 'lacks a thumbnail' do
         expect(file_set.thumbnail).to be_nil
@@ -72,7 +72,7 @@ describe Hydra::Works::PersistDerivative do
     context 'with an audio (.wav) file' do
       let(:mime_type) { 'audio/wav' }
       let(:file_name) { 'piano_note.wav' }
-      let(:file_set) { Hydra::Works::FileSet.new(id: '01/02') }
+      let(:file_set) { Hydra::Works::FileSet.create(id: '01/02') }
 
       it 'lacks a thumbnail' do
         expect(file_set.thumbnail).to be_nil
@@ -87,7 +87,7 @@ describe Hydra::Works::PersistDerivative do
     context 'with an image (.jp2) file' do
       let(:mime_type) { 'image/jp2' }
       let(:file_name) { 'image.jp2' }
-      let(:file_set) { Hydra::Works::FileSet.new(id: '01/03') }
+      let(:file_set) { Hydra::Works::FileSet.create(id: '01/03') }
 
       it 'lacks a thumbnail' do
         expect(file_set.thumbnail).to be_nil
@@ -103,7 +103,7 @@ describe Hydra::Works::PersistDerivative do
     context 'with an office document (.docx) file' do
       let(:mime_type) { 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' }
       let(:file_name) { 'charter.docx' }
-      let(:file_set) { Hydra::Works::FileSet.new(id: '01/04') }
+      let(:file_set) { Hydra::Works::FileSet.create(id: '01/04') }
 
       it 'lacks a thumbnail' do
         expect(file_set.thumbnail).to be_nil
@@ -120,7 +120,7 @@ describe Hydra::Works::PersistDerivative do
     context 'with a pdf document (.pdf) file' do
       let(:mime_type) { 'application/pdf' }
       let(:file_name) { 'sample-file.pdf' }
-      let(:file_set) { Hydra::Works::FileSet.new(id: '01/05') }
+      let(:file_set) { Hydra::Works::FileSet.create(id: '01/05') }
 
       it 'lacks a thumbnail' do
         expect(file_set.thumbnail).to be_nil
