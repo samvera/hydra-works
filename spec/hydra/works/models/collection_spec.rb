@@ -118,6 +118,18 @@ describe Hydra::Works::Collection do
     it { is_expected.to eq [collection1] }
   end
 
+  describe 'member_of_collections' do
+    let(:collection1) { described_class.create }
+    before do
+      collection.member_of_collections = [collection1]
+    end
+
+    it 'is a member of the collection' do
+      expect(collection.member_of_collections).to eq [collection1]
+      expect(collection.member_of_collection_ids).to eq [collection1.id]
+    end
+  end
+
   describe 'adding file_sets to collections' do
     let(:file_set) { Hydra::Works::FileSet.new }
     let(:exception) { ActiveFedora::AssociationTypeMismatch }
