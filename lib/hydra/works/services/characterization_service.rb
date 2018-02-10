@@ -62,6 +62,7 @@ module Hydra::Works
       def parse_metadata(metadata)
         omdoc = parser_class.new
         omdoc.ng_xml = Nokogiri::XML(metadata) if metadata.present?
+        omdoc.__cleanup__ if omdoc.respond_to? :__cleanup__
         characterization_terms(omdoc)
       end
 
