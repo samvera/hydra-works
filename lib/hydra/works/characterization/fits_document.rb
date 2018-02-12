@@ -146,6 +146,20 @@ module Hydra::Works::Characterization
       t.frame_rate(proxy: [:metadata, :video, :frame_rate])
     end
 
+    # Cleanup phase; ugly name to avoid collisions.
+    # The send construct here is required to fix up values because the setters
+    # are not defined, but rather applied with method_missing.
+    def __cleanup__
+      # Sometimes, FITS reports the mimetype attribute as a comma-separated string.
+      # All terms are arrays and, in this case, there is only one element, so scan the first.
+      if file_mime_type.present? && file_mime_type.first.include?(',')
+        send("file_mime_type=", [file_mime_type.first.split(',').first])
+      end
+
+      # Add any other scrubbers here; don't return any particular value
+      nil
+    end
+
     def self.xml_template
       builder = Nokogiri::XML::Builder.new do |xml|
         xml.fits(xmlns: 'http://hul.harvard.edu/ois/xml/ns/fits/fits_output',

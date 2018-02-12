@@ -123,6 +123,15 @@ describe Hydra::Works::CharacterizationService do
       end
     end
 
+    context 'using netCDF metadata' do
+      let(:fits_filename) { 'fits_netcdf_two_mimetypes.xml' }
+      let(:fits_response) { IO.read(File.join(fixture_path, fits_filename)) }
+
+      it 'reports the correct, single MIME type' do
+        expect(file.mime_type).to eq("application/netcdf")
+      end
+    end
+
     context 'using image metadata' do
       let(:fits_filename) { 'fits_0.8.5_jp2.xml' }
       let(:fits_response) { IO.read(File.join(fixture_path, fits_filename)) }
