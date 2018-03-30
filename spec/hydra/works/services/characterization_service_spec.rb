@@ -145,6 +145,18 @@ describe Hydra::Works::CharacterizationService do
         expect(file.color_space).to eq(["sRGB"])
       end
     end
+    
+    context 'using image metadata' do
+      let(:fits_filename) { 'fits_1.2.0_jpg.xml' }
+      let(:fits_response) { IO.read(File.join(fixture_path, fits_filename)) }
+
+      it 'ensures duplicate values are not returned for exifVersion, dateCreated, dateModified.' do
+        expect(file.exif_version).to eq(["0221"])
+        expect(file.date_created).to eq(["2009:02:04 11:05:25.36-06:00"])
+        expect(file.date_modified).to eq(["2009:02:04 16:10:47"])
+      end
+    end
+    
     context 'using video metadata' do
       let(:fits_filename) { 'fits_0.8.5_avi.xml' }
       let(:fits_response) { IO.read(File.join(fixture_path, fits_filename)) }
