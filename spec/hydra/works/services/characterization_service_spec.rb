@@ -145,7 +145,7 @@ describe Hydra::Works::CharacterizationService do
         expect(file.color_space).to eq(["sRGB"])
       end
     end
-    
+
     context 'using image metadata' do
       let(:fits_filename) { 'fits_1.2.0_jpg.xml' }
       let(:fits_response) { IO.read(File.join(fixture_path, fits_filename)) }
@@ -156,7 +156,7 @@ describe Hydra::Works::CharacterizationService do
         expect(file.date_modified).to eq(["2009:02:04 16:10:47"])
       end
     end
-    
+
     context 'using video metadata' do
       let(:fits_filename) { 'fits_0.8.5_avi.xml' }
       let(:fits_response) { IO.read(File.join(fixture_path, fits_filename)) }
