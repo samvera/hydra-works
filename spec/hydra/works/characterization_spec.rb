@@ -79,7 +79,6 @@ describe Hydra::Works::Characterization do
       [
         :audio_duration,
         :audio_sample_rate,
-        :exif_tool_version,
         :file_author,
         :file_language,
         :file_mime_type,
