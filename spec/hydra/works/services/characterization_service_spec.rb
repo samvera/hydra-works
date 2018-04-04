@@ -158,7 +158,7 @@ describe Hydra::Works::CharacterizationService do
     end
 
     context 'using video metadata' do
-      let(:fits_filename) { 'fits_0.8.5_avi.xml' }
+      let(:fits_filename) { 'fits_1.2.0_avi.xml' }
       let(:fits_response) { IO.read(File.join(fixture_path, fits_filename)) }
 
       it 'assigns expected values to video properties.' do
@@ -170,7 +170,7 @@ describe Hydra::Works::CharacterizationService do
       end
     end
     context 'using audio metadata' do
-      let(:fits_filename) { 'fits_0.8.5_mp3.xml' }
+      let(:fits_filename) { 'fits_1.2.0_mp3.xml' }
       let(:fits_response) { IO.read(File.join(fixture_path, fits_filename)) }
 
       it 'assigns expected values to audio properties.' do
