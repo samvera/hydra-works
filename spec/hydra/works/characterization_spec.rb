@@ -60,14 +60,17 @@ describe Hydra::Works::Characterization do
       it { is_expected.to respond_to(:height) }
       it { is_expected.to respond_to(:width) }
       it { is_expected.to respond_to(:frame_rate) }
+      it { is_expected.to respond_to(:bit_rate) }
       it { is_expected.to respond_to(:duration) }
       it { is_expected.to respond_to(:sample_rate) }
+      it { is_expected.to respond_to(:aspect_ratio) }
     end
     context "with Audio schema" do
       it { is_expected.to respond_to(:bit_depth) }
       it { is_expected.to respond_to(:channels) }
       it { is_expected.to respond_to(:data_format) }
       it { is_expected.to respond_to(:frame_rate) }
+      it { is_expected.to respond_to(:bit_rate) }
       it { is_expected.to respond_to(:duration) }
       it { is_expected.to respond_to(:sample_rate) }
       it { is_expected.to respond_to(:offset) }
@@ -77,16 +80,21 @@ describe Hydra::Works::Characterization do
   describe "::mapper" do
     let(:mapper_keys) do
       [
-        :audio_duration,
-        :audio_sample_rate,
         :file_author,
         :file_language,
         :file_mime_type,
+        :audio_duration,
+        :audio_sample_rate,
+        :audio_bit_rate,
         :video_audio_sample_rate,
+        :track_frame_rate,
         :video_duration,
-        :video_height,
         :video_sample_rate,
-        :video_width
+        :video_bit_rate,
+        :video_width,
+        :video_track_width,
+        :video_height,
+        :video_track_height
       ]
     end
     subject { described_class.mapper.keys }

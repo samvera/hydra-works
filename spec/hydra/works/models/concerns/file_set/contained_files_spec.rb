@@ -1,21 +1,8 @@
 require 'spec_helper'
 
 describe Hydra::Works::ContainedFiles do
-  let(:file_set) do
-    Hydra::Works::FileSet.create
-  end
-
-  let(:thumbnail) do
-    file = file_set.files.build
-    Hydra::PCDM::AddTypeToFile.call(file, pcdm_thumbnail_uri)
-  end
-
-  let(:file)                { file_set.files.build }
-  let(:pcdm_thumbnail_uri)  { ::RDF::URI('http://pcdm.org/use#ThumbnailImage') }
-
-  before do
-    file_set.files = [file]
-  end
+  let(:file_set) { Hydra::Works::FileSet.create }
+  let(:pcdm_thumbnail_uri) { ::RDF::URI('http://pcdm.org/use#ThumbnailImage') }
 
   describe '#thumbnail' do
     context 'when a thumbnail is present' do
@@ -63,7 +50,7 @@ describe Hydra::Works::ContainedFiles do
       end
       it 'retains origin pcdm.File RDF type' do
         expect(subject.metadata_node.type).to include(::RDF::URI('http://pcdm.org/use#OriginalFile'))
-        expect(file_set.original_file.metadata_node.type).to include(Hydra::PCDM::Vocab::PCDMTerms.File)
+        expect(subject.metadata_node.type).to include(Hydra::PCDM::Vocab::PCDMTerms.File)
       end
     end
 
