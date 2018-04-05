@@ -78,12 +78,17 @@ module Hydra::Works::Characterization
           t.offset(path: 'offset')
         end
         t.video do
-          t.width(path: 'imageWidth')
-          t.height(path: 'imageHeight')
           t.duration(path: 'duration')
-          t.sample_rate(path: 'sampleRate')
-          t.audio_sample_rate(path: 'audioSampleRate')
-          t.frame_rate(path: 'frameRate')
+          t.bitRate(path: 'bitRate')
+          t.track(path: 'track', attributes: { type: 'video' }) {
+            t.width(path: 'width')
+            t.height(path: 'height')
+            t.aspectRatio(path: 'aspectRatio')
+            # sampleRate doesn't exist in video track, there is a samplingRate in audio track
+            # t.sample_rate(path: 'sampleRate')
+            # t.audio_sample_rate(path: 'audioSampleRate')
+            t.frame_rate(path: 'frameRate')
+          }
         end
       end
       # fits_version needs a different name than it's target node since they're at the same level
