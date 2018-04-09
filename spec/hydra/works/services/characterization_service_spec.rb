@@ -158,7 +158,7 @@ describe Hydra::Works::CharacterizationService do
     end
 
     context 'using video metadata' do
-      let(:fits_filename) { 'fits_1.2.0_avi.xml' }
+      let(:fits_filename) { 'fits_0.8.5_avi.xml' }
       let(:fits_response) { IO.read(File.join(fixture_path, fits_filename)) }
 
       it 'assigns expected values to video properties.' do
@@ -169,6 +169,31 @@ describe Hydra::Works::CharacterizationService do
         expect(file.sample_rate).to eq(["11025"])
       end
     end
+
+    context 'using video metadata' do
+      let(:fits_filename) { 'fits_1.2.0_avi.xml' }
+      let(:fits_response) { IO.read(File.join(fixture_path, fits_filename)) }
+
+      it 'assigns expected values to video properties.' do
+        expect(file.height).to eq(["264"])
+        expect(file.width).to eq(["356"])
+        expect(file.duration).to eq(["14148"])
+        expect(file.frame_rate).to eq(["10.000"])
+        expect(file.aspect_ratio).to eq(["4:3"])
+      end
+    end
+
+    context 'using audio metadata' do
+      let(:fits_filename) { 'fits_0.8.5_mp3.xml' }
+      let(:fits_response) { IO.read(File.join(fixture_path, fits_filename)) }
+
+      it 'assigns expected values to audio properties.' do
+        expect(file.mime_type).to eq("audio/mpeg")
+        expect(file.duration).to eq(["0:0:15:261"])
+        expect(file.sample_rate).to eq(["44100"])
+      end
+    end
+
     context 'using audio metadata' do
       let(:fits_filename) { 'fits_1.2.0_mp3.xml' }
       let(:fits_response) { IO.read(File.join(fixture_path, fits_filename)) }

@@ -78,15 +78,17 @@ module Hydra::Works::Characterization
           t.offset(path: 'offset')
         end
         t.video do
+          t.width(path: 'imageWidth') # for fits_0.8.5
+          t.height(path: 'imageHeight') # for fits_0.8.5
           t.duration(path: 'duration')
-          t.bitRate(path: 'bitRate')
-          t.track(path: 'track', attributes: { type: 'video' }) {
+          t.bitRate(path: 'bitRate')  # for fits_1.2.0
+          t.sample_rate(path: 'sampleRate') # for fits_0.8.5
+          t.audio_sample_rate(path: 'audioSampleRate')  # for fits_0.8.5
+          t.frame_rate(path: 'frameRate')  # for fits_0.8.5
+          t.track(path: 'track', attributes: { type: 'video' }) { # for fits_1.2.0
             t.width(path: 'width')
             t.height(path: 'height')
-            t.aspectRatio(path: 'aspectRatio')
-            # sampleRate doesn't exist in video track, there is a samplingRate in audio track
-            # t.sample_rate(path: 'sampleRate')
-            # t.audio_sample_rate(path: 'audioSampleRate')
+            t.aspect_ratio(path: 'aspectRatio')
             t.frame_rate(path: 'frameRate')
           }
         end
@@ -122,8 +124,10 @@ module Hydra::Works::Characterization
       t.compression(proxy: [:metadata, :image, :compression])
       t.width(proxy: [:metadata, :image, :width])
       t.video_width(proxy: [:metadata, :video, :width])
+      t.video_track_width(proxy: [:metadata, :video, :track, :width])
       t.height(proxy: [:metadata, :image, :height])
       t.video_height(proxy: [:metadata, :video, :height])
+      t.video_track_height(proxy: [:metadata, :video, :track, :height])
       t.color_space(proxy: [:metadata, :image, :color_space])
       t.profile_name(proxy: [:metadata, :image, :profile_name])
       t.profile_version(proxy: [:metadata, :image, :profile_version])
@@ -149,6 +153,8 @@ module Hydra::Works::Characterization
       t.data_format(proxy: [:metadata, :audio, :data_format])
       t.offset(proxy: [:metadata, :audio, :offset])
       t.frame_rate(proxy: [:metadata, :video, :frame_rate])
+      t.track_frame_rate(proxy: [:metadata, :video, :track, :frame_rate])
+      t.aspect_ratio(proxy: [:metadata, :video, :track, :aspect_ratio])
     end
 
     # Cleanup phase; ugly name to avoid collisions.

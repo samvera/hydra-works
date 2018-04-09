@@ -5,5 +5,6 @@ module Hydra::Works::Characterization
     property :frame_rate, predicate: RDF::Vocab::NFO.frameRate
     property :duration, predicate: RDF::Vocab::NFO.duration
     property :sample_rate, predicate: RDF::Vocab::EBUCore.sampleRate
+    property :aspect_ratio, predicate: RDF::Vocab::EBUCore.aspectRatio
   end
 end
