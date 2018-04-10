@@ -133,75 +133,78 @@ describe Hydra::Works::CharacterizationService do
     end
 
     context 'using image metadata' do
-      let(:fits_filename) { 'fits_0.8.5_jp2.xml' }
       let(:fits_response) { IO.read(File.join(fixture_path, fits_filename)) }
 
-      it 'assigns expected values to image properties.' do
-        expect(file.file_size).to eq(["11043"])
-        expect(file.byte_order).to eq(["big endian"])
-        expect(file.compression).to contain_exactly("JPEG 2000 Lossless", "JPEG 2000")
-        expect(file.width).to eq(["512"])
-        expect(file.height).to eq(["465"])
-        expect(file.color_space).to eq(["sRGB"])
+      context 'with fits_0.8.5' do
+        let(:fits_filename) { 'fits_0.8.5_jp2.xml' }
+        it 'assigns expected values to image properties.' do
+          expect(file.file_size).to eq(["11043"])
+          expect(file.byte_order).to eq(["big endian"])
+          expect(file.compression).to contain_exactly("JPEG 2000 Lossless", "JPEG 2000")
+          expect(file.width).to eq(["512"])
+          expect(file.height).to eq(["465"])
+          expect(file.color_space).to eq(["sRGB"])
+        end
       end
-    end
 
-    context 'using image metadata' do
-      let(:fits_filename) { 'fits_1.2.0_jpg.xml' }
-      let(:fits_response) { IO.read(File.join(fixture_path, fits_filename)) }
-
-      it 'ensures duplicate values are not returned for exifVersion, dateCreated, dateModified.' do
-        expect(file.exif_version).to eq(["0221"])
-        expect(file.date_created).to eq(["2009:02:04 11:05:25.36-06:00"])
-        expect(file.date_modified).to eq(["2009:02:04 16:10:47"])
-      end
-    end
-
-    context 'using video metadata' do
-      let(:fits_filename) { 'fits_0.8.5_avi.xml' }
-      let(:fits_response) { IO.read(File.join(fixture_path, fits_filename)) }
-
-      it 'assigns expected values to video properties.' do
-        expect(file.height).to eq(["264"])
-        expect(file.width).to eq(["356"])
-        expect(file.duration).to eq(["14.10 s"])
-        expect(file.frame_rate).to eq(["10"])
-        expect(file.sample_rate).to eq(["11025"])
+      context 'with fits_1.2.0' do
+        let(:fits_filename) { 'fits_1.2.0_jpg.xml' }
+        it 'ensures duplicate values are not returned for exifVersion, dateCreated, dateModified.' do
+          expect(file.exif_version).to eq(["0221"])
+          expect(file.date_created).to eq(["2009:02:04 11:05:25.36-06:00"])
+          expect(file.date_modified).to eq(["2009:02:04 16:10:47"])
+        end
       end
     end
 
     context 'using video metadata' do
-      let(:fits_filename) { 'fits_1.2.0_avi.xml' }
       let(:fits_response) { IO.read(File.join(fixture_path, fits_filename)) }
 
-      it 'assigns expected values to video properties.' do
-        expect(file.height).to eq(["264"])
-        expect(file.width).to eq(["356"])
-        expect(file.duration).to eq(["14148"])
-        expect(file.frame_rate).to eq(["10.000"])
-        expect(file.aspect_ratio).to eq(["4:3"])
+      context 'with fits_0.8.5' do
+        let(:fits_filename) { 'fits_0.8.5_avi.xml' }
+        it 'assigns expected values to video properties.' do
+          expect(file.height).to eq(["264"])
+          expect(file.width).to eq(["356"])
+          expect(file.duration).to eq(["14.10 s"])
+          expect(file.frame_rate).to eq(["10"])
+          expect(file.sample_rate).to eq(["11025"])
+        end
+      end
+
+      context 'with fits_1.2.0' do
+        let(:fits_filename) { 'fits_1.2.0_avi.xml' }
+        it 'assigns expected values to video properties.' do
+          expect(file.height).to eq(["264"])
+          expect(file.width).to eq(["356"])
+          expect(file.duration).to eq(["14148"])
+          expect(file.frame_rate).to eq(["10.000"])
+          expect(file.bit_rate).to eq(["409204"])
+          expect(file.aspect_ratio).to eq(["4:3"])
+        end
       end
     end
 
     context 'using audio metadata' do
-      let(:fits_filename) { 'fits_0.8.5_mp3.xml' }
       let(:fits_response) { IO.read(File.join(fixture_path, fits_filename)) }
 
-      it 'assigns expected values to audio properties.' do
-        expect(file.mime_type).to eq("audio/mpeg")
-        expect(file.duration).to eq(["0:0:15:261"])
-        expect(file.sample_rate).to eq(["44100"])
+      context 'with fits_0.8.5' do
+        let(:fits_filename) { 'fits_0.8.5_mp3.xml' }
+        it 'assigns expected values to audio properties.' do
+          expect(file.mime_type).to eq("audio/mpeg")
+          expect(file.duration).to eq(["0:0:15:261"])
+          expect(file.bit_rate).to include("192000")
+          expect(file.sample_rate).to eq(["44100"])
+        end
       end
-    end
 
-    context 'using audio metadata' do
-      let(:fits_filename) { 'fits_1.2.0_mp3.xml' }
-      let(:fits_response) { IO.read(File.join(fixture_path, fits_filename)) }
-
-      it 'assigns expected values to audio properties.' do
-        expect(file.mime_type).to eq("audio/mpeg")
-        expect(file.duration).to eq(["0:0:15:261"])
-        expect(file.sample_rate).to eq(["44100"])
+      context 'with fits_1.2.0' do
+        let(:fits_filename) { 'fits_1.2.0_mp3.xml' }
+        it 'assigns expected values to audio properties.' do
+          expect(file.mime_type).to eq("audio/mpeg")
+          expect(file.duration).to eq(["0:0:15:261"])
+          expect(file.bit_rate).to include("192000")
+          expect(file.sample_rate).to eq(["44100"])
+        end
       end
     end
 

@@ -72,6 +72,7 @@ module Hydra::Works::Characterization
         t.audio do
           t.duration(path: 'duration')
           t.bit_depth(path: 'bitDepth')
+          t.bit_rate(path: 'bitRate')
           t.sample_rate(path: 'sampleRate')
           t.channels(path: 'channels')
           t.data_format(path: 'dataFormatType')
@@ -81,7 +82,7 @@ module Hydra::Works::Characterization
           t.width(path: 'imageWidth') # for fits_0.8.5
           t.height(path: 'imageHeight') # for fits_0.8.5
           t.duration(path: 'duration')
-          t.bitRate(path: 'bitRate')  # for fits_1.2.0
+          t.bit_rate(path: 'bitRate')  # for fits_1.2.0
           t.sample_rate(path: 'sampleRate') # for fits_0.8.5
           t.audio_sample_rate(path: 'audioSampleRate')  # for fits_0.8.5
           t.frame_rate(path: 'frameRate')  # for fits_0.8.5
@@ -153,6 +154,8 @@ module Hydra::Works::Characterization
       t.data_format(proxy: [:metadata, :audio, :data_format])
       t.offset(proxy: [:metadata, :audio, :offset])
       t.frame_rate(proxy: [:metadata, :video, :frame_rate])
+      t.audio_bit_rate(proxy: [:metadata, :audio, :bit_rate])
+      t.video_bit_rate(proxy: [:metadata, :video, :bit_rate])
       t.track_frame_rate(proxy: [:metadata, :video, :track, :frame_rate])
       t.aspect_ratio(proxy: [:metadata, :video, :track, :aspect_ratio])
     end

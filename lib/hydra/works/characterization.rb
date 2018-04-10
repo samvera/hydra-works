@@ -12,7 +12,8 @@ module Hydra::Works
         { audio_duration: :duration, audio_sample_rate: :sample_rate,
           file_author: :creator, file_language: :language, file_mime_type: :mime_type,
           video_audio_sample_rate: :sample_rate, video_duration: :duration, video_height: :height, video_track_height: :height,
-          video_sample_rate: :sample_rate, video_width: :width, video_track_width: :width, track_frame_rate: :frame_rate }
+          video_sample_rate: :sample_rate, video_width: :width, video_track_width: :width, track_frame_rate: :frame_rate,
+          audio_bit_rate: :bit_rate, video_bit_rate: :bit_rate }
       end
     end
 
