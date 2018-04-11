@@ -81,20 +81,25 @@ describe Hydra::Works::CharacterizationService do
   end
 
   context "passing an object that does not have matching properties" do
-    let!(:current_schemas) { ActiveFedora::WithMetadata::DefaultMetadataClassFactory.file_metadata_schemas }
-
     let(:characterization) { class_double("Hydra::FileCharacterization").as_stubbed_const }
     let(:fits_filename)    { 'fits_0.8.5_pdf.xml' }
     let(:fits_response)    { IO.read(File.join(fixture_path, fits_filename)) }
     let(:file_content)     { 'dummy content' }
     let(:file)             { Hydra::PCDM::File.new { |f| f.content = file_content } }
 
-    before do
+    before(:all) do
+      @current_schemas = ActiveFedora::WithMetadata::DefaultMetadataClassFactory.file_metadata_schemas
       ActiveFedora::WithMetadata::DefaultMetadataClassFactory.file_metadata_schemas = [ActiveFedora::WithMetadata::DefaultSchema]
-      allow(characterization).to receive(:characterize).and_return(fits_response)
     end
-    after do
-      ActiveFedora::WithMetadata::DefaultMetadataClassFactory.file_metadata_schemas = [current_schemas]
+
+    after(:all) do
+      ActiveFedora::WithMetadata::DefaultMetadataClassFactory.file_metadata_schemas = @current_schemas
+      # This next line required to force the regeneration of the metadata schema class used by Hydra::PCDM::File
+      Hydra::PCDM::File.instance_variable_set(:@metadata_schema, nil)
+    end
+
+    before do
+      allow(characterization).to receive(:characterize).and_return(fits_response)
     end
 
     it 'does not explode with an error' do
