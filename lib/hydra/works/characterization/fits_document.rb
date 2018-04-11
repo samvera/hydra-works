@@ -82,16 +82,16 @@ module Hydra::Works::Characterization
           t.width(path: 'imageWidth') # for fits_0.8.5
           t.height(path: 'imageHeight') # for fits_0.8.5
           t.duration(path: 'duration')
-          t.bit_rate(path: 'bitRate')  # for fits_1.2.0
+          t.bit_rate(path: 'bitRate') # for fits_1.2.0
           t.sample_rate(path: 'sampleRate') # for fits_0.8.5
-          t.audio_sample_rate(path: 'audioSampleRate')  # for fits_0.8.5
-          t.frame_rate(path: 'frameRate')  # for fits_0.8.5
-          t.track(path: 'track', attributes: { type: 'video' }) { # for fits_1.2.0
+          t.audio_sample_rate(path: 'audioSampleRate') # for fits_0.8.5
+          t.frame_rate(path: 'frameRate') # for fits_0.8.5
+          t.track(path: 'track', attributes: { type: 'video' }) do # for fits_1.2.0
             t.width(path: 'width')
             t.height(path: 'height')
             t.aspect_ratio(path: 'aspectRatio')
             t.frame_rate(path: 'frameRate')
-          }
+          end
         end
       end
       # fits_version needs a different name than it's target node since they're at the same level
