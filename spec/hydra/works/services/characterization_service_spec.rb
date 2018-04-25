@@ -87,12 +87,10 @@ describe Hydra::Works::CharacterizationService do
     let(:file_content)     { 'dummy content' }
     let(:file)             { Hydra::PCDM::File.new { |f| f.content = file_content } }
 
-    before(:all) do
+    around do |example|
       @current_schemas = ActiveFedora::WithMetadata::DefaultMetadataClassFactory.file_metadata_schemas
       ActiveFedora::WithMetadata::DefaultMetadataClassFactory.file_metadata_schemas = [ActiveFedora::WithMetadata::DefaultSchema]
-    end
-
-    after(:all) do
+      example.run
       ActiveFedora::WithMetadata::DefaultMetadataClassFactory.file_metadata_schemas = @current_schemas
       # This next line required to force the regeneration of the metadata schema class used by Hydra::PCDM::File
       Hydra::PCDM::File.instance_variable_set(:@metadata_schema, nil)
