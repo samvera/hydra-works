@@ -11,5 +11,3 @@ group :development, :test do
   gem 'pry' unless ENV['CI']
   gem 'pry-byebug' unless ENV['CI']
 end
-
-gem 'hydra-pcdm', git: 'https://github.com/samvera/hydra-pcdm.git', branch: 'nested_collection_reverse_relationship'
