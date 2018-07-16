@@ -11,6 +11,71 @@ module Hydra::Works
     end
 
     attr_accessor :object, :source, :mapping, :parser_class, :tools
+    class_attribute :terms
+    self.terms = %i(
+      fits_version
+      format_label
+      file_mime_type
+      exif_tool_version
+      file_size
+      date_modified
+      filename
+      original_checksum
+      date_created
+      rights_basis
+      copyright_basis
+      copyright_note
+      well_formed
+      valid
+      filestatus_message
+      file_title
+      file_author
+      page_count
+      file_language
+      word_count
+      character_count
+      paragraph_count
+      line_count
+      table_count
+      graphics_count
+      byte_order
+      compression
+      width
+      video_width
+      video_track_width
+      height
+      video_height
+      video_track_height
+      color_space
+      profile_name
+      profile_version
+      orientation
+      color_map
+      image_producer
+      capture_device
+      scanning_software
+      exif_version
+      gps_timestamp
+      latitude
+      longitude
+      character_set
+      markup_basis
+      markup_language
+      audio_duration
+      video_duration
+      bit_depth
+      audio_sample_rate
+      video_sample_rate
+      video_audio_sample_rate
+      channels
+      data_format
+      offset
+      frame_rate
+      audio_bit_rate
+      video_bit_rate
+      track_frame_rate
+      aspect_ratio
+    )
 
     def initialize(object, source, options)
       @object       = object
@@ -58,27 +123,24 @@ module Hydra::Works
         end
       end
 
-      # Use OM to parse metadata
+      # Use Happymapper to parse metadata
       def parse_metadata(metadata)
-        omdoc = parser_class.new
-        omdoc.ng_xml = Nokogiri::XML(metadata) if metadata.present?
-        omdoc.__cleanup__ if omdoc.respond_to? :__cleanup__
-        characterization_terms(omdoc)
+        doc = parser_class.new
+        doc.parse(metadata) if metadata.present?
+        characterization_terms(doc)
       end
 
       # Get proxy terms and values from the parser
-      def characterization_terms(omdoc)
+      def characterization_terms(doc)
         h = {}
-        omdoc.class.terminology.terms.each_pair do |key, target|
-          # a key is a proxy if its target responds to proxied_term
-          next unless target.respond_to? :proxied_term
+        terms.each do |key|
           begin
-            h[key] = omdoc.send(key)
+            h[key] = doc.public_send(key)
           rescue NoMethodError
             next
           end
         end
-        h.delete_if { |_k, v| v.empty? }
+        h.delete_if { |_k, v| v.blank? }
       end
 
       # Assign values of the instance properties from the metadata mapping :prop => val
@@ -103,7 +165,7 @@ module Hydra::Works
 
       def append_property_value(property, value)
         # We don't want multiple mime_types; this overwrites each time to accept last value
-        value = object.send(property) + [value] unless property == :mime_type
+        value = object.public_send(property) + [value] unless property == :mime_type
         # We don't want multiple heights / widths, pick the max
         value = value.map(&:to_i).max.to_s if property == :height || property == :width
         object.send("#{property}=", value)
