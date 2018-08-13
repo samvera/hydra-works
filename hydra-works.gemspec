@@ -9,9 +9,9 @@ Gem::Specification.new do |spec|
   spec.version       = Hydra::Works::VERSION
   spec.authors       = ['Justin Coyne']
   spec.email         = ['justin@curationexperts.com']
-  spec.summary       = %q{Fundamental repository data model for hydra}
-  spec.description   = %q{Using this data model should enable easy collaboration amongst hydra projects.}
-  spec.homepage      = 'https://github.com/projecthydra-labs/hydra-works'
+  spec.summary       = %q{Fundamental repository data model for Samvera applications}
+  spec.description   = %q{Using this data model should enable easy collaboration amongst Samvera projects.}
+  spec.homepage      = 'https://github.com/samvera/hydra-works'
   spec.license       = 'APACHE2'
 
   spec.files         = `git ls-files -z`.split("\x0") - DO_NOT_SHIP    

@@ -15,7 +15,7 @@ module Hydra::Works
       versioning = opts.fetch(:versioning, true)
       filename = opts.fetch(:filename, external_file_url)
 
-      # TODO: required as a workaround for https://github.com/projecthydra/active_fedora/pull/858
+      # TODO: required as a workaround for https://github.com/samvera/active_fedora/pull/858
       file_set.save unless file_set.persisted?
 
       updater_class = versioning ? VersioningUpdater : Updater
