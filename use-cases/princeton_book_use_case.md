@@ -114,4 +114,4 @@ Can have one or more physical volumes. Below assumes this is the case.
 
 ## Proposal
 
-No doubt there are other ways, but I feel confident that [this approach](https://github.com/projecthydra-labs/hydra-works/issues/9#issuecomment-58511913) would solve all of the above use cases. Validations included in subclasses of Hydra::Work would serve to constrain recursion.
+No doubt there are other ways, but I feel confident that [this approach](https://github.com/samvera/hydra-works/issues/9#issuecomment-58511913) would solve all of the above use cases. Validations included in subclasses of Hydra::Work would serve to constrain recursion.

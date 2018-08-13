@@ -8,7 +8,7 @@
 [![Contribution Guidelines](http://img.shields.io/badge/CONTRIBUTING-Guidelines-blue.svg)](./CONTRIBUTING.md)
 [![API Docs](http://img.shields.io/badge/API-docs-blue.svg)](http://rubydoc.info/gems/hydra-works)
 
-The Hydra::Works gem implements the [PCDM](https://github.com/duraspace/pcdm/wiki) [Works](https://github.com/duraspace/pcdm/blob/master/pcdm-ext/works.rdf) data model using ActiveFedora-based models. In addition to the models, Hydra::Works includes associated behaviors around the broad concept of describable "works" or intellectual entities, the need for which was expressed by a variety of [Hydra community use cases](https://github.com/samvera/hydra-works/tree/master/use-cases). The PCDM Works domain model includes the following high-level entities:
+The Hydra::Works gem implements the [PCDM](https://github.com/duraspace/pcdm/wiki) [Works](https://github.com/duraspace/pcdm/blob/master/pcdm-ext/works.rdf) data model using ActiveFedora-based models. In addition to the models, Hydra::Works includes associated behaviors around the broad concept of describable "works" or intellectual entities, the need for which was expressed by a variety of [Samvera community use cases](https://github.com/samvera/hydra-works/tree/master/use-cases). The PCDM Works domain model includes the following high-level entities:
 
  * **Collection**: a *pcdm:Collection* that indirectly contains zero or more **Works** and zero or more **Collection**s
  * **Work**: a *pcdm:Object* that holds zero or more **FileSets** and zero or more **Works**
