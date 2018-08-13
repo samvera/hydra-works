@@ -1,190 +1,178 @@
-require 'om'
+require 'happymapper'
 
 module Hydra::Works::Characterization
   class FitsDocument
-    include OM::XML::Document
+    include HappyMapper
+    class Identification
+      include HappyMapper
 
-    set_terminology do |t|
-      t.root(path: 'fits',
-             xmlns: 'http://hul.harvard.edu/ois/xml/ns/fits/fits_output',
-             schema: 'http://hul.harvard.edu/ois/xml/xsd/fits/fits_output.xsd')
-      t.fits_v(path: { attribute: 'version' })
-      t.identification do
-        t.identity do
-          t.format_label(path: { attribute: 'format' })
-          t.mime_type(path: { attribute: 'mimetype' })
-          t.tool(attributes: { toolname: "Exiftool" }) do
-            t.exif_tool_version(path: { attribute: 'toolversion' })
-          end
+      class Identity
+        include HappyMapper
+
+        class ExifTool
+          include HappyMapper
+          attribute :exif_tool_version, String, tag: 'toolversion'
         end
+
+        has_many :tool, ExifTool, tag: 'tool[@toolname="Exiftool"]'
+        attribute :format_label, String, tag: 'format'
+        attribute :mime_type, String, tag: 'mimetype'
       end
-      t.fileinfo do
-        t.file_size(path: 'size')
-        t.last_modified(path: 'lastmodified', attributes: { toolname: "Exiftool" })
-        t.filename(path: 'filename')
-        t.original_checksum(path: 'md5checksum')
-        t.date_created(path: 'created', attributes: { toolname: "Exiftool" })
-        t.rights_basis(path: 'rightsBasis')
-        t.copyright_basis(path: 'copyrightBasis')
-        t.copyright_note(path: 'copyrightNote')
-      end
-      t.filestatus do
-        t.well_formed(path: 'well-formed')
-        t.valid(path: 'valid')
-        t.status_message(path: 'message')
-      end
-      t.metadata do
-        t.document do
-          t.file_title(path: 'title')
-          t.file_author(path: 'author')
-          t.file_language(path: 'language')
-          t.page_count(path: 'pageCount')
-          t.word_count(path: 'wordCount')
-          t.character_count(path: 'characterCount')
-          t.paragraph_count(path: 'paragraphCount')
-          t.line_count(path: 'lineCount')
-          t.table_count(path: 'tableCount')
-          t.graphics_count(path: 'graphicsCount')
-        end
-        t.image do
-          t.byte_order(path: 'byteOrder')
-          t.compression(path: 'compressionScheme')
-          t.width(path: 'imageWidth')
-          t.height(path: 'imageHeight')
-          t.color_space(path: 'colorSpace')
-          t.profile_name(path: 'iccProfileName')
-          t.profile_version(path: 'iccProfileVersion')
-          t.orientation(path: 'orientation')
-          t.color_map(path: 'colorMap')
-          t.image_producer(path: 'imageProducer')
-          t.capture_device(path: 'captureDevice')
-          t.scanning_software(path: 'scanningSoftwareName')
-          t.exif_version(path: 'exifVersion', attributes: { toolname: "Exiftool" })
-          t.gps_timestamp(path: 'gpsTimeStamp')
-          t.latitude(path: 'gpsDestLatitude')
-          t.longitude(path: 'gpsDestLongitude')
-        end
-        t.text do
-          t.character_set(path: 'charset')
-          t.markup_basis(path: 'markupBasis')
-          t.markup_language(path: 'markupLanguage')
-        end
-        t.audio do
-          t.duration(path: 'duration')
-          t.bit_depth(path: 'bitDepth')
-          t.bit_rate(path: 'bitRate')
-          t.sample_rate(path: 'sampleRate')
-          t.channels(path: 'channels')
-          t.data_format(path: 'dataFormatType')
-          t.offset(path: 'offset')
-        end
-        t.video do
-          t.width(path: 'imageWidth') # for fits_0.8.5
-          t.height(path: 'imageHeight') # for fits_0.8.5
-          t.duration(path: 'duration')
-          t.bit_rate(path: 'bitRate') # for fits_1.2.0
-          t.sample_rate(path: 'sampleRate') # for fits_0.8.5
-          t.audio_sample_rate(path: 'audioSampleRate') # for fits_0.8.5
-          t.frame_rate(path: 'frameRate') # for fits_0.8.5
-          t.track(path: 'track', attributes: { type: 'video' }) do # for fits_1.2.0
-            t.width(path: 'width')
-            t.height(path: 'height')
-            t.aspect_ratio(path: 'aspectRatio')
-            t.frame_rate(path: 'frameRate')
-          end
-        end
-      end
-      # fits_version needs a different name than it's target node since they're at the same level
-      t.fits_version(proxy: [:fits, :fits_v])
-      t.format_label(proxy: [:identification, :identity, :format_label])
-      # Can't use .mime_type because it's already defined for this dcoument so method missing won't work.
-      t.file_mime_type(proxy: [:identification, :identity, :mime_type])
-      t.exif_tool_version(proxy: [:identification, :identity, :tool, :exif_tool_version])
-      t.file_size(proxy: [:fileinfo, :file_size])
-      t.date_modified(proxy: [:fileinfo, :last_modified])
-      t.filename(proxy: [:fileinfo, :filename])
-      t.original_checksum(proxy: [:fileinfo, :original_checksum])
-      t.date_created(proxy: [:fileinfo, :date_created])
-      t.rights_basis(proxy: [:fileinfo, :rights_basis])
-      t.copyright_basis(proxy: [:fileinfo, :copyright_basis])
-      t.copyright_note(proxy: [:fileinfo, :copyright_note])
-      t.well_formed(proxy: [:filestatus, :well_formed])
-      t.valid(proxy: [:filestatus, :valid])
-      t.filestatus_message(proxy: [:filestatus, :status_message])
-      t.file_title(proxy: [:metadata, :document, :file_title])
-      t.file_author(proxy: [:metadata, :document, :file_author])
-      t.page_count(proxy: [:metadata, :document, :page_count])
-      t.file_language(proxy: [:metadata, :document, :file_language])
-      t.word_count(proxy: [:metadata, :document, :word_count])
-      t.character_count(proxy: [:metadata, :document, :character_count])
-      t.paragraph_count(proxy: [:metadata, :document, :paragraph_count])
-      t.line_count(proxy: [:metadata, :document, :line_count])
-      t.table_count(proxy: [:metadata, :document, :table_count])
-      t.graphics_count(proxy: [:metadata, :document, :graphics_count])
-      t.byte_order(proxy: [:metadata, :image, :byte_order])
-      t.compression(proxy: [:metadata, :image, :compression])
-      t.width(proxy: [:metadata, :image, :width])
-      t.video_width(proxy: [:metadata, :video, :width])
-      t.video_track_width(proxy: [:metadata, :video, :track, :width])
-      t.height(proxy: [:metadata, :image, :height])
-      t.video_height(proxy: [:metadata, :video, :height])
-      t.video_track_height(proxy: [:metadata, :video, :track, :height])
-      t.color_space(proxy: [:metadata, :image, :color_space])
-      t.profile_name(proxy: [:metadata, :image, :profile_name])
-      t.profile_version(proxy: [:metadata, :image, :profile_version])
-      t.orientation(proxy: [:metadata, :image, :orientation])
-      t.color_map(proxy: [:metadata, :image, :color_map])
-      t.image_producer(proxy: [:metadata, :image, :image_producer])
-      t.capture_device(proxy: [:metadata, :image, :capture_device])
-      t.scanning_software(proxy: [:metadata, :image, :scanning_software])
-      t.exif_version(proxy: [:metadata, :image, :exif_version])
-      t.gps_timestamp(proxy: [:metadata, :image, :gps_timestamp])
-      t.latitude(proxy: [:metadata, :image, :latitude])
-      t.longitude(proxy: [:metadata, :image, :longitude])
-      t.character_set(proxy: [:metadata, :text, :character_set])
-      t.markup_basis(proxy: [:metadata, :text, :markup_basis])
-      t.markup_language(proxy: [:metadata, :text, :markup_language])
-      t.audio_duration(proxy: [:metadata, :audio, :duration])
-      t.video_duration(proxy: [:metadata, :video, :duration])
-      t.bit_depth(proxy: [:metadata, :audio, :bit_depth])
-      t.audio_sample_rate(proxy: [:metadata, :audio, :sample_rate])
-      t.video_sample_rate(proxy: [:metadata, :video, :sample_rate])
-      t.video_audio_sample_rate(proxy: [:metadata, :video, :audio_sample_rate])
-      t.channels(proxy: [:metadata, :audio, :channels])
-      t.data_format(proxy: [:metadata, :audio, :data_format])
-      t.offset(proxy: [:metadata, :audio, :offset])
-      t.frame_rate(proxy: [:metadata, :video, :frame_rate])
-      t.audio_bit_rate(proxy: [:metadata, :audio, :bit_rate])
-      t.video_bit_rate(proxy: [:metadata, :video, :bit_rate])
-      t.track_frame_rate(proxy: [:metadata, :video, :track, :frame_rate])
-      t.aspect_ratio(proxy: [:metadata, :video, :track, :aspect_ratio])
+      has_one :identity, Identity
     end
 
-    # Cleanup phase; ugly name to avoid collisions.
-    # The send construct here is required to fix up values because the setters
-    # are not defined, but rather applied with method_missing.
-    def __cleanup__
-      # Sometimes, FITS reports the mimetype attribute as a comma-separated string.
-      # All terms are arrays and, in this case, there is only one element, so scan the first.
-      if file_mime_type.present? && file_mime_type.first.include?(',')
-        send("file_mime_type=", [file_mime_type.first.split(',').first])
-      end
-
-      # Add any other scrubbers here; don't return any particular value
-      nil
+    class FileInfo
+      include HappyMapper
+      element :file_size, String, tag: 'size'
+      element :date_modified, String, tag: 'lastmodified'
+      element :filename, String, tag: 'filename'
+      element :original_checksum, String, tag: 'md5checksum'
+      element :date_created, String, tag: 'created'
+      element :rights_basis, String, tag: 'rightsBasis'
+      element :copyright_basis, String, tag: 'copyrightBasis'
+      element :copyright_note, String, tag: 'copyrightNote'
     end
 
-    def self.xml_template
-      builder = Nokogiri::XML::Builder.new do |xml|
-        xml.fits(xmlns: 'http://hul.harvard.edu/ois/xml/ns/fits/fits_output',
-                 'xmlns:xsi' => 'http://www.w3.org/2001/XMLSchema-instance',
-                 'xsi:schemaLocation' => "http://hul.harvard.edu/ois/xml/ns/fits/fits_output
-                 http://hul.harvard.edu/ois/xml/xsd/fits/fits_output.xsd",
-                 version: '0.6.0', timestamp: '1/25/12 11:04 AM') do
-          xml.identification { xml.identity(toolname: 'FITS') }
+    class FileStatus
+      include HappyMapper
+      element :well_formed, String, tag: 'well-formed'
+      element :valid, String, tag: 'valid'
+      element :status_message, String, tag: 'message'
+    end
+
+    class Metadata
+      include HappyMapper
+
+      class Document
+        include HappyMapper
+        element :file_title, String, tag: 'title'
+        element :file_author, String, tag: 'author'
+        element :file_language, String, tag: 'language'
+        element :page_count, String, tag: 'pageCount'
+        element :word_count, String, tag: 'wordCount'
+        element :character_count, String, tag: 'characterCount'
+        element :paragraph_count, String, tag: 'paragraphCount'
+        element :line_count, String, tag: 'lineCount'
+        element :table_count, String, tag: 'tableCount'
+        element :graphics_count, String, tag: 'graphicsCount'
+      end
+
+      class Image
+        include HappyMapper
+        element :byte_order, String, tag: 'byteOrder'
+        has_many :compression, String, tag: 'compressionScheme'
+        has_many :width, String, tag: 'imageWidth'
+        has_many :height, String, tag: 'imageHeight'
+        element :color_space, String, tag: 'colorSpace'
+        element :profile_name, String, tag: 'iccProfileName'
+        element :profile_version, String, tag: 'iccProfileVersion'
+        element :orientation, String, tag: 'orientation'
+        element :color_map, String, tag: 'colorMap'
+        element :image_producer, String, tag: 'imageProducer'
+        element :capture_device, String, tag: 'captureDevice'
+        element :scanning_software, String, tag: 'scanningSoftwareName'
+        element :exif_version, String, tag: 'exifVersion'
+        element :gps_timestamp, String, tag: 'gpsTimeStamp'
+        element :latitude, String, tag: 'gpsDestLatitude'
+        element :longitude, String, tag: 'gpsDestLongitude'
+      end
+
+      class Text
+        include HappyMapper
+        element :character_set, String, tag: 'charset'
+        element :markup_basis, String, tag: 'markupBasis'
+        element :markup_language, String, tag: 'markupLanguage'
+      end
+
+      class Audio
+        include HappyMapper
+        element :duration, String, tag: 'duration'
+        element :bit_depth, String, tag: 'bitDepth'
+        has_many :bit_rate, String, tag: 'bitRate'
+        element :sample_rate, String, tag: 'sampleRate'
+        element :channels, String, tag: 'channels'
+        element :data_format, String, tag: 'dataFormatType'
+        element :offset, String, tag: 'offset'
+      end
+
+      class Video
+        include HappyMapper
+
+        class Track
+          include HappyMapper
+
+          element :width, String, tag: 'width'
+          element :height, String, tag: 'height'
+          element :aspect_ratio, String, tag: 'aspectRatio'
+          element :frame_rate, String, tag: 'frameRate'
         end
+
+        element :width, String, tag: 'imageWidth' # for fits_0.8.5
+        element :height, String, tag: 'imageHeight' # for fits_0.8.5
+        element :sample_rate, String, tag: 'sampleRate' # for fits_0.8.5
+        element :audio_sample_rate, String, tag: 'audioSampleRate' # for fits_0.8.5
+        element :frame_rate, String, tag: 'frameRate' # for fits_0.8.5
+
+        element :duration, String, tag: 'duration'
+
+        element :bit_rate, String, tag: 'bitRate' # for fits_1.2.0
+        has_one :track, Track, tag: 'track[@type="video"]' # for fits_1.2.0
       end
-      builder.doc
+
+      has_one :document, Document
+      has_one :image, Image
+      has_one :text, Text
+      has_one :audio, Audio
+      has_one :video, Video
     end
+
+    tag 'fits'
+
+    attribute :fits_version, String, tag: 'version'
+
+    has_one :identification, Identification
+    has_one :fileinfo, FileInfo
+    has_one :filestatus, FileStatus
+    has_one :metadata, Metadata
+
+    delegate :identity, to: :identification
+    delegate :format_label, :tool, to: :identity
+
+    # Can't use .mime_type because it's already defined for this document so method missing won't work.
+    def file_mime_type
+      val = identity.mime_type
+      return val.split(',').first if val.present? && val.include?(',')
+      val
+    end
+
+    delegate :exif_tool_version, to: :tool
+    delegate :file_size, :filename, :original_checksum, :date_modified,
+             :date_created, :rights_basis, :copyright_basis, :copyright_note,
+             to: :fileinfo
+
+    delegate :well_formed, :valid, :filestatus_message, to: :filestatus
+
+    delegate :document, :image, :video, :text, :audio, to: :metadata
+    delegate :track, :frame_rate, to: :video
+
+    delegate :file_title, :file_author, :page_count, :file_language, :word_count,
+             :character_count, :paragraph_count, :line_count, :table_count,
+             :graphics_count, to: :document
+
+    delegate :byte_order, :compression, :width, :height, :color_space,
+             :profile_name, :profile_version, :orientation, :color_map,
+             :image_producer, :capture_device, :scanning_software, :exif_version,
+             :gps_timestamp, :latitude, :longitude, to: :image
+
+    delegate :width, :height, :duration, :sample_rate, :audio_sample_rate,
+             :bit_rate, to: :video, prefix: :video
+    delegate :width, :height, to: :track, prefix: :video_track
+    delegate :frame_rate, to: :track, prefix: :track
+    delegate :aspect_ratio, to: :track
+
+    delegate :character_set, :markup_basis, :markup_language, to: :text
+
+    delegate :duration, :sample_rate, :bit_rate, to: :audio, prefix: :audio
+    delegate :bit_depth, :channels, :data_format, :offset, to: :audio
   end
 end

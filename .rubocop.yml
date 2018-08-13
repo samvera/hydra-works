@@ -26,6 +26,7 @@ Metrics/LineLength:
 Metrics/ClassLength:
   Exclude:
     - lib/hydra/works/characterization/fits_document.rb
+    - 'lib/hydra/works/services/characterization_service.rb'
 
 Style/CollectionMethods:
   PreferredMethods:
