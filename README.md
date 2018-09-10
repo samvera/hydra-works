@@ -8,7 +8,27 @@
 [![Contribution Guidelines](http://img.shields.io/badge/CONTRIBUTING-Guidelines-blue.svg)](./CONTRIBUTING.md)
 [![API Docs](http://img.shields.io/badge/API-docs-blue.svg)](http://rubydoc.info/gems/hydra-works)
 
-The Hydra::Works gem implements the [PCDM](https://github.com/duraspace/pcdm/wiki) [Works](https://github.com/duraspace/pcdm/blob/master/pcdm-ext/works.rdf) data model using ActiveFedora-based models. In addition to the models, Hydra::Works includes associated behaviors around the broad concept of describable "works" or intellectual entities, the need for which was expressed by a variety of [Samvera community use cases](https://github.com/samvera/hydra-works/tree/master/use-cases). The PCDM Works domain model includes the following high-level entities:
+Jump in: [![Slack Status](http://slack.samvera.org/badge.svg)](http://slack.samvera.org/)
+
+# What is hydra-works?
+The Hydra::Works gem implements the [PCDM](https://github.com/duraspace/pcdm/wiki) [Works](https://github.com/duraspace/pcdm/blob/master/pcdm-ext/works.rdf) data model using ActiveFedora-based models. In addition to the models, Hydra::Works includes associated behaviors around the broad concept of describable "works" or intellectual entities, the need for which was expressed by a variety of [Samvera community use cases](https://github.com/samvera/hydra-works/tree/master/use-cases).
+
+## Product Owner & Maintenance
+
+hydra-works is a Core Component of the Samvera community. The documentation for
+what this means can be found
+[here](http://samvera.github.io/core_components.html#requirements-for-a-core-component).
+
+### Product Owner
+
+[mark-dce](https://github.com/mark-dce)
+
+# Help
+
+The Samvera community is here to help. Please see our [support guide](./SUPPORT.md).
+
+# Getting Started
+The PCDM Works domain model includes the following high-level entities:
 
  * **Collection**: a *pcdm:Collection* that indirectly contains zero or more **Works** and zero or more **Collection**s
  * **Work**: a *pcdm:Object* that holds zero or more **FileSets** and zero or more **Works**
@@ -127,3 +147,10 @@ is installed, run:
 ```bash
 rake works:spec
 ```
+
+# Acknowledgments
+
+This software has been developed by and is brought to you by the Samvera community.  Learn more at the
+[Samvera website](http://samvera.org/).
+
+![Samvera Logo](https://wiki.duraspace.org/download/thumbnails/87459292/samvera-fall-font2-200w.png?version=1&modificationDate=1498550535816&api=v2)
