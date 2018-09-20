@@ -1,4 +1,5 @@
 require 'hydra-file_characterization'
+require 'nokogiri'
 
 module Hydra::Works
   class CharacterizationService
