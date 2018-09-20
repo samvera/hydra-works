@@ -27,6 +27,10 @@ Metrics/ClassLength:
   Exclude:
     - lib/hydra/works/characterization/fits_document.rb
 
+Style/AccessorMethodName:
+  Exclude:
+    - lib/hydra/works/characterization/fits_document.rb
+
 Style/CollectionMethods:
   PreferredMethods:
     collect: 'map'
