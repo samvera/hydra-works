@@ -43,8 +43,28 @@ module Hydra::Works
       true
     end
 
+    def parent_works
+      in_works + member_of_works
+    end
+
+    def parent_work_ids
+      in_work_ids + member_of_work_ids
+    end
+
     def in_works
       ordered_by.select { |parent| parent.class.included_modules.include?(Hydra::Works::WorkBehavior) }.to_a
+    end
+
+    def in_work_ids
+      in_works.map(&:id)
+    end
+
+    def member_of_works
+      member_of.select(&:work?).to_a
+    end
+
+    def member_of_work_ids
+      member_of_works.map(&:id)
     end
 
     private

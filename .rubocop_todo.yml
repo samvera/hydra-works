@@ -63,6 +63,7 @@ RSpec/NamedSubject:
 RSpec/NestedGroups:
   Exclude:
     - 'spec/hydra/works/models/collection_spec.rb'
+    - 'spec/hydra/works/models/file_set_spec.rb'
     - 'spec/hydra/works/models/work_spec.rb'
     - 'spec/hydra/works/services/characterization_service_spec.rb'
     - 'spec/hydra/works/services/virus_checker_service_spec.rb'
@@ -103,3 +104,7 @@ Style/NumericPredicate:
   Exclude:
     - 'spec/**/*'
     - 'lib/hydra/works/virus_scanner.rb'
+
+Style/FrozenStringLiteralComment:
+  Exclude:
+    - '**/*'

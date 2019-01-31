@@ -3,14 +3,14 @@ require 'spec_helper'
 describe Hydra::Works::Work do
   subject { described_class.new }
 
-  let(:work1) { described_class.new }
-  let(:work2) { described_class.new }
-  let(:work3) { described_class.new }
-  let(:work4) { described_class.new }
-  let(:work5) { described_class.new }
+  let(:work1) { described_class.new(id: 'wk1') }
+  let(:work2) { described_class.new(id: 'wk2') }
+  let(:work3) { described_class.new(id: 'wk3') }
+  let(:work4) { described_class.new(id: 'wk4') }
+  let(:work5) { described_class.new(id: 'wk5') }
 
-  let(:file_set1) { Hydra::Works::FileSet.new }
-  let(:file_set2) { Hydra::Works::FileSet.new }
+  let(:file_set1) { Hydra::Works::FileSet.new(id: 'fs1') }
+  let(:file_set2) { Hydra::Works::FileSet.new(id: 'fs2') }
 
   let(:object1) { Hydra::PCDM::Object.new }
   let(:object2) { Hydra::PCDM::Object.new }
@@ -262,9 +262,11 @@ describe Hydra::Works::Work do
     end
     it 'has a parent collection' do
       expect(work2.in_collections).to eq [collection1]
+      expect(work2.in_collection_ids).to eq [collection1.id]
     end
     it 'has a parent work' do
       expect(work2.in_works).to eq [work1]
+      expect(work2.in_work_ids).to eq [work1.id]
     end
   end
 
@@ -277,6 +279,210 @@ describe Hydra::Works::Work do
     it 'is a member of the collection' do
       expect(work1.member_of_collections).to eq [collection1]
       expect(work1.member_of_collection_ids).to eq [collection1.id]
+    end
+  end
+
+  context 'relationships' do
+    context '#parent_collections and #parent_collection_ids' do
+      let(:col1) { Hydra::Works::Collection.new(id: 'col1') }
+      let(:col2) { Hydra::Works::Collection.new(id: 'col2') }
+
+      context 'when parents collection knows about child works' do
+        before do
+          col1.members = [work1]
+          col2.members = [work1]
+          work1.save
+          col1.save
+          col2.save
+        end
+
+        it 'get both parent collections' do
+          expect(work1.parent_collections).to match_array [col1, col2]
+          expect(work1.parent_collection_ids).to match_array [col1.id, col2.id]
+        end
+      end
+
+      context 'when child works knows about parent collections' do
+        before do
+          work1.member_of_collections = [col1, col2]
+        end
+
+        it 'gets both parent collections' do
+          expect(work1.parent_collections).to match_array [col1, col2]
+          expect(work1.parent_collection_ids).to match_array [col1.id, col2.id]
+        end
+      end
+
+      context 'when some children know about parent and some parents know about child' do
+        before do
+          col1.members = [work1]
+          work1.member_of_collections = [col2]
+          work1.save
+          col1.save
+        end
+
+        it 'gets both parent collections' do
+          expect(work1.parent_collections).to match_array [col1, col2]
+          expect(work1.parent_collection_ids).to match_array [col1.id, col2.id]
+        end
+      end
+    end
+
+    context '#parent_works and #parent_work_ids' do
+      let(:parent_col1)  { Hydra::Works::Collection.new(id: 'col1') }
+      let(:parent_work1) { work1 }
+      let(:parent_work2) { work2 }
+      let(:child_work)   { work3 }
+
+      context 'when parent work knows about child works' do
+        before do
+          parent_col1.members = [child_work] # collection is included to make sure parent_works only returns works
+          parent_work1.members = [child_work]
+          parent_work2.members = [child_work]
+          child_work.save
+          parent_col1.save
+          parent_work1.save
+          parent_work2.save
+        end
+
+        it 'gets both parent works' do
+          expect(child_work.parent_works).to match_array [parent_work1, parent_work2]
+          expect(child_work.parent_work_ids).to match_array [parent_work1.id, parent_work2.id]
+        end
+      end
+
+      context 'when child works know about parent works' do
+        # before do
+        #   # NOOP: The :member_of relationship is not defined for works.  It only uses the :members relationship.
+        #   child_work.member_of = [parent_work1, parent_work2]
+        # end
+
+        it 'gets both parent works' do
+          skip 'Pending implementation of the :member_of relationship for works'
+          expect(child_work.parent_works).to match_array [parent_work1, parent_work2]
+          expect(child_work.parent_work_ids).to match_array [parent_work1.id, parent_work2.id]
+        end
+      end
+
+      context 'when some children know about parent and some parents know about child' do
+        # before do
+        #   parent_work1.members = [child_work]
+        #   child_work.save
+        #   parent_work1.save
+        #   # NOOP: The :member_of relationship is not defined for works.  It only uses the :members relationship.
+        #   child_work.member_of = [parent_work2]
+        # end
+
+        it 'gets both parent works' do
+          skip 'Pending implementation of the :member_of relationship for works'
+          expect(child_work.parent_works).to match_array [parent_work1, parent_work2]
+          expect(child_work.parent_work_ids).to match_array [parent_work1.id, parent_work2.id]
+        end
+      end
+    end
+
+    context '#child_works and #child_work_ids' do
+      context 'when parent works know about child works' do
+        let(:child_work1)   { work1 }
+        let(:child_work2)   { work2 }
+        let(:parent_work)   { work3 }
+        let(:child_fileset) { file_set1 } # fileset is included to make sure child_works only returns works
+
+        before do
+          parent_work.members = [child_work1, child_work2, child_fileset]
+          parent_work.save
+        end
+
+        it 'gets both child works' do
+          expect(parent_work.child_works).to match_array [child_work1, child_work2]
+          expect(parent_work.child_work_ids).to match_array [child_work1.id, child_work2.id]
+        end
+      end
+
+      context 'when child knows about parent' do
+        before do
+          # before do
+          #   # NOOP: The :member_of relationship is not defined for works.  It only uses the :members relationship.
+          #   child_work1.member_of = [parent_work]
+          #   child_work2.member_of = [parent_work]
+          # end
+        end
+
+        it 'gets both child works' do
+          skip 'Pending implementation of the :member_of relationship for works'
+          expect(parent_work.child_works).to match_array [child_work1, child_work2]
+          expect(parent_work.child_work_ids).to match_array [child_work1.id, child_work2.id]
+        end
+      end
+
+      context 'when some children know about parent and some parents know about child' do
+        before do
+          # before do
+          #   # NOOP: The :member_of relationship is not defined for works.  It only uses the :members relationship.
+          #   child_work1.member_of = [parent_work]
+          #   parent_work.members = [child_work2, child_fileset]
+          #   parent_work.save
+          # end
+        end
+
+        it 'gets both child works' do
+          skip 'Pending implementation of the :member_of relationship for works'
+          expect(parent_work.child_works).to match_array [child_work1, child_work2]
+          expect(parent_work.child_work_ids).to match_array [child_work1.id, child_work2.id]
+        end
+      end
+    end
+
+    context '#child_file_sets and #child_file_set_ids' do
+      context 'when parents knows about child' do
+        let(:child_fileset1) { file_set1 }
+        let(:child_fileset2) { file_set2 }
+        let(:parent_work)    { work1 }
+        let(:child_work)     { work2 } # work is included to make sure child_file_sets only returns file_sets
+
+        before do
+          parent_work.members = [child_fileset1, child_fileset2, child_work]
+          parent_work.save
+        end
+
+        it 'gets both child filesets' do
+          expect(parent_work.child_file_sets).to match_array [child_fileset1, child_fileset2]
+          expect(parent_work.child_file_set_ids).to match_array [child_fileset1.id, child_fileset2.id]
+        end
+      end
+
+      context 'when child knows about parent' do
+        before do
+          # before do
+          #   # NOOP: The :member_of relationship is not defined for file sets.  It only uses the :members relationship.
+          #   child_fileset1.member_of = [parent_work]
+          #   child_fileset2.member_of = [parent_work]
+          # end
+        end
+
+        it 'gets both child filesets' do
+          skip 'Pending implementation of the :member_of relationship for works'
+          expect(parent_work.child_file_sets).to match_array [child_fileset1, child_fileset2]
+          expect(parent_work.child_file_set_ids).to match_array [child_fileset1.id, child_fileset2.id]
+        end
+      end
+
+      context 'when some children know about parent and some parents know about child' do
+        before do
+          # before do
+          #   # NOOP: The :member_of relationship is not defined for file sets.  It only uses the :members relationship.
+          #   child_fileset1.member_of = [parent_work]
+          #   parent_work.members = [child_fileset2, child_work]
+          #   parent_work.save
+          # end
+        end
+
+        it 'gets both child filesets' do
+          skip 'Pending implementation of the :member_of relationship for works'
+          expect(parent_work.child_file_sets).to match_array [child_fileset1, child_fileset2]
+          expect(parent_work.child_file_set_ids).to match_array [child_fileset1.id, child_fileset2.id]
+        end
+      end
     end
   end
 end
