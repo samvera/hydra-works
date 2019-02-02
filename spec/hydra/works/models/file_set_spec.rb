@@ -48,6 +48,17 @@ describe Hydra::Works::FileSet do
     it { is_expected.to eq [work] }
   end
 
+  describe '#in_work_ids' do
+    subject { file_set.in_work_ids }
+    let(:work) { Hydra::Works::Work.create }
+    before do
+      work.ordered_members << file_set
+      work.save
+    end
+
+    it { is_expected.to eq [work.id] }
+  end
+
   describe '#destroy' do
     let(:work) { Hydra::Works::Work.create }
     before do
@@ -84,6 +95,42 @@ describe Hydra::Works::FileSet do
   describe '#collection?' do
     it 'is not a collection' do
       expect(file_set.collection?).to be false
+    end
+  end
+
+  context 'relationships' do
+    context '#parent_works and #parent_work_ids' do
+      let(:parent_work) { Hydra::Works::Work.new(id: 'parent_work') }
+      let(:child_file_set1)   { described_class.new(id: 'child_file_set1') }
+      let(:child_file_set2)   { described_class.new(id: 'child_file_set2') }
+
+      context 'when parent work knows about child file sets' do
+        before do
+          parent_work.members = [child_file_set1, child_file_set2]
+          child_file_set1.save
+          child_file_set2.save
+          parent_work.save
+        end
+
+        it 'gets parent work' do
+          expect(child_file_set1.parent_works).to match_array [parent_work]
+          expect(child_file_set1.parent_work_ids).to match_array [parent_work.id]
+        end
+      end
+
+      context 'when child works know about parent works' do
+        # before do
+        #   # NOOP: The :member_of relationship is not defined for works.  It only uses the :members relationship.
+        #   child_file_set1.member_of = [parent_work]
+        #   child_file_set2.member_of = [parent_work]
+        # end
+
+        it 'gets parent work' do
+          skip 'Pending implementation of the :member_of relationship for works'
+          expect(child_file_set1.parent_works).to match_array [parent_work]
+          expect(child_file_set1.parent_work_ids).to match_array [parent_work.id]
+        end
+      end
     end
   end
 end

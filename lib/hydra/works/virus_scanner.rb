@@ -50,7 +50,7 @@ module Hydra::Works
     private
 
       def warning(msg)
-        ActiveFedora::Base.logger.warn(msg) if ActiveFedora::Base.logger
+        ActiveFedora::Base.logger&.warn(msg)
       end
   end
 end

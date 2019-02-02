@@ -29,12 +29,54 @@ module Hydra::Works
       type [Hydra::PCDM::Vocab::PCDMTerms.Object, Vocab::WorksTerms.Work]
     end
 
+    def parent_collections
+      in_collections + member_of_collections
+    end
+
+    def parent_collection_ids
+      in_collection_ids + member_of_collection_ids
+    end
+
+    def parent_works
+      in_works + member_of_works
+    end
+
+    def parent_work_ids
+      in_work_ids + member_of_work_ids
+    end
+
+    def child_works
+      works + member_works
+    end
+
+    def child_work_ids
+      work_ids + member_work_ids
+    end
+
+    def child_file_sets
+      file_sets
+    end
+
+    def child_file_set_ids
+      file_set_ids
+    end
+
     def works
       members.select(&:work?)
     end
 
     def work_ids
       works.map(&:id)
+    end
+
+    def member_works
+      return [] if id.nil?
+      member_objects = ActiveFedora::Base.where('object_ids_ssim' => id)
+      member_objects.select(&:work?).to_a
+    end
+
+    def member_work_ids
+      member_works.map(&:id)
     end
 
     def ordered_works
@@ -80,6 +122,18 @@ module Hydra::Works
 
     def in_works
       ordered_by.select { |parent| parent.class.included_modules.include?(Hydra::Works::WorkBehavior) }.to_a
+    end
+
+    def in_work_ids
+      in_works.map(&:id)
+    end
+
+    def member_of_works
+      in_objects.to_a.select(&:work?)
+    end
+
+    def member_of_work_ids
+      member_of_works.map(&:id)
     end
 
     private

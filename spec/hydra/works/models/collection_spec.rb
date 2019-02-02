@@ -148,4 +148,154 @@ describe Hydra::Works::Collection do
       end
     end
   end
+
+  context 'relationships' do
+    context '#parent_collections and #parent_collection_ids' do
+      let(:parent_col1) { described_class.new(id: 'parent_col1') }
+      let(:parent_col2) { described_class.new(id: 'parent_col2') }
+      let(:collection) { described_class.new(id: 'collection') }
+
+      context 'when parents collection knows about child collections' do
+        before do
+          parent_col1.members = [collection]
+          parent_col2.members = [collection]
+          collection.save
+          parent_col1.save
+          parent_col2.save
+        end
+
+        it 'gets both parent collections' do
+          expect(collection.parent_collections).to match_array [parent_col1, parent_col2]
+          expect(collection.parent_collection_ids).to match_array [parent_col1.id, parent_col2.id]
+        end
+      end
+
+      context 'when child collection knows about parent collections' do
+        before do
+          collection.member_of_collections = [parent_col1, parent_col2]
+        end
+
+        it 'gets both parent collections' do
+          expect(collection.parent_collections).to match_array [parent_col1, parent_col2]
+          expect(collection.parent_collection_ids).to match_array [parent_col1.id, parent_col2.id]
+        end
+      end
+
+      context 'when some children know about parent and some parents know about child' do
+        before do
+          parent_col1.members = [collection]
+          collection.member_of_collections = [parent_col2]
+          collection.save
+          parent_col1.save
+        end
+
+        it 'gets both parent collections' do
+          expect(collection.parent_collections).to match_array [parent_col1, parent_col2]
+          expect(collection.parent_collection_ids).to match_array [parent_col1.id, parent_col2.id]
+        end
+      end
+    end
+
+    context '#child_collections and #child_collection_ids' do
+      let(:child_col1) { described_class.new(id: 'child_col1') }
+      let(:child_col2) { described_class.new(id: 'child_col2') }
+      let(:child_work) { Hydra::Works::Work.new(id: 'child_work') }
+      let(:collection) { described_class.new(id: 'collection') }
+
+      context 'when child collections knows about parent collections' do
+        before do
+          child_col1.member_of_collections = [collection]
+          child_col2.member_of_collections = [collection]
+          child_work.member_of_collections = [collection]
+          child_col1.save
+          child_col2.save
+          child_work.save
+          collection.save
+        end
+
+        it 'gets both child collections' do
+          expect(collection.child_collections).to match_array [child_col1, child_col2]
+          expect(collection.child_collection_ids).to match_array [child_col1.id, child_col2.id]
+        end
+      end
+
+      context 'when parent collection knows about child collections' do
+        before do
+          collection.members = [child_col1, child_col2, child_work]
+        end
+
+        it 'gets both child collections' do
+          expect(collection.child_collections).to match_array [child_col1, child_col2]
+          expect(collection.child_collection_ids).to match_array [child_col1.id, child_col2.id]
+        end
+      end
+
+      context 'when some children know about parent and some parents know about children' do
+        before do
+          collection.members = [child_col1]
+          child_col2.member_of_collections = [collection]
+          child_work.member_of_collections = [collection]
+          child_col2.save
+          child_work.save
+          collection.save
+        end
+
+        it 'gets both child collections' do
+          expect(collection.child_collections).to match_array [child_col1, child_col2]
+          expect(collection.child_collection_ids).to match_array [child_col1.id, child_col2.id]
+        end
+      end
+    end
+
+    context '#child_works and #child_work_ids' do
+      let(:work1) { Hydra::Works::Work.new(id: 'work1') }
+      let(:work2) { Hydra::Works::Work.new(id: 'work2') }
+      let(:child_collection) { described_class.new(id: 'child_collection') }
+      let(:collection) { described_class.new(id: 'collection') }
+
+      context 'when child works knows about parent collections' do
+        before do
+          work1.member_of_collections = [collection]
+          work2.member_of_collections = [collection]
+          child_collection.member_of_collections = [collection]
+          work1.save
+          work2.save
+          child_collection.save
+          collection.save
+        end
+
+        it 'gets both child works' do
+          expect(collection.child_works).to match_array [work1, work2]
+          expect(collection.child_work_ids).to match_array [work1.id, work2.id]
+        end
+      end
+
+      context 'when parent collection knows about child works' do
+        before do
+          collection.members = [work1, work2, child_collection]
+        end
+
+        it 'gets both child works' do
+          expect(collection.child_works).to match_array [work1, work2]
+          expect(collection.child_work_ids).to match_array [work1.id, work2.id]
+        end
+      end
+
+      context 'when some children know about parent and some parents know about children' do
+        before do
+          collection.members = [work1]
+          work2.member_of_collections = [collection]
+          child_collection.member_of_collections = [collection]
+          work2.save
+          child_collection.save
+          collection.save
+        end
+
+        it 'gets both child works' do
+          expect(collection.child_works).to match_array [work1, work2]
+          expect(collection.child_work_ids).to match_array [work1.id, work2.id]
+        end
+      end
+    end
+  end
 end

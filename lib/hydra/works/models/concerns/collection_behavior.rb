@@ -28,6 +28,30 @@ module Hydra::Works
       type [Hydra::PCDM::Vocab::PCDMTerms.Collection, Vocab::WorksTerms.Collection]
     end
 
+    def parent_collections
+      in_collections + member_of_collections
+    end
+
+    def parent_collection_ids
+      in_collection_ids + member_of_collection_ids
+    end
+
+    def child_collections
+      collections + member_collections
+    end
+
+    def child_collection_ids
+      collection_ids + member_collection_ids
+    end
+
+    def child_works
+      works + member_works
+    end
+
+    def child_work_ids
+      work_ids + member_work_ids
+    end
+
     def ordered_works
       ordered_members.to_a.select(&:work?)
     end
@@ -42,6 +66,26 @@ module Hydra::Works
 
     def work_ids
       works.map(&:id)
+    end
+
+    def member_collections
+      return [] if id.nil?
+      member_objects = ActiveFedora::Base.where('member_of_collection_ids_ssim' => id)
+      member_objects.select(&:collection?).to_a
+    end
+
+    def member_collection_ids
+      member_collections.map(&:id)
+    end
+
+    def member_works
+      return [] if id.nil?
+      member_objects = ActiveFedora::Base.where('member_of_collection_ids_ssim' => id)
+      member_objects.select(&:work?).to_a
+    end
+
+    def member_work_ids
+      member_works.map(&:id)
     end
 
     # @return [Boolean] whether this instance is a Hydra::Works Collection.
