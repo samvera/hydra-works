@@ -19,7 +19,7 @@ Gem::Specification.new do |spec|
   spec.test_files    = spec.files.grep(%r{^(test|spec|features)/})
   spec.require_paths = ['lib']
 
-  spec.add_dependency 'activesupport', '>= 4.2.10', '< 5.2'
+  spec.add_dependency 'activesupport', '>= 4.2.10', '< 6.0'
   spec.add_dependency 'hydra-derivatives', '~> 3.0'
   spec.add_dependency 'hydra-file_characterization', '~> 0.3', '>= 0.3.3'
   spec.add_dependency 'hydra-pcdm', '>= 0.9'
