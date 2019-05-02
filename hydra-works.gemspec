@@ -21,7 +21,7 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency 'activesupport', '>= 4.2.10', '< 6.0'
   spec.add_dependency 'hydra-derivatives', '~> 3.0'
-  spec.add_dependency 'hydra-file_characterization', '~> 0.3', '>= 0.3.3'
+  spec.add_dependency 'hydra-file_characterization', '~> 1.0'
   spec.add_dependency 'hydra-pcdm', '>= 0.9'
 
   spec.add_development_dependency 'bundler', '~> 1.7'
