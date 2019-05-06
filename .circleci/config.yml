@@ -1,0 +1,116 @@
+---
+version: 2.1
+orbs:
+  samvera: samvera/circleci-orb@0
+jobs:
+  bundle:
+    parameters:
+      ruby_version:
+        type: string
+        default: 2.5.5
+      bundler_version:
+        type: string
+        default: 1.17.3
+      rails_version:
+        type: string
+        default: '5.2.2'
+    executor:
+      name: 'samvera/ruby'
+      ruby_version: << parameters.ruby_version >>
+    environment:
+      RAILS_VERSION: << parameters.rails_version >>
+      NOKOGIRI_USE_SYSTEM_LIBRARIES: true
+    steps:
+      - samvera/cached_checkout
+      - samvera/bundle_for_gem:
+          ruby_version: << parameters.ruby_version >>
+          bundler_version: << parameters.bundler_version >>
+          project: hydra-works
+      - persist_to_workspace:
+          root: ~/
+          paths:
+          - project/*
+          - project/**/*
+  build:
+    parameters:
+      ruby_version:
+        type: string
+        default: 2.5.5
+      bundler_version:
+        type: string
+        default: 1.17.3
+      rails_version:
+        type: string
+        default: '5.2.2'
+    executor:
+      name: 'samvera/ruby'
+      ruby_version: << parameters.ruby_version >>
+    environment:
+      RAILS_VERSION: << parameters.rails_version >>
+      NOKOGIRI_USE_SYSTEM_LIBRARIES: true
+      ENGINE_CART_RAILS_OPTIONS: --skip-git --skip-bundle --skip-listen --skip-spring --skip-yarn --skip-keeps --skip-action-cable --skip-coffee --skip-puma --skip-test
+    steps:
+      - attach_workspace:
+          at: ~/
+      - samvera/bundle_for_gem:
+          ruby_version: << parameters.ruby_version >>
+          bundler_version: << parameters.bundler_version >>
+          project: hydra-works
+      - persist_to_workspace:
+          root: ~/
+          paths:
+          - project/*
+          - project/**/*
+  test:
+    parameters:
+      ruby_version:
+        type: string
+        default: 2.5.5
+      bundler_version:
+        type: string
+        default: 1.17.3
+    executor:
+      name: 'samvera/ruby_fcrepo_solr_redis'
+      ruby_version: << parameters.ruby_version >>
+    steps:
+      - attach_workspace:
+          at: ~/
+      - samvera/install_solr_core:
+          solr_config_path: solr/config
+      - samvera/bundle_for_gem:
+          ruby_version: << parameters.ruby_version >>
+          bundler_version: << parameters.bundler_version >>
+          project: hydra-works
+      - run:
+          name: Run rspec in parallel
+          command: |
+            mkdir /tmp/test-results
+            bundle exec rake works:rspec
+      - store_test_results:
+          path: /tmp/test-results
+      - store_artifacts:
+          path: /tmp/test-results
+          destination: test-results
+
+workflows:
+  version: 2
+  ci:
+    jobs:
+      - bundle:
+          ruby_version: "2.5.5"
+          rails_version: "5.1.7"
+      - build:
+          ruby_version: "2.5.5"
+          rails_version: "5.1.7"
+          requires:
+            - bundle
+      - test:
+          name: "ruby2-5-5"
+          ruby_version: "2.5.5"
+          requires:
+            - build
+      - test:
+          name: "ruby2-6-2"
+          ruby_version: "2.6.2"
+          requires:
+            - build

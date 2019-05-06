@@ -1,7 +1,7 @@
 # Hydra::Works
 
 [![Version](https://badge.fury.io/rb/hydra-works.png)](http://badge.fury.io/rb/hydra-works)
-[![Build Status](https://travis-ci.org/samvera/hydra-works.svg?branch=master)](https://travis-ci.org/samvera/hydra-works)
+[![CircleCI](https://circleci.com/gh/samvera/hydra-works.svg?style=svg)](https://circleci.com/gh/samvera/hydra-works)
 [![Coverage Status](https://coveralls.io/repos/samvera/hydra-works/badge.svg?branch=master)](https://coveralls.io/r/samvera/hydra-works?branch=master)
 [![Code Climate](https://codeclimate.com/github/samvera/hydra-works/badges/gpa.svg)](https://codeclimate.com/github/samvera/hydra-works)
 [![Apache 2.0 License](http://img.shields.io/badge/APACHE2-license-blue.svg)](./LICENSE)
