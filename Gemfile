@@ -11,3 +11,11 @@ group :development, :test do
   gem 'pry' unless ENV['CI']
   gem 'pry-byebug' unless ENV['CI']
 end
+
+if ENV['RAILS_VERSION']
+  if ENV['RAILS_VERSION'] == 'edge'
+    gem 'rails', github: 'rails/rails'
+  else
+    gem 'rails', ENV['RAILS_VERSION']
+  end
+end
