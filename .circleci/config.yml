@@ -21,8 +21,6 @@ jobs:
       name: 'samvera/ruby_fcrepo_solr'
       ruby_version: << parameters.ruby_version >>
     steps:
-      - attach_workspace:
-          at: ~/
       - samvera/cached_checkout
       - samvera/bundle_for_gem:
           ruby_version: << parameters.ruby_version >>
@@ -30,11 +28,6 @@ jobs:
           project: hydra-works
       - samvera/install_solr_active_fedora_core
       - samvera/parallel_rspec
-      - persist_to_workspace:
-          root: ~/
-          paths:
-          - project/*
-          - project/**/*
 
 workflows:
   version: 2
