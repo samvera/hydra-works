@@ -10,6 +10,7 @@ group :development, :test do
   gem 'rubocop-rspec', '~> 1.13.0', require: false
   gem 'pry' unless ENV['CI']
   gem 'pry-byebug' unless ENV['CI']
+  gem 'clamby'
 end
 
 if ENV['RAILS_VERSION']

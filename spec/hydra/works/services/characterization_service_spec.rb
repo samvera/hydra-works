@@ -19,7 +19,7 @@ describe Hydra::Works::CharacterizationService do
       # Persist our file with some content and reload
       file.content = "junk"
       expect(file.save).to be true
-      expect(file.reload).to eq({})
+      expect(file.reload).to be_empty
       # Re-check property values
       expect(file.file_size).to eq(["7618"])
       expect(file.file_title).to eq(["sample-file"])

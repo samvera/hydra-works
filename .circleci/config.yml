@@ -19,6 +19,8 @@ jobs:
       name: 'samvera/ruby_fcrepo_solr'
       ruby_version: << parameters.ruby_version >>
     steps:
+      - run: 'sudo apt-get update && sudo apt-get install clamav'
+      - run: 'sudo freshclam'
       - samvera/cached_checkout
       - samvera/bundle_for_gem:
           ruby_version: << parameters.ruby_version >>
