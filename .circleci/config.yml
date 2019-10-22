@@ -26,7 +26,7 @@ jobs:
           ruby_version: << parameters.ruby_version >>
           bundler_version: << parameters.bundler_version >>
           project: hydra-works
-      - samvera/install_solr_active_fedora_core
+      - samvera/install_solr_core
       - samvera/parallel_rspec
 
 workflows:
