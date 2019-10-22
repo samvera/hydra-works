@@ -30,14 +30,30 @@ module Hydra::Works
     # Override this method to use your own virus checking software
     # @return [Boolean]
     def infected?
-      defined?(ClamAV) ? clam_av_scanner : null_scanner
+      if defined?(Clamby)
+        clamby_scanner
+      elsif defined?(ClamAV)
+        clam_av_scanner
+      else
+        null_scanner
+      end
     end
 
     def clam_av_scanner
+      Deprecation.warn(self, "The ClamAV has been replaced by Clamby " \
+        "as the supported virus scanner for hydra-works. " \
+        "ClamAV support will be removed in hydra-works 2.0 ")
       scan_result = ClamAV.instance.method(:scanfile).call(file)
       return false if scan_result == 0
       warning "A virus was found in #{file}: #{scan_result}"
       true
+    end
+
+    # @return [Boolean]
+    def clamby_scanner
+      scan_result = Clamby.virus?(file)
+      warning("A virus was found in #{file}") if scan_result
+      scan_result
     end
 
     # Always return zero if there's nothing available to check for viruses. This means that

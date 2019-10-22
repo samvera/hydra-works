@@ -33,4 +33,8 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'solr_wrapper', '~> 2.0'
   spec.add_development_dependency 'sqlite3'
   spec.add_development_dependency 'rspec_junit_formatter'
+
+  ### Pinned dependencies
+  # Pin sprockets to < 4 since it requires ruby 2.5+
+  spec.add_dependency 'sprockets', '< 4'
 end

@@ -43,7 +43,19 @@ Behaviors included in the model include:
  * Virus checking of original files
  * Full-text extraction from original files
 
-Check out the [Hydra::Derivatives README](https://github.com/samvera/hydra-derivatives#dependencies) for additional dependencies.
+## Dependencies
+
+Check out the [Hydra::Derivatives README](https://github.com/samvera/hydra-derivatives#dependencies) for dependencies.
+
+## Additional dependencies required for specs
+
+#### ClamAV
+* Mac installation
+  ```
+  $ brew install clamav
+  $ cp /usr/local/etc/clamav/freshclam.conf.sample /usr/local/etc/clamav/freshclam.conf
+  $ freshclam
+  ```
 
 ## Installation
 
@@ -93,9 +105,11 @@ page.save
 
 ## Virus Detection
 
-To turn on virus detection, install clamav on your system and add the `clamav` gem to your Gemfile
+To turn on virus detection, install [ClamAV](https://www.clamav.net/documents/installing-clamav) on your system and add the `clamby` gem to your Gemfile
 
-    gem 'clamav'
+```ruby
+gem 'clamby'
+```
 
 Then include the `VirusCheck` module in your `FileSet` class:
 
