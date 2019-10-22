@@ -49,8 +49,13 @@ Check out the [Hydra::Derivatives README](https://github.com/samvera/hydra-deriv
 
 ## Additional dependencies required for specs
 
-* ClamAV
-  * [Mac installation](https://gist.github.com/gagarine/9168c1b7e4b5f55cb3254582e30d808e)
+#### ClamAV
+* Mac installation
+  ```
+  $ brew install clamav
+  $ cp /usr/local/etc/clamav/freshclam.conf.sample /usr/local/etc/clamav/freshclam.conf
+  $ freshclam
+  ```
 
 ## Installation
 
