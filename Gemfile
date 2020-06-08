@@ -3,6 +3,7 @@ source 'https://rubygems.org'
 # Specify your gem's dependencies in hydra-works.gemspec
 gemspec
 
+gem 'hydra-derivatives', git: 'https://github.com/jrgriffiniii/hydra-derivatives.git', branch: 'rails6-update'
 gem 'slop', '~> 3.6' # For byebug
 
 group :development, :test do
