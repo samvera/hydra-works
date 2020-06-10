@@ -8,13 +8,10 @@ gem 'hydra-derivatives', git: 'https://github.com/jrgriffiniii/hydra-derivatives
 gem 'slop', '~> 3.6' # For byebug
 
 group :development, :test do
-  # gem 'rubocop', '~> 0.47.0', require: false
-  gem 'rubocop', require: false
-  # gem 'rubocop-rspec', '~> 1.13.0', require: false
-  gem 'rubocop-rspec', require: false
-  gem 'pry' unless ENV['CI']
-  gem 'pry-byebug' unless ENV['CI']
   gem 'clamby'
+  gem 'pry-byebug' unless ENV['CI']
+  gem 'rubocop', require: false
+  gem 'rubocop-rspec', require: false
 end
 
 if ENV['RAILS_VERSION']
@@ -23,8 +20,4 @@ if ENV['RAILS_VERSION']
   else
     gem 'rails', ENV['RAILS_VERSION']
   end
-else
-  gem 'actionpack', '5.1.7'
-  gem 'activemodel', '5.1.7'
-  gem 'rails', '5.1.7'
 end
