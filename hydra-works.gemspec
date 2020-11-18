@@ -19,7 +19,7 @@ Gem::Specification.new do |spec|
   spec.test_files    = spec.files.grep(%r{^(test|spec|features)/})
   spec.require_paths = ['lib']
 
-  spec.add_dependency 'activesupport', '>= 4.2.10', '< 7.0'
+  spec.add_dependency 'activesupport', '>= 5.2', '< 7.0'
   spec.add_dependency 'hydra-derivatives', '~> 3.6'
   spec.add_dependency 'hydra-file_characterization', '~> 1.0'
   spec.add_dependency 'hydra-pcdm', '>= 0.9'
@@ -33,8 +33,4 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'solr_wrapper', '~> 2.0'
   spec.add_development_dependency 'sqlite3'
   spec.add_development_dependency 'rspec_junit_formatter'
-
-  ### Pinned dependencies
-  # Pin sprockets to < 4 since it requires ruby 2.5+
-  spec.add_dependency 'sprockets', '< 4'
 end
