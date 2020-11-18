@@ -20,7 +20,7 @@ Gem::Specification.new do |spec|
   spec.require_paths = ['lib']
 
   spec.add_dependency 'activesupport', '>= 4.2.10', '< 7.0'
-  spec.add_dependency 'hydra-derivatives', '~> 3.5'
+  spec.add_dependency 'hydra-derivatives', '~> 3.6'
   spec.add_dependency 'hydra-file_characterization', '~> 1.0'
   spec.add_dependency 'hydra-pcdm', '>= 0.9'
 
