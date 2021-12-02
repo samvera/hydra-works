@@ -52,10 +52,15 @@ module Hydra::Works
       # Determine the filename to send to Hydra::FileCharacterization. If no source is present,
       # use the name of the file from the object; otherwise, use the supplied source.
       def file_name
-        if source
-          source.is_a?(File) ? File.basename(source.path) : File.basename(source)
-        else
-          object.original_name.nil? ? "original_file" : object.original_name
+        case object
+        when Hydra::PCDM::File
+          if source
+            source.is_a?(File) ? File.basename(source.path) : File.basename(source)
+          else
+            object.original_name.nil? ? "original_file" : object.original_name
+          end
+        when Hyrax::FileMetadata
+          object.original_filename
         end
       end
 
