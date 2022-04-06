@@ -1,7 +1,7 @@
 ---
 version: 2.1
 orbs:
-  samvera: samvera/circleci-orb@0
+  samvera: samvera/circleci-orb@1.0
 jobs:
   test:
     parameters:
@@ -9,51 +9,94 @@ jobs:
         type: string
       bundler_version:
         type: string
-        default: 1.17.3
+        default: 2.3.10
       rails_version:
         type: string
     environment:
       RAILS_VERSION: << parameters.rails_version >>
       NOKOGIRI_USE_SYSTEM_LIBRARIES: true
     executor:
-      name: 'samvera/ruby_fcrepo_solr'
+      name: 'samvera/ruby_fcrepo_solr_redis_postgres'
       ruby_version: << parameters.ruby_version >>
     steps:
-      - run: 'sudo apt-get update && sudo apt-get install clamav'
+      - run: 'sudo apt-get update'
+      - run: 'sudo apt-get install -y clamav libsqlite3-dev'
       - run: 'sudo freshclam'
+
       - samvera/cached_checkout
+
       - samvera/bundle_for_gem:
           ruby_version: << parameters.ruby_version >>
           bundler_version: << parameters.bundler_version >>
           project: hydra-works
-      - samvera/install_solr_active_fedora_core
+
+      - samvera/install_solr_core
+
       - samvera/parallel_rspec
 
 workflows:
   version: 2
   ci:
     jobs:
+      # Rails 6.0
       - test:
           name: ruby2-7_rails6-0
-          ruby_version: 2.7.1
+          ruby_version: 2.7.5
           rails_version: 6.0.3.1
       - test:
           name: ruby2-6_rails6-0
-          ruby_version: 2.6.6
+          ruby_version: 2.6.9
           rails_version: 6.0.3.1
       - test:
           name: ruby2-5_rails6-0
-          ruby_version: 2.5.8
+          ruby_version: 2.5.9
           rails_version: 6.0.3.1
+      # Rails 5.2
       - test:
           name: ruby2-7_rails5-2
-          ruby_version: 2.7.1
+          ruby_version: 2.7.5
           rails_version: 5.2.4.3
       - test:
           name: ruby2-6_rails5-2
-          ruby_version: 2.6.6
+          ruby_version: 2.6.9
           rails_version: 5.2.4.3
       - test:
           name: ruby2-5_rails5-2
-          ruby_version: 2.5.8
+          ruby_version: 2.5.9
+          rails_version: 5.2.4.3
+
+  nightly:
+    triggers:
+      - schedule:
+          cron: "0 0 * * *"
+          filters:
+            branches:
+              only:
+                - main
+    jobs:
+      # Rails 6.0
+      - test:
+          name: ruby2-7_rails6-0
+          ruby_version: 2.7.5
+          rails_version: 6.0.3.1
+      - test:
+          name: ruby2-6_rails6-0
+          ruby_version: 2.6.9
+          rails_version: 6.0.3.1
+      - test:
+          name: ruby2-5_rails6-0
+          ruby_version: 2.5.9
+          rails_version: 6.0.3.1
+      # Rails 5.2
+      - test:
+          name: ruby2-7_rails5-2
+          ruby_version: 2.7.5
+          rails_version: 5.2.4.3
+      - test:
+          name: ruby2-6_rails5-2
+          ruby_version: 2.6.9
+          rails_version: 5.2.4.3
+      - test:
+          name: ruby2-5_rails5-2
+          ruby_version: 2.5.9
           rails_version: 5.2.4.3
