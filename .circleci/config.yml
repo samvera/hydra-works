@@ -14,7 +14,7 @@ jobs:
         type: string
     environment:
       RAILS_VERSION: << parameters.rails_version >>
-      NOKOGIRI_USE_SYSTEM_LIBRARIES: true
+      NOKOGIRI_USE_SYSTEM_LIBRARIES: "true"
     executor:
       name: 'samvera/ruby_fcrepo_solr_redis_postgres'
       ruby_version: << parameters.ruby_version >>
@@ -40,6 +40,10 @@ workflows:
     jobs:
       # Rails 6.0
       - test:
+          name: ruby2-3_rails6-0
+          ruby_version: 3.0.4
+          rails_version: 6.0.3.1
+      - test:
           name: ruby2-7_rails6-0
           ruby_version: 2.7.5
           rails_version: 6.0.3.1
@@ -52,6 +56,10 @@ workflows:
           ruby_version: 2.5.9
           rails_version: 6.0.3.1
       # Rails 5.2
+      - test:
+          name: ruby3-0_rails5-2
+          ruby_version: 3.0.4
+          rails_version: 5.2.4.3
       - test:
           name: ruby2-7_rails5-2
           ruby_version: 2.7.5
@@ -76,6 +84,10 @@ workflows:
     jobs:
       # Rails 6.0
       - test:
+          name: ruby2-3_rails6-0
+          ruby_version: 3.0.4
+          rails_version: 6.0.3.1
+      - test:
           name: ruby2-7_rails6-0
           ruby_version: 2.7.5
           rails_version: 6.0.3.1
@@ -88,6 +100,10 @@ workflows:
           ruby_version: 2.5.9
           rails_version: 6.0.3.1
       # Rails 5.2
+      - test:
+          name: ruby3-0_rails5-2
+          ruby_version: 3.0.4
+          rails_version: 5.2.4.3
       - test:
           name: ruby2-7_rails5-2
           ruby_version: 2.7.5
