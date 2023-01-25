@@ -3,6 +3,12 @@ source 'https://rubygems.org'
 # Specify your gem's dependencies in hydra-works.gemspec
 gemspec
 
+gem 'active-triples', git: 'https://gitlab.com/cjcolvar/activetriples.git', branch: 'ruby3'
+gem 'active-fedora', git: 'https://github.com/samvera/active_fedora.git', branch: 'ruby3'
+gem 'hydra-derivatives', git: 'https://github.com/samvera/hydra-derivatives.git', branch: 'upgrade-ruby3.0'
+gem 'hydra-file_characterization', git: 'https://github.com/samvera/hydra-file_characterization.git', branch: 'cjcolvar-patch-1'
+gem 'hydra-pcdm', git: 'https://github.com/samvera/hydra-pcdm.git', branch: 'ruby3'
+
 gem 'slop', '~> 3.6' # For byebug
 
 group :development, :test do
