@@ -13,6 +13,7 @@ Gem::Specification.new do |spec|
   spec.description   = %q{Using this data model should enable easy collaboration amongst Samvera projects.}
   spec.homepage      = 'https://github.com/samvera/hydra-works'
   spec.license       = 'APACHE2'
+  spec.metadata      = { "rubygems_mfa_required" => "true" }
 
   spec.files         = `git ls-files -z`.split("\x0") - DO_NOT_SHIP
   spec.executables   = spec.files.grep(%r{^bin/}) { |f| File.basename(f) }
