@@ -49,7 +49,7 @@ Style/SignalException:
   Enabled: false
 
 Style/IndentationConsistency:
-  EnforcedStyle: rails
+  EnforcedStyle: indented_internal_methods
 
 RSpec/ExampleWording:
   CustomTransform:
