@@ -101,20 +101,23 @@ describe Hydra::Works::FileSet do
   context 'relationships' do
     context '#parent_works and #parent_work_ids' do
       let(:parent_work) { Hydra::Works::Work.new(id: 'parent_work') }
+      let(:parent_work2) { Hydra::Works::Work.new(id: 'parent_work2') }
       let(:child_file_set1)   { described_class.new(id: 'child_file_set1') }
       let(:child_file_set2)   { described_class.new(id: 'child_file_set2') }
 
       context 'when parent work knows about child file sets' do
         before do
           parent_work.members = [child_file_set1, child_file_set2]
+          parent_work2.members = [child_file_set1]
           child_file_set1.save
           child_file_set2.save
           parent_work.save
+          parent_work2.save
         end
 
         it 'gets parent work' do
-          expect(child_file_set1.parent_works).to match_array [parent_work]
-          expect(child_file_set1.parent_work_ids).to match_array [parent_work.id]
+          expect(child_file_set1.parent_works).to match_array [parent_work, parent_work2]
+          expect(child_file_set1.parent_work_ids).to match_array [parent_work.id, parent_work2.id]
         end
       end
 
@@ -122,13 +125,31 @@ describe Hydra::Works::FileSet do
         # before do
         #   # NOOP: The :member_of relationship is not defined for works.  It only uses the :members relationship.
         #   child_file_set1.member_of = [parent_work]
+        #   child_file_set1.member_of = [parent_work2]
         #   child_file_set2.member_of = [parent_work]
+        #   child_file_set1.save
+        #   child_file_set2.save
         # end
 
         it 'gets parent work' do
           skip 'Pending implementation of the :member_of relationship for works'
-          expect(child_file_set1.parent_works).to match_array [parent_work]
-          expect(child_file_set1.parent_work_ids).to match_array [parent_work.id]
+          expect(child_file_set1.parent_works).to match_array [parent_work, parent_work2]
+          expect(child_file_set1.parent_work_ids).to match_array [parent_work.id, parent_work2.id]
+        end
+      end
+
+      context 'when child works know about parent works as ordered members' do
+        before do
+          parent_work.ordered_members = [child_file_set1]
+          parent_work2.ordered_members = [child_file_set1]
+          child_file_set1.save
+          parent_work.save
+          parent_work2.save
+        end
+
+        it 'gets parent work' do
+          expect(child_file_set1.parent_works).to match_array [parent_work, parent_work2]
+          expect(child_file_set1.parent_work_ids).to match_array [parent_work.id, parent_work2.id]
         end
       end
     end

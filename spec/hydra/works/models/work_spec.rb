@@ -379,6 +379,21 @@ describe Hydra::Works::Work do
           expect(child_work.parent_work_ids).to match_array [parent_work1.id, parent_work2.id]
         end
       end
+
+      context 'when child works know about parent works as ordered members' do
+        before do
+          parent_work1.ordered_members = [child_work]
+          parent_work2.ordered_members = [child_work]
+          child_work.save
+          parent_work1.save
+          parent_work2.save
+        end
+
+        it 'gets parent work' do
+          expect(child_work.parent_work_ids).to match_array [parent_work1.id, parent_work2.id]
+          expect(child_work.parent_works).to match_array [parent_work1, parent_work2]
+        end
+      end
     end
 
     context '#child_works and #child_work_ids' do
