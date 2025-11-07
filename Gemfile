@@ -4,7 +4,6 @@ source 'https://rubygems.org'
 gemspec
 
 gem 'slop', '~> 3.6' # For byebug
-gem 'hydra-derivatives', git: 'https://github.com/samvera/hydra-derivatives.git', branch: 'rails-8'
 
 group :development, :test do
   gem 'clamby'
